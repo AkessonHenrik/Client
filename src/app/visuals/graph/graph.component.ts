@@ -10,6 +10,7 @@ import { Node } from '../../d3';
 export class GraphComponent {
   @Input('nodes') nodes;
   @Input('links') links;
+  @Input('parents') parents;
   height: number = 1000;
   width: number = 1000;
 

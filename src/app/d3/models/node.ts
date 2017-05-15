@@ -16,8 +16,7 @@ export class Node implements d3.SimulationNodeDatum {
   width: number;
   height: number;
 
-  constructor(id, x, y, image='https://freeiconshop.com/wp-content/uploads/edd/person-solid.png', width=50, height=50) {
-    this.id = id;
+  constructor(x, y, image='https://freeiconshop.com/wp-content/uploads/edd/person-solid.png', width=50, height=50) {
     this.x = x;
     this.y = y;
     this.image = image;
