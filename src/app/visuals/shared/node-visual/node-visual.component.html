@@ -1,11 +1,12 @@
-<svg:g [attr.transform]="'translate(' + node.x + ',' + node.y + ')'" (click)="console.log('hey')">
+<svg:g>
+    <!--[attr.transform]="'translate(' + node.x + ',' + node.y + ')'" -->
     <defs>
-        <pattern id="image" x="0%" y="0%" height="100%" width="100%" viewBox="0 0 512 512">
-            <image x="0%" y="0%" width="512" height="512" [attr.xlink:href]="node.image"></image>
+        <pattern id="image" height="100%" width="100%" viewBox="0 0 512 512">
+            <image [attr.x]="0" [attr.y]="0" [attr.width]="512" height="512" [attr.xlink:href]="node.image"></image>
         </pattern>
     </defs>
-    <svg:circle class="node" fill="url(#image)" [attr.cx]="0" [attr.cy]="0" [attr.r]="node.r">
-    </svg:circle>
+    <svg:rect class="node" fill="url(#image)" [attr.x]="node.x" [attr.y]="node.y" [attr.height]="node.height" [attr.width]="node.width">
+    </svg:rect>
     <svg:text class="node-name" [attr.font-size]="node.fontSize">
         {{node.id}}
     </svg:text>

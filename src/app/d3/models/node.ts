@@ -13,13 +13,16 @@ export class Node implements d3.SimulationNodeDatum {
   id: number;
   linkCount: number = 0;
   r: number;
+  width: number;
+  height: number;
 
-  constructor(id, x, y, image='https://freeiconshop.com/wp-content/uploads/edd/person-solid.png', r=30) {
+  constructor(id, x, y, image='https://freeiconshop.com/wp-content/uploads/edd/person-solid.png', width=50, height=50) {
     this.id = id;
     this.x = x;
     this.y = y;
     this.image = image;
-    this.r = r;
+    this.width = width;
+    this.height = height;
   }
 
   normal = () => {
