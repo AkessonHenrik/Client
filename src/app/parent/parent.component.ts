@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Link, Node } from '../d3'
 
-export class ParentComponent{
+export abstract class ParentComponent {
   child: Node;
   link: Link;
   x1;
@@ -11,10 +11,11 @@ export class ParentComponent{
   constructor(child: Node) {
     this.child = child;
   }
+  abstract update();
 }
 export class LinkParentComponent extends ParentComponent {
   parent: Link;
-  
+
   constructor(child: Node, parent: Link) {
     super(child);
     this.parent = parent;
@@ -22,11 +23,12 @@ export class LinkParentComponent extends ParentComponent {
     this.y1 = parent.middle.y;
     this.x2 = this.child.x;
     this.y2 = this.child.y;
-    console.log("parent");
-    console.log(parent);
-    console.log("child");
-    console.log(child);
-    console.log(this)
+  }
+  update() {
+    this.x1 = this.parent.middle.x;
+    this.y1 = this.parent.middle.y;
+    this.x2 = this.child.x;
+    this.y2 = this.child.y;
   }
 }
 export class NodeParentComponent extends ParentComponent {
@@ -38,5 +40,11 @@ export class NodeParentComponent extends ParentComponent {
     this.y1 = parent.y;
     this.x2 = child.x;
     this.y2 = child.y;
+  }
+  update() {
+    this.x1 = this.parent.x;
+    this.y1 = this.parent.y;
+    this.x2 = this.child.x;
+    this.y2 = this.child.y;
   }
 }

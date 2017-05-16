@@ -7,7 +7,7 @@
     </defs>
     <svg:circle class="node" fill="url(#image)" [attr.cx]="node.x" [attr.cy]="node.y" [attr.r]="30">
     </svg:circle>
-    <svg:text class="node-name" [attr.font-size]="node.fontSize">
-        {{node.id}}
+    <svg:text class="node-name" [attr.x]="node.x" [attr.y]="node.y" [attr.font-size]="node.fontSize">
+        {{node.firstname[0]}}
     </svg:text>
 </svg:g>

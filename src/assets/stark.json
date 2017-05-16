@@ -47,6 +47,35 @@
             "firstName": "Talisa",
             "lastName": "Stark",
             "image": "https://vignette3.wikia.nocookie.net/gameofthrones/images/c/ca/Talisa3x9.jpg/revision/latest/scale-to-width-down/315?cb=20150515053353"
+        },
+        {
+            "id": 9,
+            "firstName": "Lyanna",
+            "lastName": "Stark",
+            "image": "https://s-media-cache-ak0.pinimg.com/originals/c3/32/75/c33275dc32e10d1a1378d7ef9f0dab87.jpg"
+        },
+        {
+            "id": 10,
+            "firstName": "Rhaegar",
+            "lastName": "Targaryen",
+            "image": "http://awoiaf.westeros.org/images/thumb/2/22/Rhaegar_twoiaf.jpg/320px-Rhaegar_twoiaf.jpg"
+        },
+        {
+            "id": 11,
+            "firstName": "Aerys",
+            "lastName": "Targaryen",
+            "image": "http://awoiaf.westeros.org/images/c/c0/AERYS_II.jpg"
+        },
+        {
+            "id": 12,
+            "firstName": "Daenerys",
+            "lastName": "Targaryen",
+            "image": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0d/Daenerys_Targaryen_with_Dragon-Emilia_Clarke.jpg/220px-Daenerys_Targaryen_with_Dragon-Emilia_Clarke.jpg"
+        },
+        {
+            "id": 13,
+            "firstName": "Unknown",
+            "lastName": "Stark"
         }
     ],
     "relationships": [
@@ -60,9 +89,19 @@
             "id": 2,
             "from": 3,
             "to": 8
+        },
+        {
+            "id": 3,
+            "from": 9,
+            "to": 10
         }
     ],
     "parents": [
+        {
+            "parent": 2,
+            "child": 13,
+            "parentType": "relationship"
+        },
         {
             "parent": 1,
             "child": 3,
@@ -86,6 +125,21 @@
         {
             "parent": 1,
             "child": 7,
+            "parentType": "single"
+        },
+        {
+            "parent": 3,
+            "child": 7,
+            "parentType": "relationship"
+        },
+        {
+            "parent": 11,
+            "child": 10,
+            "parentType": "single"
+        },
+        {
+            "parent": 11,
+            "child": 12,
             "parentType": "single"
         }
     ]
