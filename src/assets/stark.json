@@ -1,0 +1,92 @@
+{
+    "people": [
+        {
+            "id": 1,
+            "firstName": "Eddard",
+            "lastName": "Stark",
+            "image": "https://upload.wikimedia.org/wikipedia/en/5/52/Ned_Stark-Sean_Bean.jpg"
+        },
+        {
+            "id": 2,
+            "firstName": "Catelyn",
+            "lastName": "Stark",
+            "image": "https://upload.wikimedia.org/wikipedia/en/2/25/Catelyn_Stark-Michelle_Fairley_S3.jpg"
+        },
+        {
+            "id": 3,
+            "firstName": "Robb",
+            "lastName": "Stark",
+            "image": "http://vignette1.wikia.nocookie.net/gameofthrones/images/e/e9/Robb-3x03.jpg/revision/latest?cb=20130413125346"
+        },
+        {
+            "id": 4,
+            "firstName": "Sansa",
+            "lastName": "Stark",
+            "image": "https://vignette4.wikia.nocookie.net/gameofthrones/images/6/68/Sansa_stark_s6_battle_bastards_infobox.jpg/revision/latest/scale-to-width-down/342?cb=20160807084759"
+        },
+        {
+            "id": 5,
+            "firstName": "Arya",
+            "lastName": "Stark",
+            "image": "http://vignette1.wikia.nocookie.net/gameofthrones/images/e/e9/Arya_Stark_4.jpg/revision/latest/scale-to-width-down/2000?cb=20140428152515"
+        },
+        {
+            "id": 6,
+            "firstName": "Rickon",
+            "lastName": "Stark",
+            "image": "https://vignette2.wikia.nocookie.net/gameofthrones/images/d/d9/Battle_of_the_Bastards_42.jpg/revision/latest?cb=20160621185459"
+        },
+        {
+            "id": 7,
+            "firstName": "Jon",
+            "lastName": "Snow",
+            "image": "https://static.comicvine.com/uploads/original/11120/111207460/4639880-1104112163-Jon-S.jpg"
+        },
+        {
+            "id": 8,
+            "firstName": "Talisa",
+            "lastName": "Stark",
+            "image": "https://vignette3.wikia.nocookie.net/gameofthrones/images/c/ca/Talisa3x9.jpg/revision/latest/scale-to-width-down/315?cb=20150515053353"
+        }
+    ],
+    "relationships": [
+        {
+            "id": 1,
+            "from": 1,
+            "to": 2,
+            "parentType": "relationship"
+        },
+        {
+            "id": 2,
+            "from": 3,
+            "to": 8
+        }
+    ],
+    "parents": [
+        {
+            "parent": 1,
+            "child": 3,
+            "parentType": "relationship"
+        },
+        {
+            "parent": 1,
+            "child": 4,
+            "parentType": "relationship"
+        },
+        {
+            "parent": 1,
+            "child": 5,
+            "parentType": "relationship"
+        },
+        {
+            "parent": 1,
+            "child": 6,
+            "parentType": "relationship"
+        },
+        {
+            "parent": 1,
+            "child": 7,
+            "parentType": "single"
+        }
+    ]
+}

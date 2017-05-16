@@ -15,13 +15,22 @@ export class Node implements d3.SimulationNodeDatum {
   r: number;
   width: number;
   height: number;
+  firstname: string;
+  lastName: string;
 
-  constructor(x, y, image='https://freeiconshop.com/wp-content/uploads/edd/person-solid.png', width=50, height=50) {
-    this.x = x;
-    this.y = y;
-    this.image = image;
+  constructor(id: number, image, firstName: string, lastName: string, width = 40, height = 40) {
+    this.id = id;
+    if (image !== null) {
+      this.image = image;
+    } else {
+      this.image = 'https://freeiconshop.com/wp-content/uploads/edd/person-solid.png'
+    }
+    this.firstname = firstName;
+    this.lastName = lastName;
     this.width = width;
     this.height = height;
+    this.x = Math.random() * 1000;
+    this.y = Math.random() * 1000;
   }
 
   normal = () => {

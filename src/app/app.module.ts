@@ -10,7 +10,6 @@ import { AppComponent } from './app.component';
 import { GraphComponent } from './visuals/graph/graph.component';
 import { SHARED_VISUALS } from './visuals/shared';
 import { TreeComponent } from './tree/tree.component';
-import { ParentComponent } from './parent/parent.component';
 
 
 @NgModule({
@@ -19,8 +18,7 @@ import { ParentComponent } from './parent/parent.component';
     GraphComponent,
     ...SHARED_VISUALS,
     ...D3_DIRECTIVES,
-    TreeComponent,
-    ParentComponent
+    TreeComponent
   ],
   imports: [
     BrowserModule,

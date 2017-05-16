@@ -5,8 +5,8 @@
             <image [attr.x]="0" [attr.y]="0" [attr.width]="512" height="512" [attr.xlink:href]="node.image"></image>
         </pattern>
     </defs>
-    <svg:rect class="node" fill="url(#image)" [attr.x]="node.x" [attr.y]="node.y" [attr.height]="node.height" [attr.width]="node.width">
-    </svg:rect>
+    <svg:circle class="node" fill="url(#image)" [attr.cx]="node.x" [attr.cy]="node.y" [attr.r]="30">
+    </svg:circle>
     <svg:text class="node-name" [attr.font-size]="node.fontSize">
         {{node.id}}
     </svg:text>

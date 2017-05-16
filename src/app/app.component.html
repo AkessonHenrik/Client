@@ -1,1 +1,1 @@
-<app-tree></app-tree>
+<app-tree *ngIf="people !== undefined && parents !== undefined && relationships !== undefined" [jsonNodes]="people" [jsonRelationships]="relationships" [jsonParents]="parents"></app-tree>
