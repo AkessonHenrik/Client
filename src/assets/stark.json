@@ -76,6 +76,18 @@
             "id": 13,
             "firstName": "Unknown",
             "lastName": "Stark"
+        },
+        {
+            "id": 14,
+            "firstName": "Rickard",
+            "lastName": "Stark",
+            "image": "https://vignette3.wikia.nocookie.net/gameofthrones/images/e/eb/Vlcsnap-2016-05-23-02h18m09s851.png/revision/latest?cb=20160523052104"
+        },
+        {
+            "id": 15,
+            "firstName": "Lyarra",
+            "lastName": "Stark",
+            "image": "https://s-media-cache-ak0.pinimg.com/564x/f1/81/4d/f1814d9cd38f898f613753ac7ca7528c.jpg"
         }
     ],
     "relationships": [
@@ -93,6 +105,11 @@
             "id": 3,
             "from": 9,
             "to": 10
+        },
+        {
+            "id": 4,
+            "from": 14,
+            "to": 15
         }
     ],
     "parents": [
@@ -140,6 +157,16 @@
             "parent": 11,
             "child": 12,
             "parentType": "single"
+        },
+        {
+            "parent": 4,
+            "child": 1,
+            "parentType": "relationship"
+        },
+        {
+            "parent": 4,
+            "child": 9,
+            "parentType": "relationship"
         }
     ]
 }

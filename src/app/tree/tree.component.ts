@@ -16,47 +16,6 @@ export class TreeComponent implements OnInit {
   links: Link[] = [];
   parents: ParentComponent[] = [];
 
-  constructor() {
-    /*
-    let eddard = new Node(1, 'https://upload.wikimedia.org/wikipedia/en/5/52/Ned_Stark-Sean_Bean.jpg', "Eddard", "Stark");
-    eddard.x = 100;
-    eddard.y = 100;
-    this.nodes.push(eddard);
-    
-    let catelyn = new Node(2, 'https://upload.wikimedia.org/wikipedia/en/2/25/Catelyn_Stark-Michelle_Fairley_S3.jpg', "Catelyn", "Stark");
-    catelyn.x = 200;
-    catelyn.y = 100;
-    this.nodes.push(catelyn);
-    
-    
-    let robb = new Node(3, 'http://vignette1.wikia.nocookie.net/gameofthrones/images/e/e9/Robb-3x03.jpg/revision/latest?cb=20130413125346', "Robb", "Stark");
-    robb.x = 100;
-    robb.y = 200;
-    this.nodes.push(robb);
-    
-    let sansa = new Node(4, 'https://vignette4.wikia.nocookie.net/gameofthrones/images/6/68/Sansa_stark_s6_battle_bastards_infobox.jpg/revision/latest/scale-to-width-down/342?cb=20160807084759', "Sansa", "Stark");
-    sansa.x = 200;
-    sansa.y = 200;
-    this.nodes.push(sansa);
-    
-    // let other = new Node(5, null, "Other", "Dude");
-    // this.nodes.push(other);
-    let jon = new Node(6, 'https://static.comicvine.com/uploads/original/11120/111207460/4639880-1104112163-Jon-S.jpg', "Jon", "Snow");
-    jon.x = 300;
-    jon.y = 200;
-    this.nodes.push(jon);
-
-
-    this.links.push(new Link(1, eddard, catelyn));
-    // this.links.push(new Link(2, this.nodes[3], this.nodes[4]));
-
-    this.parents.push(new NodeParentComponent(eddard, jon));
-    this.parents.push(new LinkParentComponent(robb, this.links[0]));
-    this.parents.push(new LinkParentComponent(sansa, this.links[0]));
-    */
-
-  }
-
   ngOnInit() {
 
     // Interpret and create NodeComponents
@@ -121,15 +80,13 @@ export class TreeComponent implements OnInit {
         if (remainingParents.filter(parent => parent.child === person)[0] === undefined) {
           console.log(person.firstname + " has no unplaced parents");
 
-          // Does 'person' have a relationship with someone that has unplaced parents (need to look recursively)?
+          // Does 'person' have a relationship with someone that has unplaced parents? (need to look recursively)
           let inAParentRel: Boolean = this.recursiveLooker(remainingRelationships, remainingParents, person, levels, currentLevel);
           console.log(person.firstname + " called recursiveLooker from calculateCoords and received: " + inAParentRel)
           if (!inAParentRel) {
             console.log(person.firstname + " is not in a relationship with someone that has an unplaced parent");
             console.log("Pushing " + person.firstname + " into levels[" + currentLevel + "]");
             levels[currentLevel].push(person);
-            if(person.firstname === "Daenerys")
-              console.log(levels[currentLevel])
           } else {
             console.log(person.firstname + " will NOT be pushed in levels[" + currentLevel + "]");
           }
@@ -169,6 +126,7 @@ export class TreeComponent implements OnInit {
     console.log("height = " + maxHeight);
 
     // Reorder links
+
     let curr = 0;
     let movedIds = [];
     levels.forEach(level => {
@@ -199,6 +157,7 @@ export class TreeComponent implements OnInit {
       levels[curr] = newLevel;
       curr++;
     })
+    // */
 
     // Setting coordinates
     for (let i = 0; i < levels.length; i++) {
@@ -206,8 +165,8 @@ export class TreeComponent implements OnInit {
         levels[i][j].x = maxWidth / levels[i].length * j * 100;
         levels[i][j].y = i * 200;
         console.log(levels[i][j].firstname + ": " + levels[i][j].x + ", " + levels[i][j].y);
-    }
-      
+      }
+
     }
     this.links.forEach(l => {
       l.middle = { x: (l.source.x + l.target.x) / 2, y: (l.source.y + l.target.y) / 2 }
