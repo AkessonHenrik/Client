@@ -82,8 +82,7 @@
         {
             "id": 1,
             "from": 1,
-            "to": 2,
-            "parentType": "relationship"
+            "to": 2
         },
         {
             "id": 2,
