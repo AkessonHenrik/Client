@@ -158,12 +158,14 @@ export class TreeComponent implements OnInit {
       curr++;
     })
     // */
-
+    const horizontalStep = 100;
+    const verticalStep = 100;
+    // const middle = 
     // Setting coordinates
     for (let i = 0; i < levels.length; i++) {
       for (let j = 0; j < levels[i].length; j++) {
-        levels[i][j].x = maxWidth / levels[i].length * j * 100;
-        levels[i][j].y = i * 200;
+        levels[i][j].x = maxWidth / levels[i].length * j * 100 + 100;
+        levels[i][j].y = i * 200 + 100;
         console.log(levels[i][j].firstname + ": " + levels[i][j].x + ", " + levels[i][j].y);
       }
 
