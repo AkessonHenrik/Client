@@ -61,16 +61,10 @@
             "image": "http://awoiaf.westeros.org/images/thumb/2/22/Rhaegar_twoiaf.jpg/320px-Rhaegar_twoiaf.jpg"
         },
         {
-            "id": 11,
-            "firstName": "Aerys",
-            "lastName": "Targaryen",
-            "image": "http://awoiaf.westeros.org/images/c/c0/AERYS_II.jpg"
-        },
-        {
             "id": 12,
             "firstName": "Daenerys",
             "lastName": "Targaryen",
-            "image": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0d/Daenerys_Targaryen_with_Dragon-Emilia_Clarke.jpg/220px-Daenerys_Targaryen_with_Dragon-Emilia_Clarke.jpg"
+            "image": "http://i.lv3.hbo.com/assets/images/series/game-of-thrones/character/s5/daenarys-1024.jpg"
         },
         {
             "id": 13,
@@ -88,6 +82,12 @@
             "firstName": "Lyarra",
             "lastName": "Stark",
             "image": "https://s-media-cache-ak0.pinimg.com/564x/f1/81/4d/f1814d9cd38f898f613753ac7ca7528c.jpg"
+        },
+        {
+            "id": 11,
+            "firstName": "Aerys",
+            "lastName": "Targaryen",
+            "image": "http://awoiaf.westeros.org/images/c/c0/AERYS_II.jpg"
         }
     ],
     "relationships": [

@@ -2,6 +2,6 @@
     <g [zoomableOf]="svg">
         <g [linkVisual]="link" *ngFor="let link of links"></g>
         <g [parentVisual]="parent" *ngFor="let parent of parents"></g>
-        <g [nodeVisual]="node" *ngFor="let node of nodes" [draggableNode]="node" [draggableInGraph]="graph"></g>
+        <g [nodeVisual]="node" *ngFor="let node of nodes"></g>
     </g>
 </svg>

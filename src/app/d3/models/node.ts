@@ -13,12 +13,13 @@ export class Node implements d3.SimulationNodeDatum {
   id: number;
   linkCount: number = 0;
   r: number;
-  width: number;
-  height: number;
+  width: number | string;
+  height: number | string;
   firstname: string;
+  fontSize: number = 30;
   lastName: string;
 
-  constructor(id: number, image, firstName: string, lastName: string, width = 40, height = 40) {
+  constructor(id: number, image, firstName: string, lastName: string) {
     this.id = id;
     if (image !== undefined) {
       this.image = image;
@@ -27,18 +28,13 @@ export class Node implements d3.SimulationNodeDatum {
     }
     this.firstname = firstName;
     this.lastName = lastName;
-    this.width = width;
-    this.height = height;
-    this.x = Math.random() * 1000;
-    this.y = Math.random() * 1000;
+    this.width = 60;
+    this.height = 60;
+    this.r = 30;
   }
 
   normal = () => {
     return Math.sqrt(this.linkCount / APP_CONFIG.N);
-  }
-
-  get fontSize() {
-    return (30 + 'px');
   }
 
   get color() {

@@ -1,13 +1,12 @@
 <svg:g>
-    <!--[attr.transform]="'translate(' + node.x + ',' + node.y + ')'" -->
     <defs>
-        <pattern id="image" height="100%" width="100%" viewBox="0 0 512 512">
-            <image [attr.x]="0" [attr.y]="0" [attr.width]="512" height="512" [attr.xlink:href]="node.image"></image>
+        <pattern id="image" height="100%" width="100%" viewBox="0 0 60 60">
+            <image [attr.x]="0" [attr.y]="0" [attr.width]="node.width" [attr.height]="auto" [attr.xlink:href]="node.image"></image>
         </pattern>
     </defs>
-    <svg:circle class="node" fill="url(#image)" [attr.cx]="node.x" [attr.cy]="node.y" [attr.r]="30">
+    <svg:circle class="node" fill="url(#image)" [attr.cx]="node.x" [attr.cy]="node.y" [attr.r]="node.r">
     </svg:circle>
-    <svg:text class="node-name" [attr.x]="node.x" [attr.y]="node.y" [attr.font-size]="node.fontSize">
-        {{node.firstname[0]}}
-    </svg:text>
 </svg:g>
+<svg:text class="node-name" [attr.x]="node.x" [attr.y]="node.y + node.r + node.fontSize/2" [attr.font-size]="node.fontSize">
+    {{node.firstname[0]}}
+</svg:text>

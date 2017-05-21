@@ -96,7 +96,7 @@ export class TreeComponent implements OnInit {
         }
       })
       remainingPeople = remainingPeople.filter(person => !levels[currentLevel].includes(person))
-      console.log("Remaining people!!")
+      console.log("Remaining unplaced people:")
       console.log(remainingPeople)
       let tmp: ParentComponent[] = [];
       remainingParents.forEach(parent => {
