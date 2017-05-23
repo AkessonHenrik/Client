@@ -2,3 +2,7 @@
     stroke-width: 1;
     stroke: black;
 }
+
+.linkIcon {
+    cursor: pointer;
+}

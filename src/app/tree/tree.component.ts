@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import APP_CONFIG from '../app.config';
-import { Node, Link } from '../d3';
+import { Node, Link, Relationship } from '../d3';
 import { ParentComponent, NodeParentComponent, LinkParentComponent } from '../parent/parent.component';
 import { GraphComponent } from '../visuals/graph/graph.component';
 @Component({
@@ -10,12 +10,12 @@ import { GraphComponent } from '../visuals/graph/graph.component';
 })
 export class TreeComponent implements OnInit {
   @Input('jsonNodes') jsonNodes: [{ id: number, firstName: string, lastName: string, image: string }];
-  @Input('jsonRelationships') jsonRelationships: [{ id: number, from: number, to: number }];
-  @Input('jsonParents') jsonParents: [{ parent: number, child: number, parentType: string }];
+  @Input('jsonRelationships') jsonRelationships: [{ id: number, from: number, to: number, relationshipType: string }];
+  @Input('jsonParents') jsonParents: [{ parent: number, child: number, parentType: string, biological: boolean }];
   nodes: Node[] = [];
   links: Link[] = [];
   parents: ParentComponent[] = [];
-
+  logger: boolean = false;
   ngOnInit() {
 
     // Interpret and create NodeComponents
@@ -28,7 +28,7 @@ export class TreeComponent implements OnInit {
     this.jsonRelationships.forEach(link => {
       let from: Node = this.nodes.filter(node => node.id === link.from)[0];
       let to: Node = this.nodes.filter(node => node.id === link.to)[0];
-      const l: Link = new Link(link.id, from, to);
+      const l: Relationship = new Relationship(link.id, from, to, link.relationshipType);
       this.links.push(l);
     });
 
@@ -42,7 +42,7 @@ export class TreeComponent implements OnInit {
         const parentNode: Node = this.nodes.filter(node => node.id === parent.parent)[0];
 
         // Create parentComponent
-        const parentComponent: NodeParentComponent = new NodeParentComponent(child, parentNode);
+        const parentComponent: NodeParentComponent = new NodeParentComponent(child, parentNode, parent.biological);
 
         // Add to parents array
         this.parents.push(parentComponent);
@@ -54,7 +54,7 @@ export class TreeComponent implements OnInit {
         const parentRelationship: Link = this.links.filter(relationship => relationship.id === parent.parent)[0];
 
         // Create ParentComponent
-        const parentComponent: LinkParentComponent = new LinkParentComponent(child, parentRelationship);
+        const parentComponent: LinkParentComponent = new LinkParentComponent(child, parentRelationship, parent.biological);
 
         // Add ParentComponent to parents array
         this.parents.push(parentComponent);
@@ -64,9 +64,9 @@ export class TreeComponent implements OnInit {
   }
 
   calculateCoordinates(): void {
-    console.log("\n========================\n\n")
-    console.log("Calculate Coordinates");
-    console.log("\n========================\n\n")
+    this.log("\n========================\n\n")
+    this.log("Calculate Coordinates");
+    this.log("\n========================\n\n")
     // Find all people that have no parents and that are not in a relationship with a person that has a parent
     let remainingPeople = this.nodes;
     let remainingParents = this.parents;
@@ -78,26 +78,26 @@ export class TreeComponent implements OnInit {
       levels[currentLevel] = [];
       remainingPeople.forEach(person => {
         if (remainingParents.filter(parent => parent.child === person)[0] === undefined) {
-          console.log(person.firstname + " has no unplaced parents");
+          this.log(person.firstname + " has no unplaced parents");
 
           // Does 'person' have a relationship with someone that has unplaced parents? (need to look recursively)
           let inAParentRel: Boolean = this.recursiveLooker(remainingRelationships, remainingParents, person, levels, currentLevel);
-          console.log(person.firstname + " called recursiveLooker from calculateCoords and received: " + inAParentRel)
+          this.log(person.firstname + " called recursiveLooker from calculateCoords and received: " + inAParentRel)
           if (!inAParentRel) {
-            console.log(person.firstname + " is not in a relationship with someone that has an unplaced parent");
-            console.log("Pushing " + person.firstname + " into levels[" + currentLevel + "]");
+            this.log(person.firstname + " is not in a relationship with someone that has an unplaced parent");
+            this.log("Pushing " + person.firstname + " into levels[" + currentLevel + "]");
             levels[currentLevel].push(person);
           } else {
-            console.log(person.firstname + " will NOT be pushed in levels[" + currentLevel + "]");
+            this.log(person.firstname + " will NOT be pushed in levels[" + currentLevel + "]");
           }
-          console.log("\n");
+          this.log("\n");
         } else {
-          console.log(person.firstname + " has unplaced parents")
+          this.log(person.firstname + " has unplaced parents")
         }
       })
       remainingPeople = remainingPeople.filter(person => !levels[currentLevel].includes(person))
-      console.log("Remaining unplaced people:")
-      console.log(remainingPeople)
+      this.log("Remaining unplaced people:")
+      this.log(remainingPeople)
       let tmp: ParentComponent[] = [];
       remainingParents.forEach(parent => {
         if (parent instanceof LinkParentComponent) {
@@ -111,19 +111,19 @@ export class TreeComponent implements OnInit {
         }
       })
       remainingParents = tmp;
-      console.log("remaining parents:");
-      console.log(remainingParents);
+      this.log("remaining parents:");
+      this.log(remainingParents);
 
-      console.log("Level " + currentLevel);
-      console.log(levels[currentLevel]);
-      console.log("\n=================================\n\n")
+      this.log("Level " + currentLevel);
+      this.log(levels[currentLevel]);
+      this.log("\n=================================\n\n")
       currentLevel++;
     }
     let maxWidth = 0;
     levels.forEach(level => { if (maxWidth < level.length) { maxWidth = level.length; } });
-    console.log("maxWidth = " + maxWidth);
+    this.log("maxWidth = " + maxWidth);
     let maxHeight = levels.length;
-    console.log("height = " + maxHeight);
+    this.log("height = " + maxHeight);
 
     // Reorder links
 
@@ -141,7 +141,7 @@ export class TreeComponent implements OnInit {
           if (link.source === person || link.target === person) {
             let other: Node = (link.source === person ? link.target : link.source);
             if (!movedIds.includes(person.id) && !movedIds.includes(other.id)) {
-              console.log("Moving " + person.firstname + " and " + other.firstname);
+              this.log("Moving " + person.firstname + " and " + other.firstname);
               newLevel.push(person);
               newLevel.push(other);
               movedIds.push(person.id);
@@ -159,14 +159,15 @@ export class TreeComponent implements OnInit {
     })
     // */
     const horizontalStep = 100;
-    const verticalStep = 100;
+    const verticalStep = 200;
+    const offset = 1280 - (maxWidth * horizontalStep + maxWidth * 30)
     // const middle = 
     // Setting coordinates
     for (let i = 0; i < levels.length; i++) {
       for (let j = 0; j < levels[i].length; j++) {
-        levels[i][j].x = maxWidth / levels[i].length * j * 100 + 100;
-        levels[i][j].y = i * 200 + 100;
-        console.log(levels[i][j].firstname + ": " + levels[i][j].x + ", " + levels[i][j].y);
+        levels[i][j].x = offset + maxWidth / levels[i].length * j * 100 + 100;
+        levels[i][j].y = i * verticalStep + 50;
+        this.log(levels[i][j].firstname + ": " + levels[i][j].x + ", " + levels[i][j].y);
       }
 
     }
@@ -177,26 +178,26 @@ export class TreeComponent implements OnInit {
   }
 
   recursiveLooker(remainingRelationships: Link[], remainingParents: ParentComponent[], person: Node, levels: Node[][], currentLevel: number): boolean {
-    console.log("\t" + "recursive looker with " + person.firstname);
+    this.log("\t" + "recursive looker with " + person.firstname);
     let inAParentRel: boolean = false;
     remainingRelationships.forEach(rel => {
       if (rel.target === person || rel.source === person) {
         let other: Node = (rel.target === person ? rel.source : rel.target);
-        console.log("\t" + person.firstname + " is in a relationship with " + other.firstname);
+        this.log("\t" + person.firstname + " is in a relationship with " + other.firstname);
         remainingParents.forEach(parent => {
           if (parent.child === other) {
-            console.log("\t" + other.firstname + " has a parent");
+            this.log("\t" + other.firstname + " has a parent");
             inAParentRel = true;
           } else if (parent.child === person) {
             inAParentRel = true;
           }
         })
         let tmpPar = remainingParents.filter(parent => parent.child != other);
-        // console.log("\t" + "tmpPar:");
-        // console.log("\t" + tmpPar);
+        // this.log("\t" + "tmpPar:");
+        // this.log("\t" + tmpPar);
         let tmpRel = remainingRelationships.filter(rel => !(rel.source === person && rel.target === other || rel.target === person && rel.source === other));
-        // console.log("\t" + "tmpRel:");
-        // console.log("\t" + tmpRel);
+        // this.log("\t" + "tmpRel:");
+        // this.log("\t" + tmpRel);
         if (inAParentRel === true) {
           return true;
         }
@@ -207,5 +208,19 @@ export class TreeComponent implements OnInit {
       }
     })
     return inAParentRel;
+  }
+
+  log(toLog) {
+    if (this.logger) {
+      console.log(toLog);
+    }
+  }
+  addNode(node: Node) {
+    this.nodes.push(node);
+    this.calculateCoordinates();
+  }
+  addRelationship(relationship: Relationship) {
+    this.links.push(relationship);
+    this.calculateCoordinates();
   }
 }

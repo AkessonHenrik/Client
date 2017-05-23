@@ -8,16 +8,18 @@ export abstract class ParentComponent {
   y1;
   x2;
   y2;
-  constructor(child: Node) {
+  biological: boolean;
+  constructor(child: Node, biological: boolean) {
     this.child = child;
+    this.biological = biological;
   }
   abstract update();
 }
 export class LinkParentComponent extends ParentComponent {
   parent: Link;
 
-  constructor(child: Node, parent: Link) {
-    super(child);
+  constructor(child: Node, parent: Link, biological: boolean) {
+    super(child, biological);
     this.parent = parent;
     this.x1 = parent.middle.x;
     this.y1 = parent.middle.y;
@@ -33,8 +35,8 @@ export class LinkParentComponent extends ParentComponent {
 }
 export class NodeParentComponent extends ParentComponent {
   parent: Node;
-  constructor(child: Node, parent: Node) {
-    super(child);
+  constructor(child: Node, parent: Node, biological: boolean) {
+    super(child, biological);
     this.parent = parent;
     this.x1 = parent.x;
     this.y1 = parent.y;

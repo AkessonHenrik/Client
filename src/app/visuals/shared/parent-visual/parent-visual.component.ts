@@ -6,6 +6,9 @@ import { ParentComponent } from '../../../parent/parent.component';
   templateUrl: './parent-visual.component.html',
   styleUrls: ['./parent-visual.component.css']
 })
-export class ParentVisualComponent  {
+export class ParentVisualComponent {
   @Input('parentVisual') parent: ParentComponent;
+  showMore(): void {
+    console.log("Parent showMore");
+  }
 }

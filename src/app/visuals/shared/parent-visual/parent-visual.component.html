@@ -1,7 +1,2 @@
-<svg:line
-    class="link"
-    [attr.x1]="parent.x1"
-    [attr.y1]="parent.y1"
-    [attr.x2]="parent.x2"
-    [attr.y2]="parent.y2"
-></svg:line>
+<svg:line (click)="showMore()" *ngIf="parent.biological === true" class="link" [attr.x1]="parent.x1" [attr.y1]="parent.y1" [attr.x2]="parent.x2" [attr.y2]="parent.y2"></svg:line>
+<svg:line *ngIf="parent.biological !== true" stroke-dasharray="5, 5" class="link" [attr.x1]="parent.x1" [attr.y1]="parent.y1" [attr.x2]="parent.x2" [attr.y2]="parent.y2"></svg:line>

@@ -1,6 +1,5 @@
 {
-    "people": [
-        {
+    "people": [{
             "id": 1,
             "firstName": "Eddard",
             "lastName": "Stark",
@@ -90,83 +89,96 @@
             "image": "http://awoiaf.westeros.org/images/c/c0/AERYS_II.jpg"
         }
     ],
-    "relationships": [
-        {
+    "relationships": [{
             "id": 1,
             "from": 1,
-            "to": 2
+            "to": 2,
+            "relationshipType": "Spouse"
         },
         {
             "id": 2,
             "from": 3,
-            "to": 8
+            "to": 8,
+            "relationshipType": "Spouse"
         },
         {
             "id": 3,
             "from": 9,
-            "to": 10
+            "to": 10,
+            "relationshipType": "Partner"
         },
         {
             "id": 4,
             "from": 14,
-            "to": 15
+            "to": 15,
+            "relationshipType": "Spouse"
         }
     ],
-    "parents": [
-        {
+    "parents": [{
             "parent": 2,
             "child": 13,
-            "parentType": "relationship"
+            "parentType": "relationship",
+            "biological": true
         },
         {
             "parent": 1,
             "child": 3,
-            "parentType": "relationship"
+            "parentType": "relationship",
+            "biological": true
         },
         {
             "parent": 1,
             "child": 4,
-            "parentType": "relationship"
+            "parentType": "relationship",
+            "biological": true
         },
         {
             "parent": 1,
             "child": 5,
-            "parentType": "relationship"
+            "parentType": "relationship",
+            "biological": true
         },
         {
             "parent": 1,
             "child": 6,
-            "parentType": "relationship"
+            "parentType": "relationship",
+            "biological": true
         },
         {
             "parent": 1,
             "child": 7,
-            "parentType": "single"
+            "parentType": "single",
+            "biological": false
         },
         {
             "parent": 3,
             "child": 7,
-            "parentType": "relationship"
+            "parentType": "relationship",
+            "biological": true
         },
         {
             "parent": 11,
             "child": 10,
-            "parentType": "single"
+            "parentType": "single",
+            "biological": true
         },
         {
             "parent": 11,
             "child": 12,
-            "parentType": "single"
+            "parentType": "single",
+            "biological": true
         },
         {
             "parent": 4,
             "child": 1,
-            "parentType": "relationship"
+            "parentType": "relationship",
+            "biological": true
         },
         {
             "parent": 4,
             "child": 9,
-            "parentType": "relationship"
+            "parentType": "relationship",
+            "biological": true
         }
     ]
 }

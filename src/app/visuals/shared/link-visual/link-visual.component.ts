@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Link } from '../../../d3';
+import { Relationship } from '../../../d3';
 
 @Component({
   selector: '[linkVisual]',
@@ -7,5 +7,8 @@ import { Link } from '../../../d3';
   styleUrls: ['./link-visual.component.css']
 })
 export class LinkVisualComponent  {
-  @Input('linkVisual') link: Link;
+  @Input('linkVisual') link: Relationship;
+  showMore() {
+    console.log("showmore")
+  }
 }
