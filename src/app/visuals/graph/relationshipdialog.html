@@ -1,13 +1,13 @@
 <div class="dialogChoice">
     <h1 class="dialogTitle" md-dialog-title>New Relationship</h1>
-    <md-select placeholder="Relationship type" [(ngModel)]="relationshipType">
+    <md-select class="choice" placeholder="Relationship type" [(ngModel)]="relationshipType">
         <md-option *ngFor="let relationshipType of relationshipTypes" [value]="relationshipType">{{ relationshipType }}</md-option>
     </md-select>
-    <md-select placeholder="From" [(ngModel)]="from">
-        <md-option *ngFor="let node of nodes">{{ node.firstname }}</md-option>
+    <md-select class="choice" placeholder="From" [(ngModel)]="from">
+        <md-option *ngFor="let node of nodes" [value]="node.firstname">{{ node.firstname }}</md-option>
     </md-select>
-    <md-select placeholder="To" [(ngModel)]="to">
-        <md-option *ngFor="let node of nodes">{{ node.firstname }}</md-option>
+    <md-select class="choice" placeholder="To" [(ngModel)]="to">
+        <md-option *ngFor="let node of nodes" [value]="node.firstname">{{ node.firstname }}</md-option>
     </md-select>
-    <button (click)="createRelationsip()" md-raised-button>Add</button>
+    <button (click)="createRelationship()" md-raised-button>Add</button>
 </div>

@@ -28,8 +28,13 @@ export class TreeComponent implements OnInit, OnChanges {
     console.log(value);
   }
 
-  outputEvent(node: Node) {
-    console.log("Change in tree!")  
+  outputNodeEvent(node: Node) {
+    console.log("Change in tree!")
+  }
+  outputRelEvent(relationship: Relationship) {
+    console.log("Change in tree!")
+    this.links.push(relationship);
+    this.calculateCoordinates();
   }
   ngOnChanges(changes: SimpleChanges) {
     console.log("Changes")

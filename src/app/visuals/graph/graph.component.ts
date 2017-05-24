@@ -1,5 +1,5 @@
 import { OnChanges, OnInit, Component, Inject, NgZone, Input, Output, EventEmitter, ChangeDetectorRef, HostListener, ChangeDetectionStrategy } from '@angular/core';
-import { Node, Link } from '../../d3';
+import { Node, Link, Relationship } from '../../d3';
 import { MdButtonModule } from '@angular/material';
 import { MdIconModule } from '@angular/material';
 import { MdIconRegistry } from '@angular/material';
@@ -31,9 +31,9 @@ export class GraphComponent implements OnChanges {
   }
 
   @Output()
-  outputEvent: EventEmitter<Node> = new EventEmitter();
+  outputNodeEvent: EventEmitter<Node> = new EventEmitter();
   @Output()
-  inputDataChange = new EventEmitter();
+  outputRelEvent: EventEmitter<Relationship> = new EventEmitter();
 
   get tree() {
     return this._tree;
@@ -62,10 +62,12 @@ export class GraphComponent implements OnChanges {
           console.log("Chose new person");
           console.log(result)
           this.newNode();
+          break;
         }
         case "relationship": {
           console.log("Chose new relationship");
           this.newRelationship();
+          break;
         }
       }
     });
@@ -75,17 +77,16 @@ export class GraphComponent implements OnChanges {
     dialogRef.afterClosed().subscribe(node => {
       this.tree.addNode(node);
       this._nodes = this.tree.nodes
-      this.outputEvent.emit(node);
+      this.outputNodeEvent.emit(node);
     });
   }
   newRelationship() {
     let dialogRef = this.dialog.open(NewRelationshipDialog, {
       data: this._nodes
     });
-    dialogRef.afterClosed().subscribe(node => {
-      // this.tree.addNode(node);
-      // this._nodes = this.tree.nodes
-      // this.outputEvent.emit(node);
+    dialogRef.afterClosed().subscribe(relationship => {
+      this.tree.addRelationship(relationship);
+      this.outputRelEvent.emit(relationship)
     });
   }
 }
@@ -125,22 +126,26 @@ export class NewPersonDialog {
   templateUrl: './relationshipdialog.html',
   styleUrls: ['./persondialog.css']
 })
-export class NewRelationshipDialog implements OnInit  {
-  from: Node;
-  to: Node;
+export class NewRelationshipDialog implements OnInit {
+  from: string;
+  to: string;
   relationshipType: string;
   relationshipTypes: string[] = ["Partner", "Spouse", "Other", "Cousin"]
   nodes: Node[];
-  constructor( @Inject(MD_DIALOG_DATA) private data: { nodes: Node[] }, public dialogRef: MdDialogRef<ChoiceDialog>) {
+  constructor( @Inject(MD_DIALOG_DATA) private data: Node[], public dialogRef: MdDialogRef<ChoiceDialog>) {
   }
   createRelationship() {
     // const n: Node = new Node(100, undefined, this.firstname, this.lastname);
     // console.log(n)
-    this.dialogRef.close(null);
+    console.log(this.relationshipType)
+    let fromNode: Node = this.nodes.filter(node => node.firstname === this.from)[0]
+    let toNode: Node = this.nodes.filter(node => node.firstname === this.to)[0]
+    this.dialogRef.close(new Relationship(100, fromNode, toNode, this.relationshipType));
   }
   public ngOnInit() {
     //set custom data from parent component
     console.log("OnInit")
-    this.nodes = this.data.nodes;
+    console.log(this.data);
+    this.nodes = this.data;
   }
 }
