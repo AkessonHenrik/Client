@@ -1,23 +1,40 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import APP_CONFIG from '../app.config';
 import { Node, Link, Relationship } from '../d3';
 import { ParentComponent, NodeParentComponent, LinkParentComponent } from '../parent/parent.component';
 import { GraphComponent } from '../visuals/graph/graph.component';
+import { SimpleChanges } from '@angular/core';
+
 @Component({
   selector: 'app-tree',
   templateUrl: './tree.component.html',
   styleUrls: ['./tree.component.css']
 })
-export class TreeComponent implements OnInit {
+export class TreeComponent implements OnInit, OnChanges {
   @Input('jsonNodes') jsonNodes: [{ id: number, firstName: string, lastName: string, image: string }];
   @Input('jsonRelationships') jsonRelationships: [{ id: number, from: number, to: number, relationshipType: string }];
   @Input('jsonParents') jsonParents: [{ parent: number, child: number, parentType: string, biological: boolean }];
   nodes: Node[] = [];
   links: Link[] = [];
   parents: ParentComponent[] = [];
-  logger: boolean = false;
-  ngOnInit() {
 
+  get _nodes() {
+    return this.nodes;
+  }
+
+  logger: boolean = false;
+
+  onComponentChange(value) {
+    console.log(value);
+  }
+
+  outputEvent(node: Node) {
+    console.log("Change in tree!")  
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    console.log("Changes")
+  }
+  ngOnInit() {
     // Interpret and create NodeComponents
     this.jsonNodes.forEach(node => {
       const n: Node = new Node(node.id, node.image, node.firstName, node.lastName);
@@ -175,6 +192,9 @@ export class TreeComponent implements OnInit {
       l.middle = { x: (l.source.x + l.target.x) / 2, y: (l.source.y + l.target.y) / 2 }
     })
     this.parents.forEach(p => p.update());
+    localStorage["nodes"] = this.nodes;
+    localStorage["links"] = this.links;
+    localStorage["parents"] = this.parents;
   }
 
   recursiveLooker(remainingRelationships: Link[], remainingParents: ParentComponent[], person: Node, levels: Node[][], currentLevel: number): boolean {
@@ -216,7 +236,9 @@ export class TreeComponent implements OnInit {
     }
   }
   addNode(node: Node) {
+    console.log("addNode")
     this.nodes.push(node);
+    console.log(this.nodes)
     this.calculateCoordinates();
   }
   addRelationship(relationship: Relationship) {

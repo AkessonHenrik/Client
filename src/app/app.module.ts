@@ -14,12 +14,13 @@ import { SHARED_VISUALS } from './visuals/shared';
 import { TreeComponent } from './tree/tree.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MaterialModule } from '@angular/material';
-import {MdButtonModule} from '@angular/material';
-import {MdIconModule} from '@angular/material';
+import { MdButtonModule } from '@angular/material';
+import { MdIconModule } from '@angular/material';
 import 'hammerjs';
-import {MdSidenavModule} from '@angular/material';
+import { MdSidenavModule } from '@angular/material';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-
+import { ChoiceDialog, NewPersonDialog, NewRelationshipDialog } from './visuals/graph/graph.component'
 
 @NgModule({
   declarations: [
@@ -28,7 +29,10 @@ import {MdSidenavModule} from '@angular/material';
     ...SHARED_VISUALS,
     ...D3_DIRECTIVES,
     TreeComponent,
-    NavbarComponent
+    NavbarComponent,
+    ChoiceDialog,
+    NewPersonDialog,
+    NewRelationshipDialog
   ],
   imports: [
     BrowserModule,
@@ -37,9 +41,10 @@ import {MdSidenavModule} from '@angular/material';
     HttpModule,
     MaterialModule,
     MdButtonModule,
-    MdSidenavModule
+    MdSidenavModule,
+    NgbModule.forRoot()
   ],
   providers: [D3Service],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, ChoiceDialog, NewPersonDialog, NewRelationshipDialog]
 })
 export class AppModule { }

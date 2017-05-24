@@ -1,24 +1,146 @@
-import { Component, Input, ChangeDetectorRef, HostListener, ChangeDetectionStrategy } from '@angular/core';
-import { Node } from '../../d3';
+import { OnChanges, OnInit, Component, Inject, NgZone, Input, Output, EventEmitter, ChangeDetectorRef, HostListener, ChangeDetectionStrategy } from '@angular/core';
+import { Node, Link } from '../../d3';
 import { MdButtonModule } from '@angular/material';
 import { MdIconModule } from '@angular/material';
 import { MdIconRegistry } from '@angular/material';
 import { TreeComponent } from '../../tree/tree.component';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { MdInputModule } from '@angular/material';
+import { ParentComponent } from '../../parent/parent.component';
+import { SimpleChanges } from '@angular/core';
+import { MdSelectModule } from '@angular/material';
+
+
 @Component({
   selector: 'graph',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './graph.component.html',
   styleUrls: ['./graph.component.css']
 })
-export class GraphComponent {
-  @Input('tree') tree: TreeComponent;
+export class GraphComponent implements OnChanges {
+  @Input('tree') _tree: TreeComponent;
+  // @Input('nodes')
+  _nodes: Node[];
+  @Input('links') _links: Link[];
+  @Input('parents') parents: ParentComponent[]
+
+  @Input('nodes')
+  set nodes(nodes: Node[]) {
+    this._nodes = nodes;
+  }
+
+  @Output()
+  outputEvent: EventEmitter<Node> = new EventEmitter();
+  @Output()
+  inputDataChange = new EventEmitter();
+
+  get tree() {
+    return this._tree;
+  }
+  get nodes() {
+    return this._nodes;
+  }
+  get links() {
+    return this._links
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log("GraphComponent")
+    console.log(changes)
+  }
   height: number = 720;
   width: number = 1280;
   selectedOption: string;
+  constructor(private zone: NgZone, public dialog: MdDialog) {
+  }
   openDialog() {
     let dialogRef = this.dialog.open(ChoiceDialog);
     dialogRef.afterClosed().subscribe(result => {
-      this.selectedOption = result;
+      switch (result) {
+        case "node": {
+          console.log("Chose new person");
+          console.log(result)
+          this.newNode();
+        }
+        case "relationship": {
+          console.log("Chose new relationship");
+          this.newRelationship();
+        }
+      }
     });
+  }
+  newNode() {
+    let dialogRef = this.dialog.open(NewPersonDialog);
+    dialogRef.afterClosed().subscribe(node => {
+      this.tree.addNode(node);
+      this._nodes = this.tree.nodes
+      this.outputEvent.emit(node);
+    });
+  }
+  newRelationship() {
+    let dialogRef = this.dialog.open(NewRelationshipDialog, {
+      data: this._nodes
+    });
+    dialogRef.afterClosed().subscribe(node => {
+      // this.tree.addNode(node);
+      // this._nodes = this.tree.nodes
+      // this.outputEvent.emit(node);
+    });
+  }
+}
+
+@Component({
+  selector: 'dialogchoice',
+  templateUrl: './dialogchoice.html',
+  styleUrls: ['./dialogchoice.css']
+})
+export class ChoiceDialog {
+  constructor(public dialogRef: MdDialogRef<ChoiceDialog>) {
+  }
+}
+
+
+@Component({
+  selector: 'persondialog',
+  templateUrl: './persondialog.html',
+  styleUrls: ['./persondialog.css']
+})
+export class NewPersonDialog {
+  firstname: string;
+  lastname: string;
+  image: string;
+  constructor(public dialogRef: MdDialogRef<ChoiceDialog>) {
+  }
+  createPerson() {
+    const n: Node = new Node(100, undefined, this.firstname, this.lastname);
+    console.log(n)
+    this.dialogRef.close(n);
+  }
+}
+
+
+@Component({
+  selector: 'relatinoshipdialog',
+  templateUrl: './relationshipdialog.html',
+  styleUrls: ['./persondialog.css']
+})
+export class NewRelationshipDialog implements OnInit  {
+  from: Node;
+  to: Node;
+  relationshipType: string;
+  relationshipTypes: string[] = ["Partner", "Spouse", "Other", "Cousin"]
+  nodes: Node[];
+  constructor( @Inject(MD_DIALOG_DATA) private data: { nodes: Node[] }, public dialogRef: MdDialogRef<ChoiceDialog>) {
+  }
+  createRelationship() {
+    // const n: Node = new Node(100, undefined, this.firstname, this.lastname);
+    // console.log(n)
+    this.dialogRef.close(null);
+  }
+  public ngOnInit() {
+    //set custom data from parent component
+    console.log("OnInit")
+    this.nodes = this.data.nodes;
   }
 }

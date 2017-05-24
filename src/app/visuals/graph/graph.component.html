@@ -1,10 +1,17 @@
 <svg #svg [attr.width]="width" [attr.height]="height">
     <g [zoomableOf]="svg">
-        <g [linkVisual]="link" *ngFor="let link of tree.links"></g>
-        <g [parentVisual]="parent" *ngFor="let parent of tree.parents"></g>
-        <g [nodeVisual]="node" *ngFor="let node of tree.nodes"></g>
+        <g [linkVisual]="link" *ngFor="let link of links"></g>
+        <g [parentVisual]="parent" *ngFor="let parent of parents"></g>
+        <g [nodeVisual]="node" *ngFor="let node of nodes"></g>
     </g>
 </svg>
-<button md-fab (click)="openDialog()" class="add"><i class="material-icons">add</i>
+<button md-fab (click)="openDialog()" class="add">
+    <!--<i class="material-icons">-->
+        new
+    <!--</i>-->
 </button>
-<button md-fab class="share"><i class="material-icons">share</i></button>
+<button md-fab class="share">
+    <!--<i class="large material-icons">-->
+        share
+    <!--</i>-->
+</button>
