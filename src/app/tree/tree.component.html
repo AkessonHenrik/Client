@@ -1,1 +1,1 @@
-<graph [tree]="this" [nodes]="_nodes" [links]="links" [parents]="parents" (outputNodeEvent)="outputNodeEvent($event)" (outputRelEvent)="outputRelEvent($event)"></graph>
+<graph *ngIf="ready" [nodes]="nodes" [links]="links" [parents]="parents" (outputNodeEvent)="outputNodeEvent($event)" (outputRelEvent)="outputRelEvent($event)"></graph>

@@ -19,7 +19,7 @@ import { MdSelectModule } from '@angular/material';
   styleUrls: ['./graph.component.css']
 })
 export class GraphComponent implements OnChanges {
-  @Input('tree') _tree: TreeComponent;
+  // @Input('tree') _tree: TreeComponent;
   // @Input('nodes')
   _nodes: Node[];
   @Input('links') _links: Link[];
@@ -35,9 +35,9 @@ export class GraphComponent implements OnChanges {
   @Output()
   outputRelEvent: EventEmitter<Relationship> = new EventEmitter();
 
-  get tree() {
-    return this._tree;
-  }
+  // get tree() {
+  //   return this._tree;
+  // }
   get nodes() {
     return this._nodes;
   }
@@ -53,6 +53,8 @@ export class GraphComponent implements OnChanges {
   width: number = 1280;
   selectedOption: string;
   constructor(private zone: NgZone, public dialog: MdDialog) {
+    console.log("lol ca va")
+    console.log(this.nodes)
   }
   openDialog() {
     let dialogRef = this.dialog.open(ChoiceDialog);

@@ -11,10 +11,21 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { MaterialModule } from '@angular/material';
 import { MdButtonModule } from '@angular/material';
 import { MdIconModule } from '@angular/material';
+import { Component, ViewEncapsulation } from '@angular/core';
 import 'hammerjs';
+import { RouterModule, Routes } from '@angular/router';
 import { MdSidenavModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { GraphComponent, ChoiceDialog, NewPersonDialog, NewRelationshipDialog } from './visuals/graph/graph.component'
+import { GraphComponent, ChoiceDialog, NewPersonDialog, NewRelationshipDialog } from './visuals/graph/graph.component';
+import { SidenavComponent } from './sidenav/sidenav.component';
+import { AuthComponent } from './auth/auth.component'
+
+const appRoutes: Routes = [
+  // { path: 'crisis-center', component: CrisisListComponent },
+  { path: 'tree', component: TreeComponent },
+  { path: '', component: AuthComponent }
+];
+
 
 @NgModule({
   declarations: [
@@ -26,9 +37,12 @@ import { GraphComponent, ChoiceDialog, NewPersonDialog, NewRelationshipDialog } 
     NavbarComponent,
     ChoiceDialog,
     NewPersonDialog,
-    NewRelationshipDialog
+    NewRelationshipDialog,
+    SidenavComponent,
+    AuthComponent
   ],
   imports: [
+    RouterModule.forRoot(appRoutes),
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
@@ -39,6 +53,6 @@ import { GraphComponent, ChoiceDialog, NewPersonDialog, NewRelationshipDialog } 
     NgbModule.forRoot()
   ],
   providers: [D3Service],
-  bootstrap: [AppComponent, ChoiceDialog, NewPersonDialog, NewRelationshipDialog]
+  bootstrap: [AppComponent, ChoiceDialog, NewPersonDialog, NewRelationshipDialog, SidenavComponent]
 })
 export class AppModule { }

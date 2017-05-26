@@ -28,6 +28,7 @@ export class Node implements d3.SimulationNodeDatum {
     }
     this.firstname = firstName;
     this.lastName = lastName;
+    this.x = this.y = 0;
     this.width = 60;
     this.height = 60;
     this.r = 30;

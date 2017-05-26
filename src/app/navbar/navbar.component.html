@@ -1,5 +1,10 @@
 <div class="navbar">
-    <div class="title">{{title}}</div>
-    <div class="signLog">Login</div>
-    <div class="signLog">Signup</div>
+    <div class="title">
+        {{title}}
+    </div>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li class="menuLink" *ngFor="let menuLink of menuLinks">
+            <a>{{menuLink}}</a>
+        </li>
+    </ul>
 </div>

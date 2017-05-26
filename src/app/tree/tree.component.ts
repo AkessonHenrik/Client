@@ -4,60 +4,53 @@ import { Node, Link, Relationship } from '../d3';
 import { ParentComponent, NodeParentComponent, LinkParentComponent } from '../parent/parent.component';
 import { GraphComponent } from '../visuals/graph/graph.component';
 import { SimpleChanges } from '@angular/core';
+import { Http } from '@angular/http';
 
 @Component({
   selector: 'app-tree',
   templateUrl: './tree.component.html',
   styleUrls: ['./tree.component.css']
 })
-export class TreeComponent implements OnInit, OnChanges {
-  @Input('jsonNodes') jsonNodes: [{ id: number, firstName: string, lastName: string, image: string }];
-  @Input('jsonRelationships') jsonRelationships: [{ id: number, from: number, to: number, relationshipType: string }];
-  @Input('jsonParents') jsonParents: [{ parent: number, child: number, parentType: string, biological: boolean }];
+export class TreeComponent implements OnChanges {
   nodes: Node[] = [];
   links: Link[] = [];
   parents: ParentComponent[] = [];
-
+  ready: boolean = false;
   get _nodes() {
     return this.nodes;
   }
 
   logger: boolean = false;
 
-  onComponentChange(value) {
-    this.log(value);
-  }
 
-  outputNodeEvent(node: Node) {
-    this.log("Tree received new node!")
-    this.nodes.push(node);
-    this.calculateCoordinates();
+  constructor(private http: Http) {
+    this.http.get('assets/stark.json')
+      .subscribe(res => {
+        let jsonNodes: [{ id: number, firstName: string, lastName: string, image: string }];
+        let jsonRelationships: [{ id: number, from: number, to: number, relationshipType: string }];
+        let jsonParents: [{ parent: number, child: number, parentType: string, biological: boolean }];
+        jsonNodes = res.json().people;
+        jsonRelationships = res.json().relationships;
+        jsonParents = res.json().parents;
+        this.createData(jsonNodes, jsonRelationships, jsonParents);
+      });
   }
-  outputRelEvent(relationship: Relationship) {
-    this.log("Tree received new relationship!")
-    this.links.push(relationship);
-    this.calculateCoordinates();
-  }
-  ngOnChanges(changes: SimpleChanges) {
-    this.log("Changes")
-  }
-  ngOnInit() {
+  createData(jsonNodes, jsonRelationships, jsonParents) {
     // Interpret and create NodeComponents
-    this.jsonNodes.forEach(node => {
+    jsonNodes.forEach(node => {
       const n: Node = new Node(node.id, node.image, node.firstName, node.lastName);
       this.nodes.push(n);
     });
 
     // Interpret and create relationships (Link)
-    this.jsonRelationships.forEach(link => {
+    jsonRelationships.forEach(link => {
       let from: Node = this.nodes.filter(node => node.id === link.from)[0];
       let to: Node = this.nodes.filter(node => node.id === link.to)[0];
       const l: Relationship = new Relationship(link.id, from, to, link.relationshipType);
       this.links.push(l);
     });
-
     // Interpret and create parents
-    this.jsonParents.forEach(parent => {
+    jsonParents.forEach(parent => {
       if (parent.parentType === "single") {
         // Find node that is child
         const child: Node = this.nodes.filter(node => node.id === parent.child)[0];
@@ -87,11 +80,31 @@ export class TreeComponent implements OnInit, OnChanges {
     this.calculateCoordinates();
   }
 
+
+  onComponentChange(value) {
+    this.log(value);
+  }
+
+  outputNodeEvent(node: Node) {
+    this.log("Tree received new node!")
+    this.nodes.push(node);
+    this.calculateCoordinates();
+  }
+  outputRelEvent(relationship: Relationship) {
+    this.log("Tree received new relationship!")
+    this.links.push(relationship);
+    this.calculateCoordinates();
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    this.log("Changes")
+  }
+
   calculateCoordinates(): void {
-    this.log("\n========================\n\n")
-    this.log("Calculate Coordinates");
-    this.log("\n========================\n\n")
     // Find all people that have no parents and that are not in a relationship with a person that has a parent
+    this.nodes.forEach(node => {
+      node.x = 0;
+      node.y = 0;
+    })
     let remainingPeople = this.nodes;
     let remainingParents = this.parents;
     let remainingRelationships = this.links;
@@ -199,9 +212,7 @@ export class TreeComponent implements OnInit, OnChanges {
       l.middle = { x: (l.source.x + l.target.x) / 2, y: (l.source.y + l.target.y) / 2 }
     })
     this.parents.forEach(p => p.update());
-    localStorage["nodes"] = this.nodes;
-    localStorage["links"] = this.links;
-    localStorage["parents"] = this.parents;
+    this.ready = true;
   }
 
   recursiveLooker(remainingRelationships: Link[], remainingParents: ParentComponent[], person: Node, levels: Node[][], currentLevel: number): boolean {
@@ -220,11 +231,7 @@ export class TreeComponent implements OnInit, OnChanges {
           }
         })
         let tmpPar = remainingParents.filter(parent => parent.child != other);
-        // this.log("\t" + "tmpPar:");
-        // this.log("\t" + tmpPar);
         let tmpRel = remainingRelationships.filter(rel => !(rel.source === person && rel.target === other || rel.target === person && rel.source === other));
-        // this.log("\t" + "tmpRel:");
-        // this.log("\t" + tmpRel);
         if (inAParentRel === true) {
           return true;
         }

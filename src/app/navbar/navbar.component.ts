@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class NavbarComponent implements OnInit {
   title: string = 'Treemily'
   constructor() { }
-
+  menuLinks: string[] = ['Login', 'Signup']
   ngOnInit() {
   }
 
