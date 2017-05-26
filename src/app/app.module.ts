@@ -18,12 +18,15 @@ import { MdSidenavModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GraphComponent, ChoiceDialog, NewPersonDialog, NewRelationshipDialog } from './visuals/graph/graph.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
-import { AuthComponent } from './auth/auth.component'
+import { AuthComponent } from './auth/auth.component';
+import { HomeComponent } from './home/home.component';
+import { WelcomeComponent } from './welcome/welcome.component'
 
 const appRoutes: Routes = [
   // { path: 'crisis-center', component: CrisisListComponent },
   { path: 'tree', component: TreeComponent },
-  { path: '', component: AuthComponent }
+  { path: '', component: WelcomeComponent },
+  { path: 'login', component: AuthComponent }
 ];
 
 
@@ -39,7 +42,9 @@ const appRoutes: Routes = [
     NewPersonDialog,
     NewRelationshipDialog,
     SidenavComponent,
-    AuthComponent
+    AuthComponent,
+    HomeComponent,
+    WelcomeComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

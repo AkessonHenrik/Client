@@ -1,13 +1,21 @@
 <md-sidenav-container fullscreen>
     <md-toolbar>
-        <button md-button (click)="start.toggle();"><md-icon>menu</md-icon></button>
+        <button *ngIf="loggedIn()" md-button (click)="start.toggle();"><md-icon>menu</md-icon></button>
+        <div class="link">
+            <p (click)="signup()">Sign up</p>
+        </div>
+        <div class="link">
+            <p (click)="login()">Sign in</p>
+        </div>
+        <div (click)="toggleSearch()" class="search link">
+            <i class="material-icons md-36">search</i>
+            <input #box class="searchbox" *ngIf="searchingToggled" mdInput (keyup.enter)="launchSearch(box.value)" type="search" placeholder="Look for someone you know">
+        </div>
     </md-toolbar>
-    <md-sidenav class="sidebar" #start mode="side">
+    <md-sidenav class="sidebar" #start mode="over">
         <ul class="menuOptions">
             <li (click)="redirectToTree()">Graph</li>
         </ul>
     </md-sidenav>
-    <router-outlet>
-
-    </router-outlet>
+    <router-outlet></router-outlet>
 </md-sidenav-container>
