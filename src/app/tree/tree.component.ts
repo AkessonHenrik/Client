@@ -25,19 +25,21 @@ export class TreeComponent implements OnInit, OnChanges {
   logger: boolean = false;
 
   onComponentChange(value) {
-    console.log(value);
+    this.log(value);
   }
 
   outputNodeEvent(node: Node) {
-    console.log("Change in tree!")
+    this.log("Tree received new node!")
+    this.nodes.push(node);
+    this.calculateCoordinates();
   }
   outputRelEvent(relationship: Relationship) {
-    console.log("Change in tree!")
+    this.log("Tree received new relationship!")
     this.links.push(relationship);
     this.calculateCoordinates();
   }
   ngOnChanges(changes: SimpleChanges) {
-    console.log("Changes")
+    this.log("Changes")
   }
   ngOnInit() {
     // Interpret and create NodeComponents
@@ -237,17 +239,7 @@ export class TreeComponent implements OnInit, OnChanges {
 
   log(toLog) {
     if (this.logger) {
-      console.log(toLog);
+      this.log(toLog);
     }
-  }
-  addNode(node: Node) {
-    console.log("addNode")
-    this.nodes.push(node);
-    console.log(this.nodes)
-    this.calculateCoordinates();
-  }
-  addRelationship(relationship: Relationship) {
-    this.links.push(relationship);
-    this.calculateCoordinates();
   }
 }

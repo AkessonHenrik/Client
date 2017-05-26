@@ -1,10 +1,10 @@
 <svg:g (click)="showMore()">
     <defs>
-        <pattern id="image" height="100%" width="100%" viewBox="0 0 60 60">
+        <pattern [attr.id]="node.id" height="100%" width="100%" viewBox="0 0 60 60">
             <image [attr.x]="0" [attr.y]="0" [attr.width]="node.width" [attr.height]="auto" [attr.xlink:href]="node.image"></image>
         </pattern>
     </defs>
-    <svg:circle class="node" fill="url(#image)" [attr.cx]="node.x" [attr.cy]="node.y" [attr.r]="node.r">
+    <svg:circle class="node" [attr.fill]="'url(#' + node.id+')'" [attr.cx]="node.x" [attr.cy]="node.y" [attr.r]="node.r">
     </svg:circle>
 </svg:g>
 <svg:text class="node-name" [attr.x]="node.x" [attr.y]="node.y + node.r + node.fontSize/2" [attr.font-size]="node.fontSize">

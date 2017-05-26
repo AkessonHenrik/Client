@@ -9,7 +9,7 @@ export class Node implements d3.SimulationNodeDatum {
   vy?: number;
   fx?: number | null;
   fy?: number | null;
-  image: string;
+  _image: string;
   id: number;
   linkCount: number = 0;
   r: number;
@@ -22,9 +22,9 @@ export class Node implements d3.SimulationNodeDatum {
   constructor(id: number, image, firstName: string, lastName: string) {
     this.id = id;
     if (image !== undefined) {
-      this.image = image;
+      this._image = image;
     } else {
-      this.image = 'https://freeiconshop.com/wp-content/uploads/edd/person-solid.png'
+      this._image = 'https://freeiconshop.com/wp-content/uploads/edd/person-solid.png?arbitrary'
     }
     this.firstname = firstName;
     this.lastName = lastName;
@@ -33,6 +33,9 @@ export class Node implements d3.SimulationNodeDatum {
     this.r = 30;
   }
 
+  get image() {
+    return this._image;
+  }
   normal = () => {
     return Math.sqrt(this.linkCount / APP_CONFIG.N);
   }

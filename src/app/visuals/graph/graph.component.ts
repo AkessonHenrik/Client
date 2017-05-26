@@ -75,8 +75,8 @@ export class GraphComponent implements OnChanges {
   newNode() {
     let dialogRef = this.dialog.open(NewPersonDialog);
     dialogRef.afterClosed().subscribe(node => {
-      this.tree.addNode(node);
-      this._nodes = this.tree.nodes
+      // this.tree.addNode(node);
+      // this._nodes = this.tree.nodes
       this.outputNodeEvent.emit(node);
     });
   }
@@ -85,9 +85,17 @@ export class GraphComponent implements OnChanges {
       data: this._nodes
     });
     dialogRef.afterClosed().subscribe(relationship => {
-      this.tree.addRelationship(relationship);
+      // this.tree.addRelationship(relationship);
       this.outputRelEvent.emit(relationship)
     });
+  }
+  newParents() {
+    let dialogRef = this.dialog.open(NewParentDialog, {
+      data: {
+        nodes: this._nodes,
+        links: this._links
+      }
+    })
   }
 }
 
@@ -122,7 +130,7 @@ export class NewPersonDialog {
 
 
 @Component({
-  selector: 'relatinoshipdialog',
+  selector: 'relationshipdialog',
   templateUrl: './relationshipdialog.html',
   styleUrls: ['./persondialog.css']
 })
@@ -147,5 +155,21 @@ export class NewRelationshipDialog implements OnInit {
     console.log("OnInit")
     console.log(this.data);
     this.nodes = this.data;
+  }
+}
+
+@Component({
+  selector: 'parentdialog',
+  templateUrl: './parentdialog.html',
+  styleUrls: ['./persondialog.css']
+})
+export class NewParentDialog implements OnInit {
+  parent: string;
+  child: string;
+  parentType: string;
+  nodes: Node[];
+  constructor( @Inject(MD_DIALOG_DATA) private data: { nodes: Node[], links: Link[] }, public dialogRef: MdDialogRef<NewParentDialog>) { }
+  public ngOnInit() {
+
   }
 }
