@@ -36,4 +36,7 @@ export class SidenavComponent implements OnInit {
   launchSearch(value: string) {
     console.log("Searching for " + value);
   }
+  focusOutFunction() {
+    this.searchingToggled = false;
+  }
 }

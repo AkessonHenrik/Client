@@ -20,7 +20,8 @@ import { GraphComponent, ChoiceDialog, NewPersonDialog, NewRelationshipDialog } 
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { AuthComponent } from './auth/auth.component';
 import { HomeComponent } from './home/home.component';
-import { WelcomeComponent } from './welcome/welcome.component'
+import { WelcomeComponent } from './welcome/welcome.component';
+import { ProfileComponent } from './profile/profile.component'
 
 const appRoutes: Routes = [
   // { path: 'crisis-center', component: CrisisListComponent },
@@ -44,7 +45,8 @@ const appRoutes: Routes = [
     SidenavComponent,
     AuthComponent,
     HomeComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    ProfileComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
