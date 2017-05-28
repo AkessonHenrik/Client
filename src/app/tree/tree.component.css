@@ -16,3 +16,35 @@
 .share {
     font-size: 1.8rem;
 }
+
+.newContent {
+    position: absolute;
+    left: 50%;
+    top: 90%;
+    background-color: green;
+    transform: translate(-50%, 0%);
+    height: 60px;
+    width: 100px;
+    color: white;
+    font-size: 30px;
+}
+
+.newContent:hover {
+    height: 70px;
+    width: 120px;
+    transition: .2s;
+}
+
+.newContent:hover::after {
+    height: 60px;
+    width: 100px;
+    transition: .2s;
+}
+
+.savingContent {
+    z-index: 10;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

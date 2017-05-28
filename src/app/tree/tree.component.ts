@@ -25,9 +25,10 @@ export class TreeComponent /*implements OnChanges*/ {
   get _nodes() {
     return this.nodes;
   }
+  newContent: boolean = false;
 
   logger: boolean = false;
-
+  savingContent: boolean = false;
 
   constructor(private http: Http, private zone: NgZone, public dialog: MdDialog) {
     this.http.get('assets/stark.json')
@@ -86,25 +87,25 @@ export class TreeComponent /*implements OnChanges*/ {
     this.calculateCoordinates();
   }
 
-
-  // onComponentChange(value) {
-  //   this.log(value);
-  // }
-
-  // outputNodeEvent(node: Node) {
-  //   this.log("Tree received new node!")
-  //   this.nodes.push(node);
-  //   this.calculateCoordinates();
-  // }
-  // outputRelEvent(relationship: Relationship) {
-  //   this.log("Tree received new relationship!")
-  //   this.links.push(relationship);
-  //   this.calculateCoordinates();
-  // }
-  // ngOnChanges(changes: SimpleChanges) {
-  //   this.log("Changes")
-  // }
-
+  /*
+    onComponentChange(value) {
+      this.log(value);
+    }
+  
+    outputNodeEvent(node: Node) {
+      this.log("Tree received new node!")
+      this.nodes.push(node);
+      this.calculateCoordinates();
+    }
+    outputRelEvent(relationship: Relationship) {
+      this.log("Tree received new relationship!")
+      this.links.push(relationship);
+      this.calculateCoordinates();
+    }
+    ngOnChanges(changes: SimpleChanges) {
+      this.log("Changes")
+    }
+  */
   calculateCoordinates(): void {
     // Find all people that have no parents and that are not in a relationship with a person that has a parent
     this.nodes.forEach(node => {
@@ -275,7 +276,6 @@ export class TreeComponent /*implements OnChanges*/ {
       }
     });
   }
-  newContent: boolean = false;
   newNode() {
     let dialogRef = this.dialog.open(NewPersonDialog);
     dialogRef.afterClosed().subscribe(node => {
@@ -309,6 +309,10 @@ export class TreeComponent /*implements OnChanges*/ {
         links: this.links
       }
     })
+  }
+
+  saveContent() {
+    this.savingContent = true;
   }
 
 }
