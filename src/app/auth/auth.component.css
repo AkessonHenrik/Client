@@ -1,0 +1,39 @@
+.loginForm {
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%, 0%);
+    background-color: lightgray;
+    width: 50%;
+    height: 50%;
+}
+
+.loginInput {
+    /*position: absolute;*/
+    background: transparent;
+    border: none;
+    clear: both;
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    font-size: 30px;
+    margin: 30px;
+}
+
+#email {
+    /*top: 100px;*/
+}
+
+#password {
+    /*top: 300px;*/
+    top: 150px;
+}
+
+.loginButton {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 240px!important;
+    width: 100px;
+    height: 60px;
+}

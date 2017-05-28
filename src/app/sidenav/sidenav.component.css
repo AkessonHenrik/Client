@@ -1,7 +1,9 @@
 .sidebar {
+    position: absolute;
+    top: 64px;
     height: 100%;
     background: rgba(0, 0, 0, 0.7);
-    width: 250px;
+    width: fit-content;
 }
 
 .close {
@@ -24,7 +26,8 @@ ul {
 .menuOptions li {
     color: white;
     list-style: none;
-    padding: 20px;
+    padding: 20px!important;
+    text-align: center;
     padding-bottom: 20px;
     cursor: pointer;
     display: flex;
@@ -47,6 +50,13 @@ ul {
     width: 150px;
     text-align: center;
     font-size: 35px;
+    color: white;
+}
+
+.logout {
+    cursor: pointer;
+    vertical-align: middle;
+    float: right!important;
     color: white;
 }
 

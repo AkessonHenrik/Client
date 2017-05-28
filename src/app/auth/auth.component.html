@@ -1,3 +1,9 @@
-<p>
-  auth works!
-</p>
+<div class="loginForm">
+    <!--<md-input-container id="email" class="loginInput">-->
+    <input mdInput type="email" id="email" class="loginInput" placeholder="Email" [(ngModel)]="email">
+    <!--</md-input-container>-->
+    <!--<md-input-container id="password" class="loginInput">-->
+    <input mdInput type="password" id="password" class="loginInput" placeholder="Password" [(ngModel)]="password">
+    <!--</md-input-container>-->
+    <button md-raised-button class="loginButton" (click)="login()">Log in</button>
+</div>
