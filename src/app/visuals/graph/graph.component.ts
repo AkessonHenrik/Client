@@ -22,6 +22,9 @@ export class GraphComponent implements OnChanges {
   // @Input('tree') _tree: TreeComponent;
   // @Input('nodes')
   _nodes: Node[];
+
+  newContent: boolean = false;
+
   @Input('links') _links: Link[];
   @Input('parents') parents: ParentComponent[]
 
@@ -53,7 +56,6 @@ export class GraphComponent implements OnChanges {
   width: number = 1280;
   selectedOption: string;
   constructor(private zone: NgZone, public dialog: MdDialog) {
-    console.log("lol ca va")
     console.log(this.nodes)
   }
   openDialog() {
@@ -77,9 +79,13 @@ export class GraphComponent implements OnChanges {
   newNode() {
     let dialogRef = this.dialog.open(NewPersonDialog);
     dialogRef.afterClosed().subscribe(node => {
+
       // this.tree.addNode(node);
       // this._nodes = this.tree.nodes
-      this.outputNodeEvent.emit(node);
+      if (node !== undefined) {
+        this.newContent = true;
+        this.outputNodeEvent.emit(node);
+      }
     });
   }
   newRelationship() {
@@ -88,7 +94,10 @@ export class GraphComponent implements OnChanges {
     });
     dialogRef.afterClosed().subscribe(relationship => {
       // this.tree.addRelationship(relationship);
-      this.outputRelEvent.emit(relationship)
+      if (relationship !== undefined) {
+        this.newContent = true;
+        this.outputRelEvent.emit(relationship)
+      }
     });
   }
   newParents() {

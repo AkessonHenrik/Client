@@ -1,21 +1,27 @@
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { OnChanges, OnInit, Component, Inject, NgZone, Input, Output, EventEmitter, ChangeDetectorRef, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import APP_CONFIG from '../app.config';
 import { Node, Link, Relationship } from '../d3';
 import { ParentComponent, NodeParentComponent, LinkParentComponent } from '../parent/parent.component';
 import { GraphComponent } from '../visuals/graph/graph.component';
-import { SimpleChanges } from '@angular/core';
 import { Http } from '@angular/http';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { MdInputModule } from '@angular/material';
+import { SimpleChanges } from '@angular/core';
+import { MdSelectModule } from '@angular/material';
 
 @Component({
   selector: 'app-tree',
   templateUrl: './tree.component.html',
   styleUrls: ['./tree.component.css']
 })
-export class TreeComponent implements OnChanges {
+export class TreeComponent /*implements OnChanges*/ {
   nodes: Node[] = [];
   links: Link[] = [];
   parents: ParentComponent[] = [];
   ready: boolean = false;
+  height: number = 720;
+  width: number = 1280;
   get _nodes() {
     return this.nodes;
   }
@@ -23,7 +29,7 @@ export class TreeComponent implements OnChanges {
   logger: boolean = false;
 
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private zone: NgZone, public dialog: MdDialog) {
     this.http.get('assets/stark.json')
       .subscribe(res => {
         let jsonNodes: [{ id: number, firstName: string, lastName: string, image: string }];
@@ -81,23 +87,23 @@ export class TreeComponent implements OnChanges {
   }
 
 
-  onComponentChange(value) {
-    this.log(value);
-  }
+  // onComponentChange(value) {
+  //   this.log(value);
+  // }
 
-  outputNodeEvent(node: Node) {
-    this.log("Tree received new node!")
-    this.nodes.push(node);
-    this.calculateCoordinates();
-  }
-  outputRelEvent(relationship: Relationship) {
-    this.log("Tree received new relationship!")
-    this.links.push(relationship);
-    this.calculateCoordinates();
-  }
-  ngOnChanges(changes: SimpleChanges) {
-    this.log("Changes")
-  }
+  // outputNodeEvent(node: Node) {
+  //   this.log("Tree received new node!")
+  //   this.nodes.push(node);
+  //   this.calculateCoordinates();
+  // }
+  // outputRelEvent(relationship: Relationship) {
+  //   this.log("Tree received new relationship!")
+  //   this.links.push(relationship);
+  //   this.calculateCoordinates();
+  // }
+  // ngOnChanges(changes: SimpleChanges) {
+  //   this.log("Changes")
+  // }
 
   calculateCoordinates(): void {
     // Find all people that have no parents and that are not in a relationship with a person that has a parent
@@ -248,5 +254,137 @@ export class TreeComponent implements OnChanges {
     if (this.logger) {
       this.log(toLog);
     }
+  }
+
+
+  openDialog() {
+    let dialogRef = this.dialog.open(ChoiceDialog);
+    dialogRef.afterClosed().subscribe(result => {
+      switch (result) {
+        case "node": {
+          console.log("Chose new person");
+          console.log(result)
+          this.newNode();
+          break;
+        }
+        case "relationship": {
+          console.log("Chose new relationship");
+          this.newRelationship();
+          break;
+        }
+      }
+    });
+  }
+  newContent: boolean = false;
+  newNode() {
+    let dialogRef = this.dialog.open(NewPersonDialog);
+    dialogRef.afterClosed().subscribe(node => {
+
+      // this.tree.addNode(node);
+      // this._nodes = this.tree.nodes
+      if (node !== undefined) {
+        this.newContent = true;
+        this._nodes.push(node);
+        this.calculateCoordinates();
+      }
+    });
+  }
+  newRelationship() {
+    let dialogRef = this.dialog.open(NewRelationshipDialog, {
+      data: this._nodes
+    });
+    dialogRef.afterClosed().subscribe(relationship => {
+      // this.tree.addRelationship(relationship);
+      if (relationship !== undefined) {
+        this.newContent = true;
+        this.links.push(relationship)
+        this.calculateCoordinates();
+      }
+    });
+  }
+  newParents() {
+    let dialogRef = this.dialog.open(NewParentDialog, {
+      data: {
+        nodes: this._nodes,
+        links: this.links
+      }
+    })
+  }
+
+}
+
+
+@Component({
+  selector: 'dialogchoice',
+  templateUrl: './dialogchoice.html',
+  styleUrls: ['./dialogchoice.css']
+})
+export class ChoiceDialog {
+  constructor(public dialogRef: MdDialogRef<ChoiceDialog>) {
+  }
+}
+
+
+@Component({
+  selector: 'persondialog',
+  templateUrl: './persondialog.html',
+  styleUrls: ['./persondialog.css']
+})
+export class NewPersonDialog {
+  firstname: string;
+  lastname: string;
+  image: string;
+  constructor(public dialogRef: MdDialogRef<ChoiceDialog>) {
+  }
+  createPerson() {
+    const n: Node = new Node(100, undefined, this.firstname, this.lastname);
+    console.log(n)
+    this.dialogRef.close(n);
+  }
+}
+
+
+@Component({
+  selector: 'relationshipdialog',
+  templateUrl: './relationshipdialog.html',
+  styleUrls: ['./persondialog.css']
+})
+export class NewRelationshipDialog implements OnInit {
+  from: string;
+  to: string;
+  relationshipType: string;
+  relationshipTypes: string[] = ["Partner", "Spouse", "Other", "Cousin"]
+  nodes: Node[];
+  constructor( @Inject(MD_DIALOG_DATA) private data: Node[], public dialogRef: MdDialogRef<ChoiceDialog>) {
+  }
+  createRelationship() {
+    // const n: Node = new Node(100, undefined, this.firstname, this.lastname);
+    // console.log(n)
+    console.log(this.relationshipType)
+    let fromNode: Node = this.nodes.filter(node => node.firstname === this.from)[0]
+    let toNode: Node = this.nodes.filter(node => node.firstname === this.to)[0]
+    this.dialogRef.close(new Relationship(100, fromNode, toNode, this.relationshipType));
+  }
+  public ngOnInit() {
+    //set custom data from parent component
+    console.log("OnInit")
+    console.log(this.data);
+    this.nodes = this.data;
+  }
+}
+
+@Component({
+  selector: 'parentdialog',
+  templateUrl: './parentdialog.html',
+  styleUrls: ['./persondialog.css']
+})
+export class NewParentDialog implements OnInit {
+  parent: string;
+  child: string;
+  parentType: string;
+  nodes: Node[];
+  constructor( @Inject(MD_DIALOG_DATA) private data: { nodes: Node[], links: Link[] }, public dialogRef: MdDialogRef<NewParentDialog>) { }
+  public ngOnInit() {
+
   }
 }
