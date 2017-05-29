@@ -36,13 +36,18 @@ export class TreeDataService {
               let parent2Id = data.links.filter(link => link.id === parent.parent)[0].to;
               let parent1 = data.nodes.filter(node => node.id === parent1Id)[0];
               let parent2 = data.nodes.filter(node => node.id === parent2Id)[0];
-              nodesToReturn.push(parent1);
-              nodesToReturn.push(parent2);
+              if (!nodesToReturn.includes(parent1)) { nodesToReturn.push(parent1); }
+              if (!nodesToReturn.includes(parent2)) { nodesToReturn.push(parent2); }
               linksToReturn.push(data.links.filter(link => link.id === parent.parent)[0]);
             } else if (parent.parentType === "single") {
-              nodesToReturn.push(data.nodes.filter(node => node.id === parent.parent)[0]);
+              let n = data.nodes.filter(node => node.id === parent.parent)[0];
+              if (!nodesToReturn.includes(n)) {
+                nodesToReturn.push();
+              }
             }
-            parentsToReturn.push(parent);
+            if (!parentsToReturn.includes(parent)) {
+              parentsToReturn.push(parent);
+            }
           }
         })
 
@@ -55,7 +60,9 @@ export class TreeDataService {
             linksToReturn.push(rel);
             let otherNodeId = rel.from === baseNodeId ? rel.to : rel.from;
             let otherNode = data.nodes.filter(node => node.id === otherNodeId)[0];
-            nodesToReturn.push(otherNode);
+            if (!nodesToReturn.includes(otherNode)) {
+              nodesToReturn.push(otherNode);
+            }
           }
         })
 
