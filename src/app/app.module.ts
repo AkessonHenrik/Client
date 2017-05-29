@@ -22,7 +22,7 @@ import { AuthComponent } from './auth/auth.component';
 import { HomeComponent } from './home/home.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ProfileComponent } from './profile/profile.component'
-
+import { TreeDataService } from './tree-data.service';
 const appRoutes: Routes = [
   // { path: 'crisis-center', component: CrisisListComponent },
   { path: 'tree', component: TreeComponent },
@@ -59,7 +59,7 @@ const appRoutes: Routes = [
     MdSidenavModule,
     NgbModule.forRoot()
   ],
-  providers: [D3Service],
+  providers: [D3Service, TreeDataService],
   bootstrap: [AppComponent, ChoiceDialog, NewPersonDialog, NewRelationshipDialog, SidenavComponent]
 })
 export class AppModule { }

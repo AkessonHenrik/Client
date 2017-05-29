@@ -3,67 +3,67 @@
             "id": 1,
             "firstName": "Eddard",
             "lastName": "Stark",
-            "image": "https://upload.wikimedia.org/wikipedia/en/5/52/Ned_Stark-Sean_Bean.jpg?arbitrary"
+            "image": "https://upload.wikimedia.org/wikipedia/en/5/52/Ned_Stark-Sean_Bean.jpg"
         },
         {
             "id": 2,
             "firstName": "Catelyn",
             "lastName": "Stark",
-            "image": "https://upload.wikimedia.org/wikipedia/en/2/25/Catelyn_Stark-Michelle_Fairley_S3.jpg?arbitrary"
+            "image": "https://upload.wikimedia.org/wikipedia/en/2/25/Catelyn_Stark-Michelle_Fairley_S3.jpg"
         },
         {
             "id": 3,
             "firstName": "Robb",
             "lastName": "Stark",
-            "image": "http://vignette1.wikia.nocookie.net/gameofthrones/images/e/e9/Robb-3x03.jpg/revision/latest?cb=20130413125346?arbitrary"
+            "image": "http://vignette1.wikia.nocookie.net/gameofthrones/images/e/e9/Robb-3x03.jpg/revision/latest?cb=20130413125346"
         },
         {
             "id": 4,
             "firstName": "Sansa",
             "lastName": "Stark",
-            "image": "https://vignette4.wikia.nocookie.net/gameofthrones/images/6/68/Sansa_stark_s6_battle_bastards_infobox.jpg/revision/latest/scale-to-width-down/342?cb=20160807084759?arbitrary"
+            "image": "https://vignette4.wikia.nocookie.net/gameofthrones/images/6/68/Sansa_stark_s6_battle_bastards_infobox.jpg/revision/latest/scale-to-width-down/342?cb=20160807084759"
         },
         {
             "id": 5,
             "firstName": "Arya",
             "lastName": "Stark",
-            "image": "http://vignette1.wikia.nocookie.net/gameofthrones/images/e/e9/Arya_Stark_4.jpg/revision/latest/scale-to-width-down/2000?cb=20140428152515?arbitrary"
+            "image": "http://vignette1.wikia.nocookie.net/gameofthrones/images/e/e9/Arya_Stark_4.jpg/revision/latest/scale-to-width-down/2000?cb=20140428152515"
         },
         {
             "id": 6,
             "firstName": "Rickon",
             "lastName": "Stark",
-            "image": "https://vignette2.wikia.nocookie.net/gameofthrones/images/d/d9/Battle_of_the_Bastards_42.jpg/revision/latest?cb=20160621185459?arbitrary"
+            "image": "https://vignette2.wikia.nocookie.net/gameofthrones/images/d/d9/Battle_of_the_Bastards_42.jpg/revision/latest?cb=20160621185459"
         },
         {
             "id": 7,
             "firstName": "Jon",
             "lastName": "Snow",
-            "image": "https://static.comicvine.com/uploads/original/11120/111207460/4639880-1104112163-Jon-S.jpg?arbitrary"
+            "image": "https://static.comicvine.com/uploads/original/11120/111207460/4639880-1104112163-Jon-S.jpg"
         },
         {
             "id": 8,
             "firstName": "Talisa",
             "lastName": "Stark",
-            "image": "https://vignette3.wikia.nocookie.net/gameofthrones/images/c/ca/Talisa3x9.jpg/revision/latest/scale-to-width-down/315?cb=20150515053353?arbitrary"
+            "image": "https://vignette3.wikia.nocookie.net/gameofthrones/images/c/ca/Talisa3x9.jpg/revision/latest/scale-to-width-down/315?cb=20150515053353"
         },
         {
             "id": 9,
             "firstName": "Lyanna",
             "lastName": "Stark",
-            "image": "https://s-media-cache-ak0.pinimg.com/originals/c3/32/75/c33275dc32e10d1a1378d7ef9f0dab87.jpg?arbitrary"
+            "image": "https://s-media-cache-ak0.pinimg.com/originals/c3/32/75/c33275dc32e10d1a1378d7ef9f0dab87.jpg"
         },
         {
             "id": 10,
             "firstName": "Rhaegar",
             "lastName": "Targaryen",
-            "image": "http://awoiaf.westeros.org/images/thumb/2/22/Rhaegar_twoiaf.jpg/320px-Rhaegar_twoiaf.jpg?arbitrary"
+            "image": "http://awoiaf.westeros.org/images/thumb/2/22/Rhaegar_twoiaf.jpg/320px-Rhaegar_twoiaf.jpg"
         },
         {
             "id": 12,
             "firstName": "Daenerys",
             "lastName": "Targaryen",
-            "image": "http://i.lv3.hbo.com/assets/images/series/game-of-thrones/character/s5/daenarys-1024.jpg?arbitrary"
+            "image": "http://i.lv3.hbo.com/assets/images/series/game-of-thrones/character/s5/daenarys-1024.jpg"
         },
         {
             "id": 13,
@@ -74,19 +74,19 @@
             "id": 14,
             "firstName": "Rickard",
             "lastName": "Stark",
-            "image": "https://vignette3.wikia.nocookie.net/gameofthrones/images/e/eb/Vlcsnap-2016-05-23-02h18m09s851.png/revision/latest?cb=20160523052104?arbitrary"
+            "image": "https://vignette3.wikia.nocookie.net/gameofthrones/images/e/eb/Vlcsnap-2016-05-23-02h18m09s851.png/revision/latest?cb=20160523052104"
         },
         {
             "id": 15,
             "firstName": "Lyarra",
             "lastName": "Stark",
-            "image": "https://s-media-cache-ak0.pinimg.com/564x/f1/81/4d/f1814d9cd38f898f613753ac7ca7528c.jpg?arbitrary"
+            "image": "https://s-media-cache-ak0.pinimg.com/564x/f1/81/4d/f1814d9cd38f898f613753ac7ca7528c.jpg"
         },
         {
             "id": 11,
             "firstName": "Aerys",
             "lastName": "Targaryen",
-            "image": "http://awoiaf.westeros.org/images/c/c0/AERYS_II.jpg?arbitrary"
+            "image": "http://awoiaf.westeros.org/images/c/c0/AERYS_II.jpg"
         }
     ],
     "relationships": [{

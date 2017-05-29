@@ -9,13 +9,14 @@ import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { MdInputModule } from '@angular/material';
 import { SimpleChanges } from '@angular/core';
 import { MdSelectModule } from '@angular/material';
+import { TreeDataService } from '../tree-data.service';
 
 @Component({
   selector: 'app-tree',
   templateUrl: './tree.component.html',
   styleUrls: ['./tree.component.css']
 })
-export class TreeComponent /*implements OnChanges*/ {
+export class TreeComponent implements OnInit/*implements OnChanges*/ {
   nodes: Node[] = [];
   links: Link[] = [];
   parents: ParentComponent[] = [];
@@ -30,17 +31,15 @@ export class TreeComponent /*implements OnChanges*/ {
   logger: boolean = false;
   savingContent: boolean = false;
 
-  constructor(private http: Http, private zone: NgZone, public dialog: MdDialog) {
-    this.http.get('assets/stark.json')
-      .subscribe(res => {
-        let jsonNodes: [{ id: number, firstName: string, lastName: string, image: string }];
-        let jsonRelationships: [{ id: number, from: number, to: number, relationshipType: string }];
-        let jsonParents: [{ parent: number, child: number, parentType: string, biological: boolean }];
-        jsonNodes = res.json().people;
-        jsonRelationships = res.json().relationships;
-        jsonParents = res.json().parents;
-        this.createData(jsonNodes, jsonRelationships, jsonParents);
-      });
+  constructor(private http: Http, private zone: NgZone, public dialog: MdDialog, private dataService: TreeDataService) {
+
+  }
+  ngOnInit() {
+    let data = this.dataService.getData(+localStorage["current_id"]).then(data => {
+      console.log("DATA")
+      console.log(data);
+      this.createData(data.nodes, data.links, data.parents);
+    })
   }
   createData(jsonNodes, jsonRelationships, jsonParents) {
     // Interpret and create NodeComponents

@@ -9,6 +9,6 @@ import { Node } from '../../../d3';
 export class NodeVisualComponent {
   @Input('nodeVisual') node: Node;
   showMore(): void {
-    console.log(this.node.image);
+    console.log(this.node.id);
   }
 }
