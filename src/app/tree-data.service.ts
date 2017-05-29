@@ -40,11 +40,8 @@ export class TreeDataService {
               if (!nodesToReturn.includes(parent2)) { nodesToReturn.push(parent2); }
               linksToReturn.push(data.links.filter(link => link.id === parent.parent)[0]);
             } else if (parent.parentType === "single") {
-              console.log("TreeDataService SIngleParent")
               let n = data.nodes.filter(node => node.id === parent.parent)[0];
-              console.log(n)
               if (!nodesToReturn.includes(n)) {
-                
                 nodesToReturn.push(n);
               }
             }
@@ -53,9 +50,6 @@ export class TreeDataService {
             }
           }
         })
-
-        console.log("Parents");
-        console.log(parentsToReturn);
 
         // Add base node's relationships
         data.links.forEach(rel => {
@@ -68,10 +62,6 @@ export class TreeDataService {
             }
           }
         })
-
-        console.log("Relationships");
-        console.log(linksToReturn);
-
 
         // Add base node's children
         data.parents.forEach(parent => {
@@ -93,9 +83,6 @@ export class TreeDataService {
           }
         })
 
-        console.log("Children");
-        console.log(parentsToReturn);
-
         // Add base node's parents other children
         // Get either rel or node that is base node's parent
         // Add that parents children
@@ -103,9 +90,6 @@ export class TreeDataService {
 
         // Get base node's parents
         let baseParents = parentsToReturn.filter(parent => parent.child === baseNodeId);
-        console.log("Base parents");
-        console.log(baseParents);
-
 
         let siblings: { id: number, firstName: string, lastName: string, image: string }[] = [];
 

@@ -25,7 +25,6 @@ export class Relationship extends Link {
   constructor(id: number, source, target, relationshipType: string) {
     super(id, source, target);
     this.relationshipType = relationshipType;
-        console.log(this.relationshipType)
     switch(this.relationshipType) {
       case "Spouse": {
         this.icon = '/assets/wedding.svg';
