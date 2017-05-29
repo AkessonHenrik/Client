@@ -5,10 +5,9 @@ import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { D3Service, D3_DIRECTIVES } from './d3';
 import { AppComponent } from './app.component';
-import { SHARED_VISUALS } from './visuals/shared';
+import { SHARED_VISUALS, ExpandDialog } from './visuals/shared';
 import { NavbarComponent } from './navbar/navbar.component';
-import { MaterialModule } from '@angular/material';
-import { MdButtonModule } from '@angular/material';
+import { MaterialModule, MdButtonModule, MdMenuModule } from '@angular/material';
 import { MdIconModule } from '@angular/material';
 import { Component, ViewEncapsulation } from '@angular/core';
 import 'hammerjs';
@@ -46,7 +45,8 @@ const appRoutes: Routes = [
     AuthComponent,
     HomeComponent,
     WelcomeComponent,
-    ProfileComponent
+    ProfileComponent,
+    ExpandDialog
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -56,10 +56,11 @@ const appRoutes: Routes = [
     HttpModule,
     MaterialModule,
     MdButtonModule,
+    MdMenuModule,
     MdSidenavModule,
     NgbModule.forRoot()
   ],
   providers: [D3Service, TreeDataService],
-  bootstrap: [AppComponent, ChoiceDialog, NewPersonDialog, NewRelationshipDialog, SidenavComponent]
+  bootstrap: [AppComponent, ChoiceDialog, NewPersonDialog, NewRelationshipDialog, SidenavComponent, ExpandDialog]
 })
 export class AppModule { }

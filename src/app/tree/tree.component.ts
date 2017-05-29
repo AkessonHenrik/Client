@@ -8,7 +8,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { MdInputModule } from '@angular/material';
 import { SimpleChanges } from '@angular/core';
-import { MdSelectModule } from '@angular/material';
+import { MdSelectModule, MdMenuModule } from '@angular/material';
 import { TreeDataService } from '../tree-data.service';
 
 @Component({
@@ -26,6 +26,16 @@ export class TreeComponent implements OnInit/*implements OnChanges*/ {
   get _nodes() {
     return this.nodes;
   }
+
+  handleStuff(node: Node) {
+    console.log("Tree: " + node.firstname);
+    let data = this.dataService.getData(node.id).then(data => {
+      console.log("DATA")
+      console.log(data);
+      this.createData(data.nodes, data.links, data.parents);
+    })
+  }
+
   newContent: boolean = false;
 
   logger: boolean = false;
@@ -41,70 +51,101 @@ export class TreeComponent implements OnInit/*implements OnChanges*/ {
       this.createData(data.nodes, data.links, data.parents);
     })
   }
-  createData(jsonNodes, jsonRelationships, jsonParents) {
+  createData(
+    jsonNodes: [{ id: number, firstName: string, lastName: string, image: string }],
+    jsonRelationships: [{ id: number, from: number, to: number, relationshipType: string }],
+    jsonParents: [{ id: number, parent: number, child: number, parentType: string, biological: boolean }]) {
     // Interpret and create NodeComponents
+    console.log("JSONNODES")
     jsonNodes.forEach(node => {
-      const n: Node = new Node(node.id, node.image, node.firstName, node.lastName);
-      this.nodes.push(n);
+      console.log(node.firstName)
+      let contained: boolean = false;
+      this.nodes.forEach(n => {
+        if (n.id === node.id) {
+          contained = true;
+        }
+      })
+      if (!contained) {
+        const n: Node = new Node(node.id, node.image, node.firstName, node.lastName);
+        console.log("Adding " + n.firstname)
+        this.nodes.push(n);
+      }
     });
 
     // Interpret and create relationships (Link)
     jsonRelationships.forEach(link => {
-      let from: Node = this.nodes.filter(node => node.id === link.from)[0];
-      let to: Node = this.nodes.filter(node => node.id === link.to)[0];
-      const l: Relationship = new Relationship(link.id, from, to, link.relationshipType);
-      this.links.push(l);
+      let contained: boolean = false;
+      this.links.forEach(l => {
+        if (l.id === link.id) {
+          console.log("We already have")
+          console.log(l);
+          contained = true;
+        }
+      })
+      if (!contained) {
+        let from: Node = this.nodes.filter(node => node.id === link.from)[0];
+        let to: Node = this.nodes.filter(node => node.id === link.to)[0];
+        console.log("link not contained between " + from.firstname + " and " + to.firstname);
+        const l: Relationship = new Relationship(link.id, from, to, link.relationshipType);
+        this.links.push(l);
+      }
     });
     // Interpret and create parents
     jsonParents.forEach(parent => {
-      if (parent.parentType === "single") {
-        // Find node that is child
-        const child: Node = this.nodes.filter(node => node.id === parent.child)[0];
+      let contained = false;
+      this.parents.forEach(p => {
+        if(parent.id === p.id) {
+          contained = true;
+        }
+      })
+      if (!contained) {
+        if (parent.parentType === "single") {
+          // Find node that is child
+          const child: Node = this.nodes.filter(node => node.id === parent.child)[0];
 
-        // Find node that is parent
-        const parentNode: Node = this.nodes.filter(node => node.id === parent.parent)[0];
+          // Find node that is parent
+          const parentNode: Node = this.nodes.filter(node => node.id === parent.parent)[0];
 
-        // Create parentComponent
-        const parentComponent: NodeParentComponent = new NodeParentComponent(child, parentNode, parent.biological);
+          // Create parentComponent
+          const parentComponent: NodeParentComponent = new NodeParentComponent(parent.id, child, parentNode, parent.biological);
 
-        // Add to parents array
-        this.parents.push(parentComponent);
-      } else {
-        // Find node that is child
-        const child: Node = this.nodes.filter(node => node.id === parent.child)[0];
+          // Add to parents array
+          if (!this.parents.includes(parentComponent)) {
+            this.parents.push(parentComponent);
+          }
+        } else {
+          // Find node that is child
+          const child: Node = this.nodes.filter(node => node.id === parent.child)[0];
 
-        // Find relationship that is parent
-        const parentRelationship: Link = this.links.filter(relationship => relationship.id === parent.parent)[0];
+          // Find relationship that is parent
+          const parentRelationship: Link = this.links.filter(relationship => relationship.id === parent.parent)[0];
 
-        // Create ParentComponent
-        const parentComponent: LinkParentComponent = new LinkParentComponent(child, parentRelationship, parent.biological);
+          // Create ParentComponent
+          const parentComponent: LinkParentComponent = new LinkParentComponent(parent.id, child, parentRelationship, parent.biological);
 
-        // Add ParentComponent to parents array
-        this.parents.push(parentComponent);
+          // Add ParentComponent to parents array
+          if (!this.parents.includes(parentComponent)) {
+            this.parents.push(parentComponent);
+          }
+        }
       }
     });
     this.calculateCoordinates();
   }
 
-  /*
-    onComponentChange(value) {
-      this.log(value);
-    }
-  
-    outputNodeEvent(node: Node) {
-      this.log("Tree received new node!")
-      this.nodes.push(node);
-      this.calculateCoordinates();
-    }
-    outputRelEvent(relationship: Relationship) {
-      this.log("Tree received new relationship!")
-      this.links.push(relationship);
-      this.calculateCoordinates();
-    }
-    ngOnChanges(changes: SimpleChanges) {
-      this.log("Changes")
-    }
-  */
+
+  outputNodeEvent(node: Node) {
+    this.log("Tree needs info of " + node.firstname);
+  }
+  /*    outputRelEvent(relationship: Relationship) {
+        this.log("Tree received new relationship!")
+        this.links.push(relationship);
+        this.calculateCoordinates();
+      }
+      ngOnChanges(changes: SimpleChanges) {
+        this.log("Changes")
+      }
+    */
   calculateCoordinates(): void {
     // Find all people that have no parents and that are not in a relationship with a person that has a parent
     this.nodes.forEach(node => {

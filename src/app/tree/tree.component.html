@@ -3,7 +3,7 @@
     <g [zoomableOf]="svg">
         <g [linkVisual]="link" *ngFor="let link of links"></g>
         <g [parentVisual]="parent" *ngFor="let parent of parents"></g>
-        <g [nodeVisual]="node" *ngFor="let node of nodes"></g>
+        <g nodeVisual [nodeVisual]="node" [tree]="this" *ngFor="let node of nodes" (outputNodeEvent)="outputNodeEvent($event)"></g>
     </g>
 </svg>
 <button md-fab (click)="openDialog()" class="add">

@@ -6,7 +6,7 @@ import 'rxjs/add/operator/toPromise';
 export class TreeDataService {
   static jsonNodes: [{ id: number, firstName: string, lastName: string, image: string }];
   static jsonRelationships: [{ id: number, from: number, to: number, relationshipType: string }];
-  static jsonParents: [{ parent: number, child: number, parentType: string, biological: boolean }];
+  static jsonParents: [{ id: number, parent: number, child: number, parentType: string, biological: boolean }];
   constructor(private http: Http) {
   }
   getData(baseNodeId: number): any {
@@ -40,9 +40,12 @@ export class TreeDataService {
               if (!nodesToReturn.includes(parent2)) { nodesToReturn.push(parent2); }
               linksToReturn.push(data.links.filter(link => link.id === parent.parent)[0]);
             } else if (parent.parentType === "single") {
+              console.log("TreeDataService SIngleParent")
               let n = data.nodes.filter(node => node.id === parent.parent)[0];
+              console.log(n)
               if (!nodesToReturn.includes(n)) {
-                nodesToReturn.push();
+                
+                nodesToReturn.push(n);
               }
             }
             if (!parentsToReturn.includes(parent)) {

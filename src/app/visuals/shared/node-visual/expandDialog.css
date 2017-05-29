@@ -1,0 +1,24 @@
+.dialogButton {
+    margin: 10px;
+    clear: both;
+    padding: 10px;
+}
+
+.dialogChoice {
+    font-family: "Helvetica";
+    width: 500px;
+    padding: 15px;
+    height: 500px;
+}
+
+.profilePic {
+    clear: none;
+    margin: 20px;
+    width: 100px;
+    height: auto;
+}
+
+.name {
+    clear: none;
+    width: fit-content!important;
+}

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Link, Node } from '../d3'
 
 export abstract class ParentComponent {
+  id: number;
   child: Node;
   link: Link;
   x1;
@@ -9,7 +10,8 @@ export abstract class ParentComponent {
   x2;
   y2;
   biological: boolean;
-  constructor(child: Node, biological: boolean) {
+  constructor(id: number, child: Node, biological: boolean) {
+    this.id = id;
     this.child = child;
     this.biological = biological;
   }
@@ -18,8 +20,8 @@ export abstract class ParentComponent {
 export class LinkParentComponent extends ParentComponent {
   parent: Link;
 
-  constructor(child: Node, parent: Link, biological: boolean) {
-    super(child, biological);
+  constructor(id: number, child: Node, parent: Link, biological: boolean) {
+    super(id, child, biological);
     this.parent = parent;
     this.x1 = parent.middle.x;
     this.y1 = parent.middle.y;
@@ -35,8 +37,8 @@ export class LinkParentComponent extends ParentComponent {
 }
 export class NodeParentComponent extends ParentComponent {
   parent: Node;
-  constructor(child: Node, parent: Node, biological: boolean) {
-    super(child, biological);
+  constructor(id: number, child: Node, parent: Node, biological: boolean) {
+    super(id, child, biological);
     this.parent = parent;
     this.x1 = parent.x;
     this.y1 = parent.y;
