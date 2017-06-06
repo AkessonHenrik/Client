@@ -1,0 +1,5 @@
+<h1 class="name">{{firstName}} {{lastName}}</h1>
+<img class="profilePicture" src="{{profilePicture}}">
+<div *ngFor="let event of events">
+    <app-event [event]="event"></app-event>
+</div>

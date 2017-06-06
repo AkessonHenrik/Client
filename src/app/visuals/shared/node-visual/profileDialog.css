@@ -6,9 +6,9 @@
 
 .dialogChoice {
     font-family: "Helvetica";
-    width: 500px;
-    padding: 15px;
-    height: 500px;
+    padding: 15px!important;
+    width: 1200px!important;
+    height: 800px!important;
 }
 
 .profilePic {

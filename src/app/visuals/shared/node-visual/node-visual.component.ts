@@ -2,7 +2,8 @@ import { Inject, Component, Input, Output, EventEmitter, ChangeDetectorRef, Host
 import { Node } from '../../../d3';
 import { TreeComponent } from '../../../tree/tree.component'
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
-import { ExpandDialog } from './expandDialog'
+import { ProfileDialog } from './profileDialog'
+
 @Component({
   selector: 'g[nodeVisual]',
   templateUrl: './node-visual.component.html',
@@ -13,24 +14,15 @@ export class NodeVisualComponent {
   @Input('tree') tree: TreeComponent;
   constructor(public dialog: MdDialog) {
   }
-  onMoreClick() {
-    console.log("onMoreClick");
+  onRightClickEvent() {
     this.tree.importTree(this.node)
   }
   openDialog() {
-    let dialogRef = this.dialog.open(ExpandDialog, {
+    let dialogRef = this.dialog.open(ProfileDialog, {
       data: this.node
     });
     dialogRef.afterClosed().subscribe(result => {
-      switch (result) {
-        case "viewProfile": {
-          break;
-        }
-        case "expand": {
-          this.onMoreClick();
-          break;
-        }
-      }
+      
     });
   }
 }

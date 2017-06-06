@@ -1,0 +1,13 @@
+.profilePicture {
+    width: 300px;
+    height: 500px;
+    /*position: absolute;
+    left: 10px;
+    top: 10px;*/
+}
+
+.name {
+    position: absolute;
+    left: 600px;
+    top: 30px;
+}

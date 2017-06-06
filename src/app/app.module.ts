@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { D3Service, D3_DIRECTIVES } from './d3';
 import { AppComponent } from './app.component';
-import { SHARED_VISUALS, ExpandDialog } from './visuals/shared';
+import { SHARED_VISUALS, ProfileDialog } from './visuals/shared';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MaterialModule, MdButtonModule, MdMenuModule } from '@angular/material';
 import { MdIconModule } from '@angular/material';
@@ -25,6 +25,9 @@ import { HomeComponent } from './home/home.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ProfileComponent } from './profile/profile.component'
 import { TreeDataService } from './tree-data.service';
+import { ProfileViewComponent, VideoComponent, MediaComponent, ImageComponent } from './profile-view/profile-view.component';
+import { EventComponent } from './event/event.component';
+import { LocationComponent } from './location/location.component';
 const appRoutes: Routes = [
   // { path: 'crisis-center', component: CrisisListComponent },
   { path: 'tree', component: TreeComponent },
@@ -49,7 +52,13 @@ const appRoutes: Routes = [
     HomeComponent,
     WelcomeComponent,
     ProfileComponent,
-    ExpandDialog
+    ProfileDialog,
+    ProfileViewComponent,
+    MediaComponent,
+    VideoComponent,
+    ImageComponent,
+    EventComponent,
+    LocationComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -64,6 +73,6 @@ const appRoutes: Routes = [
     NgbModule.forRoot()
   ],
   providers: [D3Service, TreeDataService],
-  bootstrap: [AppComponent, ChoiceDialog, NewPersonDialog, NewRelationshipDialog, SidenavComponent, ExpandDialog]
+  bootstrap: [AppComponent, ChoiceDialog, NewPersonDialog, NewRelationshipDialog, SidenavComponent, ProfileDialog]
 })
 export class AppModule { }

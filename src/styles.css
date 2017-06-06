@@ -6,3 +6,13 @@ body,
 }
 
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+/*md-dialog-component {
+    max-width: 100%!important;
+    max-height: 100%!important;
+    width: 100%!important;
+    height: 100%!important;
+    position: absolute;
+    left: 0;
+    top: 0;
+}*/

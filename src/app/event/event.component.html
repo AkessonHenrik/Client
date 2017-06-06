@@ -1,0 +1,12 @@
+<div class="event">
+    <h1>{{event.name}}</h1>
+    <p>{{event.description}}</p>
+    <div *ngFor="let med of event.media">
+        <div *ngIf="med.type === 'video'">
+            <video-component [source]="med.path"></video-component>
+        </div>
+        <div *ngIf="med.type === 'image'">
+            <image-component [source]="med.path"></image-component>
+        </div>
+    </div>
+</div>

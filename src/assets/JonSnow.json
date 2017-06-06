@@ -1,0 +1,97 @@
+{
+    "firstName": "Jon",
+    "lastName": "Snow",
+    "profilePicture": "./assets/jonProfile.jpg",
+    "life": {
+        "id": 1,
+        "name": "Born",
+        "description": "Jon Snow is born",
+        "time": {
+            "type": "SingleTime",
+            "time": "283-0-0"
+        },
+        "bornLocation": {
+            "city": "Tower of Joy",
+            "province": "Dorne",
+            "country": "Westeros"
+        },
+        "media": [{
+                "type": "image",
+                "path": "./assets/towerOfJoy.jpg"
+            },
+            {
+                "type": "video",
+                "path": "./assets/vid.mp4"
+            }
+        ]
+    },
+    "events": [{
+            "id": 2,
+            "name": "Became a brother of the Night's Watch",
+            "description": "Following the departure of the Starks to King's Landing, Jon joined the Night's Watch",
+            "type": "WorkEvent",
+            "company": "Night's Watch",
+            "position": "Watcher",
+            "time": {
+                "type": "TimeInterval",
+                "time": ["297-0-0", ""]
+            },
+            "location": {
+                "city": "Castle Black",
+                "province": "The Wall",
+                "country": "Westeros"
+            },
+            "media": [{
+                "type": "video",
+                "path": "./assets/vid.mp4"
+            }]
+        },
+        {
+            "id": 3,
+            "name": "Became Lord Commander of the Night's Watch",
+            "description": "Following the death of Jeor Mormont, Jon Snow was elected as the new Lord Commander",
+            "type": "WorkEvent",
+            "company": "Night's Watch",
+            "position": "Lord Commander of the Night's Watch",
+            "time": {
+                "type": "TimeInterval",
+                "time": ["300-0-0", "301-0-0"]
+            },
+            "location": {
+                "city": "Castle Black",
+                "province": "The Wall",
+                "country": "Westeros"
+            },
+            "media": [{
+                "type": "image",
+                "path": "./assets/lordCommander.jpg"
+            }]
+        },
+        {
+            "id": 4,
+            "name": "Became King in the North",
+            "description": "After retaking Winterfell from the Boltons, Jon Snow was named King in the North by the lords of the North",
+            "type": "WorkEvent",
+            "company": "The North",
+            "position": "King",
+            "time": {
+                "type": "SingleTime",
+                "time": "301-0-0"
+            },
+            "location": {
+                "city": "Winterfell",
+                "province": "The North",
+                "country": "Westeros"
+            },
+            "media": [{
+                    "type": "image",
+                    "path": "./assets/king.jpg"
+                },
+                {
+                    "type": "image",
+                    "path": "./assets/king2.jpg"
+                }
+            ]
+        }
+    ]
+}
