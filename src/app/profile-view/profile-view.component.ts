@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import { LocationComponent } from '../location/location.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { EventComponent, WorkEventComponent } from '../event/event.component';
+import { EventComponent, WorkEventComponent, LifeEventComponent } from '../event/event.component';
 @Component({
   selector: 'app-profile-view',
   templateUrl: './profile-view.component.html',
@@ -16,7 +16,7 @@ export class ProfileViewComponent implements OnInit {
   firstName: string;
   lastName: string;
   profilePicture: string;
-  birthDay: Date;
+  lifeSpan: LifeEventComponent;
   events: any[] = []
   media: { type: string, path: string }[] = []
 
@@ -25,11 +25,12 @@ export class ProfileViewComponent implements OnInit {
       .toPromise()
       .then(res => {
         let body = res.json();
-        console.log(body)
         this.firstName = body.firstName
         this.lastName = body.lastName
         this.profilePicture = body.profilePicture
-        console.log(body.events)
+        console.log(body.life)
+        
+        this.lifeSpan = body.life;
         body.events.forEach(event => {
           let newEvent;
           if (event.type === "WorkEvent") {
@@ -39,6 +40,7 @@ export class ProfileViewComponent implements OnInit {
             newEvent.location = new LocationComponent(event.location.city, event.location.province, event.location.country);
             newEvent.name = event.name;
             newEvent.description = event.description;
+            newEvent.time = event.time;
             this.events.push(newEvent);
           }
           newEvent.media = [];
@@ -69,7 +71,7 @@ export class MediaComponent {
 @Component({
   selector: 'video-component',
   template: `
-    <video width="534" height="300" controls>
+    <video width="auto" height="300" controls>
       <source [src]="getUrl()" type="video/mp4">
     </video>
   `,
@@ -87,7 +89,7 @@ export class VideoComponent extends MediaComponent {
 @Component({
   selector: 'image-component',
   template: `
-    <img [src]="getUrl()" width="500" height="300">
+    <img style="margin: 2px!important" [src]="getUrl()" width="auto" height="300">
   `,
   styleUrls: ['./profile-view.component.css']
 })

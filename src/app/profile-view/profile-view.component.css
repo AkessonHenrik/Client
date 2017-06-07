@@ -1,6 +1,8 @@
 .profilePicture {
-    width: 300px;
-    height: 500px;
+    width: auto;
+    height: 300px;
+    padding: 2px;
+    box-shadow: 3px 3px 2px #888888;
     /*position: absolute;
     left: 10px;
     top: 10px;*/
@@ -10,4 +12,10 @@
     position: absolute;
     left: 600px;
     top: 30px;
+}
+
+.lifeSpan {
+    position: absolute;
+    left: 400px;
+    top: 60px;
 }

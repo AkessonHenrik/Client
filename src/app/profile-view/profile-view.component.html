@@ -1,5 +1,10 @@
 <h1 class="name">{{firstName}} {{lastName}}</h1>
 <img class="profilePicture" src="{{profilePicture}}">
+<div class="lifeSpan">
+    <h2>Born: {{lifeSpan.time[0]}} in {{lifeSpan.born.city}}, {{lifeSpan.born.province}}, {{lifeSpan.born.country}}</h2>
+    <h2 *ngIf="lifeSpan.time.length > 1">Died: {{lifeSpan.time[1]}} in {{lifeSpan.died.city}}, {{lifeSpan.died.province}}, {{lifeSpan.died.country}}</h2>
+</div>
 <div *ngFor="let event of events">
     <app-event [event]="event"></app-event>
 </div>
+<app-life-event *ngIf="lifeSpan !== undefined" [life]="lifeSpan"></app-life-event>

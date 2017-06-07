@@ -16,8 +16,8 @@ import { MdSidenavModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GraphComponent } from './visuals/graph/graph.component';
 import { TreeComponent } from './tree/tree.component';
-import {NewPersonDialog } from './tree/dialogs/personDialog';
-import {NewRelationshipDialog} from './tree/dialogs/relationshipDialog';
+import { NewPersonDialog } from './tree/dialogs/personDialog';
+import { NewRelationshipDialog } from './tree/dialogs/relationshipDialog';
 import { ChoiceDialog } from './tree/dialogs/choiceDialog';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { AuthComponent } from './auth/auth.component';
@@ -26,14 +26,19 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { ProfileComponent } from './profile/profile.component'
 import { TreeDataService } from './tree-data.service';
 import { ProfileViewComponent, VideoComponent, MediaComponent, ImageComponent } from './profile-view/profile-view.component';
-import { EventComponent } from './event/event.component';
+import { EventComponent, WorkEventComponent, LifeEventComponent } from './event/event.component';
 import { LocationComponent } from './location/location.component';
+import { GalleryModule, GalleryConfig } from 'ng-gallery';
 const appRoutes: Routes = [
   // { path: 'crisis-center', component: CrisisListComponent },
   { path: 'tree', component: TreeComponent },
   { path: '', component: WelcomeComponent },
   { path: 'login', component: AuthComponent }
 ];
+
+export const galleryConfig: GalleryConfig = {
+  // ...
+}
 
 
 @NgModule({
@@ -58,7 +63,9 @@ const appRoutes: Routes = [
     VideoComponent,
     ImageComponent,
     EventComponent,
-    LocationComponent
+    LocationComponent,
+    WorkEventComponent,
+    LifeEventComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -70,7 +77,8 @@ const appRoutes: Routes = [
     MdButtonModule,
     MdMenuModule,
     MdSidenavModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    GalleryModule.forRoot(galleryConfig)
   ],
   providers: [D3Service, TreeDataService],
   bootstrap: [AppComponent, ChoiceDialog, NewPersonDialog, NewRelationshipDialog, SidenavComponent, ProfileDialog]
