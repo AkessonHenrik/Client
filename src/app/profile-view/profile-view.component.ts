@@ -85,7 +85,7 @@ export class ImageComponent extends MediaComponent {
 
 @Component({
   selector: 'external-video-component',
-  template: `<iframe width="auto" height="300" [src]="getUrl()" style="border: none;"></iframe>`,
+  template: `<iframe width="534" height="300" [src]="getUrl()" style="border: none;"></iframe>`,
   styleUrls: ['./profile-view.component.css']
 })
 export class ExternalVideoComponent extends MediaComponent {

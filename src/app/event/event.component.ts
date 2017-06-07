@@ -13,7 +13,7 @@ export class EventComponent {
   name: string;
   description: string;
   time: string[];
-
+  location: LocationComponent;
   media: { type: string, path: string }[];
 
   constructor() { }
@@ -61,6 +61,7 @@ export class LifeEventComponent extends EventComponent implements OnInit {
       this.locations.push(new LocationComponent(this.life.died.city, this.life.died.province, this.life.died.country));
     }
     this.event = new EventComponent;
+    this.event.location = this.locations[0];
     this.event.id = this.life.id;
     this.event.description = this.life.description;
     this.event.name = this.life.name;
