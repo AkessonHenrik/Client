@@ -19,7 +19,7 @@
             },
             {
                 "type": "video",
-                "path": "./assets/vid.mp4"
+                "path": "./assets/towerOfJoy.mp4"
             }
         ]
     },
@@ -60,9 +60,14 @@
                 "country": "Westeros"
             },
             "media": [{
-                "type": "image",
-                "path": "./assets/lordCommander.jpg"
-            }]
+                    "type": "image",
+                    "path": "./assets/lordCommander.jpg"
+                },
+                {
+                    "type": "externalvideo",
+                    "path": "https://www.youtube.com/embed/QDw33oIyq7U"
+                }
+            ]
         },
         {
             "id": 2,
@@ -78,8 +83,8 @@
                 "country": "Westeros"
             },
             "media": [{
-                "type": "video",
-                "path": "./assets/vid.mp4"
+                "type": "externalvideo",
+                "path": "https://www.youtube.com/embed/Tb8du53_jsA"
             }]
         }
     ]

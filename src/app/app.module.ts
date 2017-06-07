@@ -25,15 +25,17 @@ import { HomeComponent } from './home/home.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ProfileComponent } from './profile/profile.component'
 import { TreeDataService } from './tree-data.service';
-import { ProfileViewComponent, VideoComponent, MediaComponent, ImageComponent } from './profile-view/profile-view.component';
+import { ProfileViewComponent, VideoComponent, MediaComponent, ImageComponent, ExternalVideoComponent } from './profile-view/profile-view.component';
 import { EventComponent, WorkEventComponent, LifeEventComponent } from './event/event.component';
 import { LocationComponent } from './location/location.component';
 import { GalleryModule, GalleryConfig } from 'ng-gallery';
+import { MediaViewerComponent } from './media-viewer/media-viewer.component';
 const appRoutes: Routes = [
   // { path: 'crisis-center', component: CrisisListComponent },
   { path: 'tree', component: TreeComponent },
   { path: '', component: WelcomeComponent },
-  { path: 'login', component: AuthComponent }
+  { path: 'login', component: AuthComponent },
+  { path: 'mediaViewer', component: MediaViewerComponent }
 ];
 
 export const galleryConfig: GalleryConfig = {
@@ -61,11 +63,13 @@ export const galleryConfig: GalleryConfig = {
     ProfileViewComponent,
     MediaComponent,
     VideoComponent,
+    ExternalVideoComponent,
     ImageComponent,
     EventComponent,
     LocationComponent,
     WorkEventComponent,
-    LifeEventComponent
+    LifeEventComponent,
+    MediaViewerComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -81,6 +85,7 @@ export const galleryConfig: GalleryConfig = {
     GalleryModule.forRoot(galleryConfig)
   ],
   providers: [D3Service, TreeDataService],
-  bootstrap: [AppComponent, ChoiceDialog, NewPersonDialog, NewRelationshipDialog, SidenavComponent, ProfileDialog]
+  bootstrap: [AppComponent, SidenavComponent],
+  entryComponents: [ChoiceDialog, NewPersonDialog, NewRelationshipDialog, ProfileDialog]
 })
 export class AppModule { }

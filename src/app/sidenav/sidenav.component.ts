@@ -15,7 +15,6 @@ export class SidenavComponent implements OnInit {
   searchingToggled: boolean = false;
   searchInput: string = ""
   ngOnInit() {
-    
   }
   redirectToTree() {
     this.router.navigateByUrl('/tree');

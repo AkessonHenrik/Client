@@ -42,4 +42,4 @@ testem.log
 Thumbs.db
 
 # Bigger files
-/src/assets/vid.mp4
+/src/assets/*.mp4

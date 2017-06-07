@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LocationComponent } from '../location/location.component';
 import { MediaComponent, VideoComponent, ImageComponent } from '../profile-view/profile-view.component';
-
+import { MediaViewerComponent } from '../media-viewer/media-viewer.component';
 @Component({
   selector: 'app-event',
   templateUrl: './event.component.html',
@@ -56,19 +56,16 @@ export class LifeEventComponent extends EventComponent implements OnInit {
   event: EventComponent;
 
   ngOnInit() {
-    console.log("LIFE=======================")
-    console.log(this.life)
-    console.log("=======================")
     this.locations.push(new LocationComponent(this.life.born.city, this.life.born.province, this.life.born.country));
     if (this.life.died !== null) {
       this.locations.push(new LocationComponent(this.life.died.city, this.life.died.province, this.life.died.country));
     }
     this.event = new EventComponent;
-    console.log(this.event)
     this.event.id = this.life.id;
     this.event.description = this.life.description;
     this.event.name = this.life.name;
     this.event.time = this.life.time;
     this.event.media = this.life.media;
+    this.time = this.life.time;
   }
 }
