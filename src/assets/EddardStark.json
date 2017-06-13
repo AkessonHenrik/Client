@@ -17,11 +17,7 @@
             "province": "Crownlands",
             "country": "Westeros"
         },
-        "media": [{
-                "type": "image",
-                "path": "https://68.media.tumblr.com/059587cf8361d05e46146b7de6e4574e/tumblr_o6kpagMTjW1rk9c31o2_500.gif"
-            }
-        ]
+        "media": []
     },
     "events": [{
             "id": 4,

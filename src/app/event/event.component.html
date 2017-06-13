@@ -4,5 +4,5 @@
     <h1 *ngIf="event.time.length === 1">{{event.time[0]}}</h1>
     <h2>{{event.location.city}}, {{event.location.province}}, {{event.location.country}}</h2>
     <p>{{event.description}}</p>
-    <app-media-viewer [media]="event.media"></app-media-viewer>
+    <app-media-viewer *ngIf="event.media.length > 0" [media]="event.media"></app-media-viewer>
 </div>
