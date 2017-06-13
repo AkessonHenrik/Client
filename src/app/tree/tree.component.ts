@@ -2,7 +2,6 @@ import { OnChanges, OnInit, Component, Inject, NgZone, Input, Output, EventEmitt
 import APP_CONFIG from '../app.config';
 import { Node, Link, Relationship } from '../d3';
 import { ParentComponent, NodeParentComponent, LinkParentComponent } from '../parent/parent.component';
-import { GraphComponent } from '../visuals/graph/graph.component';
 import { Http } from '@angular/http';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';

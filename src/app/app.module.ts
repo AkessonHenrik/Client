@@ -14,7 +14,6 @@ import 'hammerjs';
 import { RouterModule, Routes } from '@angular/router';
 import { MdSidenavModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { GraphComponent } from './visuals/graph/graph.component';
 import { TreeComponent } from './tree/tree.component';
 import { NewPersonDialog } from './tree/dialogs/personDialog';
 import { NewRelationshipDialog } from './tree/dialogs/relationshipDialog';
@@ -28,25 +27,18 @@ import { TreeDataService } from './tree-data.service';
 import { ProfileViewComponent, VideoComponent, MediaComponent, ImageComponent, ExternalVideoComponent } from './profile-view/profile-view.component';
 import { EventComponent, WorkEventComponent, LifeEventComponent } from './event/event.component';
 import { LocationComponent } from './location/location.component';
-import { GalleryModule, GalleryConfig } from 'ng-gallery';
 import { MediaViewerComponent } from './media-viewer/media-viewer.component';
 const appRoutes: Routes = [
-  // { path: 'crisis-center', component: CrisisListComponent },
   { path: 'tree', component: TreeComponent },
   { path: '', component: WelcomeComponent },
   { path: 'login', component: AuthComponent },
   { path: 'mediaViewer', component: MediaViewerComponent }
 ];
 
-export const galleryConfig: GalleryConfig = {
-  // ...
-}
-
 
 @NgModule({
   declarations: [
     AppComponent,
-    GraphComponent,
     ...SHARED_VISUALS,
     ...D3_DIRECTIVES,
     TreeComponent,
@@ -81,8 +73,7 @@ export const galleryConfig: GalleryConfig = {
     MdButtonModule,
     MdMenuModule,
     MdSidenavModule,
-    NgbModule.forRoot(),
-    GalleryModule.forRoot(galleryConfig)
+    NgbModule.forRoot()
   ],
   providers: [D3Service, TreeDataService],
   bootstrap: [AppComponent, SidenavComponent],
