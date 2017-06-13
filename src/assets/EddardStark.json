@@ -1,0 +1,90 @@
+{
+    "firstName": "Eddard",
+    "lastName": "Stark",
+    "profilePicture": "https://upload.wikimedia.org/wikipedia/en/5/52/Ned_Stark-Sean_Bean.jpg",
+    "life": {
+        "id": 1,
+        "name": "Born",
+        "description": "Eddard Stark is born",
+        "time": ["263/01/01"],
+        "born": {
+            "city": "Winterfell",
+            "province": "The North",
+            "country": "Westeros"
+        },
+        "died": {
+            "city": "King's Landing",
+            "province": "Crownlands",
+            "country": "Westeros"
+        },
+        "media": [{
+                "type": "image",
+                "path": "https://68.media.tumblr.com/059587cf8361d05e46146b7de6e4574e/tumblr_o6kpagMTjW1rk9c31o2_500.gif"
+            }
+        ]
+    },
+    "events": [{
+            "id": 4,
+            "name": "Executed by order of the King",
+            "description": "After finding out who the real father of Jeoffrey is, Eddard Stark is sentenced to death",
+            "type": "LocatedEvent",
+            "company": "The Crown",
+            "time": ["299/01/01"],
+            "location": {
+                "city": "King's Landing",
+                "province": "The Crownlands",
+                "country": "Westeros"
+            },
+            "media": [{
+                    "type": "image",
+                    "path": "https://anibundel.files.wordpress.com/2011/06/5864b-seanbeanaseddardstarkongameofthroness01e09.png?w=582&h=326"
+                },
+                {
+                    "type": "image",
+                    "path": "https://i.ytimg.com/vi/Mv6JSQcww-E/maxresdefault.jpg"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Became Hand of the King",
+            "description": "Following the death of Jon Arryn, Eddard Stark is requested to be Hand of the King by King Robert Baratheon",
+            "type": "WorkEvent",
+            "company": "The Crown",
+            "position": "Hand of the King",
+            "time": ["298/01/01"],
+            "location": {
+                "city": "King's Landing",
+                "province": "The Crownlands",
+                "country": "Westeros"
+            },
+            "media": [{
+                    "type": "image",
+                    "path": "http://3.bp.blogspot.com/-g9ZK5Y4fLrM/T2-wEiiKmqI/AAAAAAAACZI/xAyrDpNVJXk/s1600/Sean+Bean+as+Eddard+Stark+on+Game+of+Thrones+S01E06.png"
+                },
+                {
+                    "type": "externalvideo",
+                    "path": "https://www.youtube.com/embed/73-JITgNk24"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Became a Warden of the North and Lord of Winterfell",
+            "description": "After the war against King Aerys Targaryen, Eddard Stark is named warden of the north",
+            "type": "WorkEvent",
+            "company": "The Crown",
+            "position": "Lord of Winterfell",
+            "time": ["297/01/01"],
+            "location": {
+                "city": "Winterfell",
+                "province": "The North",
+                "country": "Westeros"
+            },
+            "media": [{
+                "type": "image",
+                "path": "http://2.bp.blogspot.com/-l9QOicOas1U/UGUCyrS595I/AAAAAAAAAtE/8CVrdpO6ONw/s1600/ned.jpg"
+            }]
+        }
+    ]
+}

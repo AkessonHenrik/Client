@@ -1,43 +1,53 @@
-import { Input, Component } from '@angular/core';
+import { OnInit, Input, Component } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import { LocationComponent } from '../location/location.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { EventComponent, WorkEventComponent, LifeEventComponent } from '../event/event.component';
-
+import { LocatedEvent, EventComponent, WorkEventComponent, LifeEventComponent } from '../event/event.component';
+import { Node } from '../d3/models/node'
 @Component({
   selector: 'app-profile-view',
   templateUrl: './profile-view.component.html',
   styleUrls: ['./profile-view.component.css']
 })
-export class ProfileViewComponent {
-  @Input('profileId') id;
+export class ProfileViewComponent implements OnInit {
+  @Input('node') node: Node;
   firstName: string;
   lastName: string;
   profilePicture: string;
   life: LifeEventComponent;
   events: EventComponent[] = []
-  constructor(private http: Http) {
-    this.http.get('assets/JonSnow.json')
+
+  ngOnInit() {
+    console.log(this.node)
+    this.http.get('assets/' + this.node.firstname + this.node.lastName + '.json')
       .toPromise()
       .then(res => {
         let body = res.json();
+        console.log(body)
         this.firstName = body.firstName
         this.lastName = body.lastName
         this.profilePicture = body.profilePicture
-        
+
         this.life = body.life;
         body.events.forEach(event => {
           let newEvent;
           if (event.type === "WorkEvent") {
             newEvent = new WorkEventComponent();
-            newEvent.company = event.Company;
+            newEvent.company = event.company;
             newEvent.position = event.position;
             newEvent.location = new LocationComponent(event.location.city, event.location.province, event.location.country);
             newEvent.name = event.name;
             newEvent.description = event.description;
             newEvent.time = event.time;
             this.events.push(newEvent);
+          } else if(event.type === "LocatedEvent") {
+            newEvent = new LocatedEvent();
+            newEvent.name = event.name;
+            newEvent.description = event.description;
+            newEvent.time = event.time;
+            newEvent.location = new LocationComponent(event.location.city, event.location.province, event.location.country);
+            this.events.push(newEvent)
           }
           newEvent.media = [];
           event.media.forEach(media => {
@@ -45,6 +55,9 @@ export class ProfileViewComponent {
           })
         })
       })
+  }
+  constructor(private http: Http) {
+
   }
 }
 

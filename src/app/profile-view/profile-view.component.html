@@ -1,10 +1,12 @@
-<h1 class="name">{{firstName}} {{lastName}}</h1>
-<img class="profilePicture" src="{{profilePicture}}">
-<div class="life">
-    <h2 *ngIf="life !== undefined">Born: {{life.time[0]}} in {{life.born.city}}, {{life.born.province}}, {{life.born.country}}</h2>
-    <h2 *ngIf="life !== undefined && life.time.length > 1">Died: {{life.time[1]}} in {{life.died.city}}, {{life.died.province}}, {{life.died.country}}</h2>
+<div *ngIf="node">
+    <h1 class="name">{{firstName}} {{lastName}}</h1>
+    <img class="profilePicture" src="{{profilePicture}}">
+    <div class="life">
+        <h2 *ngIf="life !== undefined">Born: {{life.time[0]}} in {{life.born.city}}, {{life.born.province}}, {{life.born.country}}</h2>
+        <h2 *ngIf="life !== undefined && life.time.length > 1">Died: {{life.time[1]}} in {{life.died.city}}, {{life.died.province}}, {{life.died.country}}</h2>
+    </div>
+    <div *ngFor="let event of events">
+        <app-event [event]="event"></app-event>
+    </div>
+    <app-life-event *ngIf="life !== undefined" [life]="life"></app-life-event>
 </div>
-<div *ngFor="let event of events">
-    <app-event [event]="event"></app-event>
-</div>
-<app-life-event *ngIf="life !== undefined" [life]="life"></app-life-event>-->

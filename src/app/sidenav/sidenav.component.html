@@ -9,16 +9,18 @@
         </div>
         <div (click)="toggleSearch()" class="search link">
             <i class="material-icons md-36">search</i>
-            <input #box class="searchbox" (focusout)="focusOutFunction()" *ngIf="searchingToggled" mdInput (keyup.enter)="launchSearch(box.value)" type="search" placeholder="Look for someone you know">
+            <input #box class="searchbox" (focusout)="focusOutFunction()" *ngIf="searchingToggled" mdInput (keyup.enter)="launchSearch(box.value)"
+                type="search" placeholder="Look for someone you know">
         </div>
         <i *ngIf="loggedIn()" class="material-icons md-36 logout">exit_to_app</i>
     </md-toolbar>
     <md-sidenav class="sidebar" #start mode="side">
         <ul class="menuOptions">
             <li (click)="redirectToTree()">
-                <span class="glyphicon glyphicon-tree-deciduous" aria-hidden="false"></span> My Family Tree
+                My Family Tree
             </li>
             <li>Owned profiles</li>
+            <li>My profile</li>
         </ul>
     </md-sidenav>
     <router-outlet></router-outlet>

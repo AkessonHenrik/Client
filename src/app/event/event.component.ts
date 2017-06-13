@@ -70,3 +70,11 @@ export class LifeEventComponent extends EventComponent implements OnInit {
     this.time = this.life.time;
   }
 }
+
+@Component({})
+export class LocatedEvent extends EventComponent implements OnInit {
+  location: LocationComponent;
+  ngOnInit() {
+
+  } 
+}

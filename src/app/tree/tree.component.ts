@@ -23,8 +23,8 @@ export class TreeComponent implements OnInit/*implements OnChanges*/ {
   links: Link[] = [];
   parents: ParentComponent[] = [];
   ready: boolean = false;
-  height: number = 720;
-  width: number = 1280;
+  height: number = 1000;
+  width: number = 1600;
   get _nodes() {
     return this.nodes;
   }
