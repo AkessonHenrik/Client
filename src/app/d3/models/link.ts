@@ -1,6 +1,6 @@
 import { Node } from './';
 
-export class Link implements d3.SimulationLinkDatum<Node> {
+export class Link {
   // optional - defining optional implementation properties - required for relevant typing assistance
   index?: number;
 

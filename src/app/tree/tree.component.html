@@ -1,9 +1,8 @@
-<!--<graph *ngIf="ready" [nodes]="nodes" [links]="links" [parents]="parents" (outputNodeEvent)="outputNodeEvent($event)" (outputRelEvent)="outputRelEvent($event)"></graph>-->
 <svg #svg width="100%" [attr.height]="height">
     <g [zoomableOf]="svg">
         <g [linkVisual]="link" *ngFor="let link of links"></g>
         <g [parentVisual]="parent" *ngFor="let parent of parents"></g>
-        <g nodeVisual [nodeVisual]="node" [tree]="this" *ngFor="let node of nodes" (outputNodeEvent)="outputNodeEvent($event)"></g>
+        <g [node]="node" (contextmenu)="onRightClickEvent($event, node)" *ngFor="let node of nodes"></g>
     </g>
 </svg>
 <button md-fab (click)="openDialog()" class="add">
@@ -18,3 +17,4 @@
 </button>
 <button md-raised-button class="newContent" (click)="saveContent()" *ngIf="newContent">Save</button>
 <md-spinner *ngIf="savingContent" class="savingContent"></md-spinner>
+         <!--(outputNodeEvent)="outputNodeEvent($event)"-->

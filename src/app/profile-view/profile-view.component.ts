@@ -11,7 +11,7 @@ import { Node } from '../d3/models/node'
   styleUrls: ['./profile-view.component.css']
 })
 export class ProfileViewComponent implements OnInit {
-  @Input('node') node: Node;
+  @Input('profile') node: Node;
   firstName: string;
   lastName: string;
   profilePicture: string;

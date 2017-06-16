@@ -9,8 +9,6 @@ import { ProfileViewComponent } from '../../../profile-view/profile-view.compone
 export class ProfileDialog {
   node: Node;
   constructor( @Inject(MD_DIALOG_DATA) private data: Node, public dialogRef: MdDialogRef<ProfileDialog>) {
-    console.log(data)
     this.node = data;
-    console.log(this.node)
   }
 }

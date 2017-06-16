@@ -17,31 +17,24 @@ import { NewRelationshipDialog } from './dialogs/relationshipDialog';
   templateUrl: './tree.component.html',
   styleUrls: ['./tree.component.css']
 })
-export class TreeComponent implements OnInit/*implements OnChanges*/ {
+export class TreeComponent implements OnInit {
   nodes: Node[] = [];
   links: Link[] = [];
   parents: ParentComponent[] = [];
   ready: boolean = false;
   height: number = 1000;
   width: number = 1600;
+  newContent: boolean = false;
+  logger: boolean = false;
+  savingContent: boolean = false;
+  constructor(private http: Http, private zone: NgZone, public dialog: MdDialog, private dataService: TreeDataService) {}
   get _nodes() {
     return this.nodes;
   }
-
-  importTree(node: Node) {
-    console.log("Tree: " + node.firstname);
+  onRightClickEvent(e: MouseEvent, node: Node) {
     let data = this.dataService.getData(node.id).then(data => {
       this.createData(data.nodes, data.links, data.parents);
     })
-  }
-
-  newContent: boolean = false;
-
-  logger: boolean = false;
-  savingContent: boolean = false;
-
-  constructor(private http: Http, private zone: NgZone, public dialog: MdDialog, private dataService: TreeDataService) {
-
   }
   ngOnInit() {
     let data = this.dataService.getData(+localStorage["current_id"]).then(data => {
@@ -123,8 +116,6 @@ export class TreeComponent implements OnInit/*implements OnChanges*/ {
     });
     this.calculateCoordinates();
   }
-
-
   outputNodeEvent(node: Node) {
     this.log("Tree needs info of " + node.firstname);
   }
@@ -243,7 +234,6 @@ export class TreeComponent implements OnInit/*implements OnChanges*/ {
     this.parents.forEach(p => p.update());
     this.ready = true;
   }
-
   recursiveLooker(remainingRelationships: Link[], remainingParents: ParentComponent[], person: Node, levels: Node[][], currentLevel: number): boolean {
     this.log("\t" + "recursive looker with " + person.firstname);
     let inAParentRel: boolean = false;
@@ -272,14 +262,11 @@ export class TreeComponent implements OnInit/*implements OnChanges*/ {
     })
     return inAParentRel;
   }
-
   log(toLog) {
     if (this.logger) {
       this.log(toLog);
     }
   }
-
-
   openDialog() {
     let dialogRef = this.dialog.open(ChoiceDialog);
     dialogRef.afterClosed().subscribe(result => {
@@ -332,11 +319,9 @@ export class TreeComponent implements OnInit/*implements OnChanges*/ {
       }
     })
   }
-
   saveContent() {
     this.savingContent = true;
   }
-
 }
 
 

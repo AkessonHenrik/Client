@@ -1,48 +1,32 @@
-import APP_CONFIG from '../../app.config'
+import * as globals from '../../globals'
 
-export class Node implements d3.SimulationNodeDatum {
-  // optional - defining optional implementation properties - required for relevant typing assistance
-  index?: number;
-  x?: number;
-  y?: number;
-  vx?: number;
-  vy?: number;
-  fx?: number | null;
-  fy?: number | null;
-  _image: string;
+export class Node {
+  // Node x coordinate
+  x: number;
+  // Node y coordinate
+  y: number;
+  // Image path, can be local or external
+  image: string;
+  // Node id, obtained from server data
   id: number;
-  linkCount: number = 0;
-  r: number;
-  width: number | string;
-  height: number | string;
+  // Node profile picture width
+  width: number = 60;
+  // Node profile picture height, unused at this point
+  height: number = 60;
+
   firstname: string;
-  fontSize: number = 30;
   lastName: string;
+
+  // Initials font size
+  fontSize: number = 30;
 
   constructor(id: number, image, firstName: string, lastName: string) {
     this.id = id;
-    if (image !== undefined) {
-      this._image = image;
-    } else {
-      this._image = 'https://freeiconshop.com/wp-content/uploads/edd/person-solid.png?arbitrary'
-    }
+    this.image = !image ? globals.defaultAvatar : image;
     this.firstname = firstName;
     this.lastName = lastName;
     this.x = this.y = 0;
     this.width = 60;
     this.height = 60;
-    this.r = 30;
-  }
-
-  get image() {
-    return this._image;
-  }
-  normal = () => {
-    return Math.sqrt(this.linkCount / APP_CONFIG.N);
-  }
-
-  get color() {
-    let index = Math.floor(APP_CONFIG.SPECTRUM.length * this.normal());
-    return APP_CONFIG.SPECTRUM[index];
   }
 }
