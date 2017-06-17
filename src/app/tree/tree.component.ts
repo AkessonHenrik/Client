@@ -135,26 +135,14 @@ export class TreeComponent implements OnInit {
       levels[currentLevel] = [];
       remainingPeople.forEach(person => {
         if (remainingParents.filter(parent => parent.child === person)[0] === undefined) {
-          this.log(person.firstname + " has no unplaced parents");
-
           // Does 'person' have a relationship with someone that has unplaced parents? (need to look recursively)
           let inAParentRel: Boolean = this.recursiveLooker(remainingRelationships, remainingParents, person, levels, currentLevel);
-          this.log(person.firstname + " called recursiveLooker from calculateCoords and received: " + inAParentRel)
           if (!inAParentRel) {
-            this.log(person.firstname + " is not in a relationship with someone that has an unplaced parent");
-            this.log("Pushing " + person.firstname + " into levels[" + currentLevel + "]");
             levels[currentLevel].push(person);
-          } else {
-            this.log(person.firstname + " will NOT be pushed in levels[" + currentLevel + "]");
           }
-          this.log("\n");
-        } else {
-          this.log(person.firstname + " has unplaced parents")
         }
       })
       remainingPeople = remainingPeople.filter(person => !levels[currentLevel].includes(person))
-      this.log("Remaining unplaced people:")
-      this.log(remainingPeople)
       let tmp: ParentComponent[] = [];
       remainingParents.forEach(parent => {
         if (parent instanceof LinkParentComponent) {
@@ -168,22 +156,13 @@ export class TreeComponent implements OnInit {
         }
       })
       remainingParents = tmp;
-      this.log("remaining parents:");
-      this.log(remainingParents);
-
-      this.log("Level " + currentLevel);
-      this.log(levels[currentLevel]);
-      this.log("\n=================================\n\n")
       currentLevel++;
     }
     let maxWidth = 0;
     levels.forEach(level => { if (maxWidth < level.length) { maxWidth = level.length; } });
-    this.log("maxWidth = " + maxWidth);
     let maxHeight = levels.length;
-    this.log("height = " + maxHeight);
 
     // Reorder links
-
     let curr = 0;
     let movedIds = [];
     levels.forEach(level => {
@@ -198,7 +177,6 @@ export class TreeComponent implements OnInit {
           if (link.source === person || link.target === person) {
             let other: Node = (link.source === person ? link.target : link.source);
             if (!movedIds.includes(person.id) && !movedIds.includes(other.id)) {
-              this.log("Moving " + person.firstname + " and " + other.firstname);
               newLevel.push(person);
               newLevel.push(other);
               movedIds.push(person.id);

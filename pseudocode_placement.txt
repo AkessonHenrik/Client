@@ -1,0 +1,33 @@
+Soit personnesRestantesAPlacer = personnes
+Soit parentsRestantAPlacer = parents
+
+niveaux: Node[][] = []
+niveauCourant = 0
+
+tant que personnesRestantesAPlacer n'est pas vide:
+    pour chaque personne p de personnesRerstantesAPlacer:
+        Si parentsRestantAPlacer ne contient ni un parent dont l'enfant est p, 
+        ni un parent dont l'enfant est une des personnes avec lesquelles p est en relation 
+        (cherché récursivement ensuite avec les relations des relations de p etc...):
+            // p est situé au niveau courant.
+            ajouter p à niveaux[niveauCourant]
+            retirer p de personnesRestantesAPlacer
+    Retirer de parentsRestantAPlacer les entités dont le parent se situe à ce niveau
+
+    niveauCourant = niveauCourant + 1
+
+Trier chaque niveau de sorte à ce que des personnes ayant une relation soient côte à côte dans le tableau
+
+Soit largeurMax la taille maximale d'une entrée des niveaux (l'étage avec le plus de personnes)
+
+Soit hauteurMaximale le nombre de niveaux
+
+Soit décalageHorizontal = 100
+Soit décalageVertical = 200
+
+Soit décalage = (largeur de la fenetre) - (largeurMax*décalageHorizontal + largeurMax * 30 (rayon d'un noeud))
+
+Pour i de 0 à niveaux.taille
+    Pour j de 0 à niveaux[i].taille
+        niveaux[i][j].x = décalage + largeurMax / niveaux[i].taille * j * 100 + 100
+        niveaux[i][j].y = i * décalageHorizontal + 50

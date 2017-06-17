@@ -1,10 +1,6 @@
 import { Node } from './';
 
 export class Link {
-  // optional - defining optional implementation properties - required for relevant typing assistance
-  index?: number;
-
-  // must - defining enforced implementation properties
   source: Node;
   target: Node;
   middle: { x: number, y: number }
