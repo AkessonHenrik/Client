@@ -1,14 +1,15 @@
 .add {
     z-index: 1;
     position: absolute;
-    left: 95%;
-    top: 90%;
+    right: 10px;
+    bottom: 10px;
 }
 
 .share {
     z-index: 1;
     position: absolute;
-    left: 95%;
+    right: 10px;
+    margin: none;
     top: 10%;
 }
 

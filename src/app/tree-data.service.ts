@@ -4,13 +4,14 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class TreeDataService {
-  static jsonNodes: [{ id: number, firstName: string, lastName: string, image: string }];
-  static jsonRelationships: [{ id: number, from: number, to: number, relationshipType: string }];
+  static jsonNodes: [{ id: number, firstname: string, lastname: string, image: string }];
+  static jsonRelationships: [{ id: number, profile1: number, profile2: number, relationshipType: string }];
   static jsonParents: [{ id: number, parent: number, child: number, parentType: string, biological: boolean }];
   constructor(private http: Http) {
   }
   getData(baseNodeId: number): any {
     return this.http.get('assets/stark.json')
+    // return this.http.get('http://localhost:9000/family/' + 3)
       .toPromise()
       .then(res => {
         TreeDataService.jsonNodes = res.json().people;
@@ -22,40 +23,42 @@ export class TreeDataService {
         if (baseNodeId === 0) {
           return data;
         }
-        let nodesToReturn: { id: number, firstName: string, lastName: string, image: string }[] = [];
-        let linksToReturn: { id: number, from: number, to: number, relationshipType: string }[] = [];
+        let nodesToReturn: { id: number, firstname: string, lastname: string, image: string }[] = [];
+        let linksToReturn: { id: number, profile1: number, profile2: number, relationshipType: string }[] = [];
         let parentsToReturn: { parent: number, child: number, parentType: string, biological: boolean }[] = [];
 
         nodesToReturn.push(data.nodes.filter(node => node.id === baseNodeId)[0]);
 
         // Add base node's parents
-        data.parents.forEach(parent => {
-          if (parent.child === baseNodeId) {
-            if (parent.parentType === "relationship") {
-              let parent1Id = data.links.filter(link => link.id === parent.parent)[0].from;
-              let parent2Id = data.links.filter(link => link.id === parent.parent)[0].to;
-              let parent1 = data.nodes.filter(node => node.id === parent1Id)[0];
-              let parent2 = data.nodes.filter(node => node.id === parent2Id)[0];
-              if (!nodesToReturn.includes(parent1)) { nodesToReturn.push(parent1); }
-              if (!nodesToReturn.includes(parent2)) { nodesToReturn.push(parent2); }
-              linksToReturn.push(data.links.filter(link => link.id === parent.parent)[0]);
-            } else if (parent.parentType === "single") {
-              let n = data.nodes.filter(node => node.id === parent.parent)[0];
-              if (!nodesToReturn.includes(n)) {
-                nodesToReturn.push(n);
+        if (data.parents) {
+          data.parents.forEach(parent => {
+            if (parent.child === baseNodeId) {
+              if (parent.parentType === "relationship") {
+                let parent1Id = data.links.filter(link => link.id === parent.parent)[0].profile1;
+                let parent2Id = data.links.filter(link => link.id === parent.parent)[0].profile2;
+                let parent1 = data.nodes.filter(node => node.id === parent1Id)[0];
+                let parent2 = data.nodes.filter(node => node.id === parent2Id)[0];
+                if (!nodesToReturn.includes(parent1)) { nodesToReturn.push(parent1); }
+                if (!nodesToReturn.includes(parent2)) { nodesToReturn.push(parent2); }
+                linksToReturn.push(data.links.filter(link => link.id === parent.parent)[0]);
+              } else if (parent.parentType === "single") {
+                let n = data.nodes.filter(node => node.id === parent.parent)[0];
+                if (!nodesToReturn.includes(n)) {
+                  nodesToReturn.push(n);
+                }
+              }
+              if (!parentsToReturn.includes(parent)) {
+                parentsToReturn.push(parent);
               }
             }
-            if (!parentsToReturn.includes(parent)) {
-              parentsToReturn.push(parent);
-            }
-          }
-        })
+          })
+        }
 
         // Add base node's relationships
         data.links.forEach(rel => {
-          if (rel.from === baseNodeId || rel.to === baseNodeId) {
+          if (rel.profile1 === baseNodeId || rel.profile2 === baseNodeId) {
             linksToReturn.push(rel);
-            let otherNodeId = rel.from === baseNodeId ? rel.to : rel.from;
+            let otherNodeId = rel.profile1 === baseNodeId ? rel.profile2 : rel.profile1;
             let otherNode = data.nodes.filter(node => node.id === otherNodeId)[0];
             if (!nodesToReturn.includes(otherNode)) {
               nodesToReturn.push(otherNode);
@@ -64,24 +67,26 @@ export class TreeDataService {
         })
 
         // Add base node's children
-        data.parents.forEach(parent => {
-          if (parent.parentType === "single") {
-            if (parent.parent === baseNodeId) {
-              nodesToReturn.push(data.nodes.filter(node => node.id === parent.child)[0]);
-              parentsToReturn.push(parent);
-            }
-          } else if (parent.parentType === "relationship") {
-            linksToReturn.forEach(link => {
-              if (link.id === parent.parent) {
-                let nodeToAdd = data.nodes.filter(node => node.id === parent.child)[0];
-                if (!nodesToReturn.includes(nodeToAdd)) {
-                  nodesToReturn.push(nodeToAdd)
-                }
+        if (data.parents) {
+          data.parents.forEach(parent => {
+            if (parent.parentType === "single") {
+              if (parent.parent === baseNodeId) {
+                nodesToReturn.push(data.nodes.filter(node => node.id === parent.child)[0]);
                 parentsToReturn.push(parent);
               }
-            })
-          }
-        })
+            } else if (parent.parentType === "relationship") {
+              linksToReturn.forEach(link => {
+                if (link.id === parent.parent) {
+                  let nodeToAdd = data.nodes.filter(node => node.id === parent.child)[0];
+                  if (!nodesToReturn.includes(nodeToAdd)) {
+                    nodesToReturn.push(nodeToAdd)
+                  }
+                  parentsToReturn.push(parent);
+                }
+              })
+            }
+          })
+        }
 
         // Add base node's parents other children
         // Get either rel or node that is base node's parent
@@ -91,7 +96,7 @@ export class TreeDataService {
         // Get base node's parents
         let baseParents = parentsToReturn.filter(parent => parent.child === baseNodeId);
 
-        let siblings: { id: number, firstName: string, lastName: string, image: string }[] = [];
+        let siblings: { id: number, firstname: string, lastname: string, image: string }[] = [];
 
         // Other parent objects whose parent is among baseParents
         let otherParents: { parent: number, child: number, parentType: string, biological: boolean }[] = [];
@@ -137,8 +142,8 @@ export class TreeDataService {
                 }
 
                 // Add other parent of link
-                let parent1 = data.nodes.filter(node => node.id === parentLink.from)[0];
-                let parent2 = data.nodes.filter(node => node.id === parentLink.to)[0];
+                let parent1 = data.nodes.filter(node => node.id === parentLink.profile1)[0];
+                let parent2 = data.nodes.filter(node => node.id === parentLink.profile2)[0];
 
                 if (!nodesToReturn.includes(parent1)) {
                   nodesToReturn.push(parent1);

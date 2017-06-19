@@ -20,7 +20,7 @@ export class ProfileViewComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.node)
-    this.http.get('assets/' + this.node.firstname + this.node.lastName + '.json')
+    this.http.get('assets/' + this.node.firstname + this.node.lastname + '.json')
       .toPromise()
       .then(res => {
         let body = res.json();

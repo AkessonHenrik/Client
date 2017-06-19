@@ -15,16 +15,16 @@ export class Node {
   height: number = 60;
 
   firstname: string;
-  lastName: string;
+  lastname: string;
 
   // Initials font size
   fontSize: number = 30;
 
-  constructor(id: number, image, firstName: string, lastName: string) {
+  constructor(id: number, image, firstname: string, lastname: string) {
     this.id = id;
     this.image = !image ? globals.defaultAvatar : image;
-    this.firstname = firstName;
-    this.lastName = lastName;
+    this.firstname = firstname;
+    this.lastname = lastname;
     this.x = this.y = 0;
     this.width = 60;
     this.height = 60;

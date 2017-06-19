@@ -22,15 +22,14 @@ export class TreeComponent implements OnInit {
   links: Link[] = [];
   parents: ParentComponent[] = [];
   ready: boolean = false;
-  height: number = 1000;
-  width: number = 1600;
+  // height: number = 1000;
+  // width: number = 1600;
+  height: number = window.screen.height;
+  width: number = window.screen.width;
   newContent: boolean = false;
   logger: boolean = false;
   savingContent: boolean = false;
   constructor(private http: Http, private zone: NgZone, public dialog: MdDialog, private dataService: TreeDataService) {}
-  get _nodes() {
-    return this.nodes;
-  }
   onRightClickEvent(e: MouseEvent, node: Node) {
     let data = this.dataService.getData(node.id).then(data => {
       this.createData(data.nodes, data.links, data.parents);
@@ -42,8 +41,8 @@ export class TreeComponent implements OnInit {
     })
   }
   createData(
-    jsonNodes: [{ id: number, firstName: string, lastName: string, image: string }],
-    jsonRelationships: [{ id: number, from: number, to: number, relationshipType: string }],
+    jsonNodes: [{ id: number, firstname: string, lastname: string, image: string }],
+    jsonRelationships: [{ id: number, profile1: number, profile2: number, relationshipType: string }],
     jsonParents: [{ id: number, parent: number, child: number, parentType: string, biological: boolean }]) {
     // Interpret and create NodeComponents
     jsonNodes.forEach(node => {
@@ -54,7 +53,7 @@ export class TreeComponent implements OnInit {
         }
       })
       if (!contained) {
-        const n: Node = new Node(node.id, node.image, node.firstName, node.lastName);
+        const n: Node = new Node(node.id, node.image, node.firstname, node.lastname);
         this.nodes.push(n);
       }
     });
@@ -68,9 +67,9 @@ export class TreeComponent implements OnInit {
         }
       })
       if (!contained) {
-        let from: Node = this.nodes.filter(node => node.id === link.from)[0];
-        let to: Node = this.nodes.filter(node => node.id === link.to)[0];
-        const l: Relationship = new Relationship(link.id, from, to, link.relationshipType);
+        let profile1: Node = this.nodes.filter(node => node.id === link.profile1)[0];
+        let to: Node = this.nodes.filter(node => node.id === link.profile2)[0];
+        const l: Relationship = new Relationship(link.id, profile1, to, link.relationshipType);
         this.links.push(l);
       }
     });
@@ -117,7 +116,6 @@ export class TreeComponent implements OnInit {
     this.calculateCoordinates();
   }
   outputNodeEvent(node: Node) {
-    this.log("Tree needs info of " + node.firstname);
   }
   calculateCoordinates(): void {
     // Find all people that have no parents and that are not in a relationship with a person that has a parent
@@ -192,17 +190,16 @@ export class TreeComponent implements OnInit {
       levels[curr] = newLevel;
       curr++;
     })
-    // */
-    const horizontalStep = 100;
-    const verticalStep = 200;
-    const offset = 1280 - (maxWidth * horizontalStep + maxWidth * 30)
-    // const middle = 
+    // const horizontalStep = 100;
+    const horizontalStep = window.screen.width / 10;
+    const verticalStep = window.screen.height / 5;
+    // const verticalStep = 200;
+    const offset = this.width - (maxWidth * horizontalStep + maxWidth * 30)
     // Setting coordinates
     for (let i = 0; i < levels.length; i++) {
       for (let j = 0; j < levels[i].length; j++) {
         levels[i][j].x = offset + maxWidth / levels[i].length * j * 100 + 100;
         levels[i][j].y = i * verticalStep + 50;
-        this.log(levels[i][j].firstname + ": " + levels[i][j].x + ", " + levels[i][j].y);
       }
 
     }
@@ -213,15 +210,12 @@ export class TreeComponent implements OnInit {
     this.ready = true;
   }
   recursiveLooker(remainingRelationships: Link[], remainingParents: ParentComponent[], person: Node, levels: Node[][], currentLevel: number): boolean {
-    this.log("\t" + "recursive looker with " + person.firstname);
     let inAParentRel: boolean = false;
     remainingRelationships.forEach(rel => {
       if (rel.target === person || rel.source === person) {
         let other: Node = (rel.target === person ? rel.source : rel.target);
-        this.log("\t" + person.firstname + " is in a relationship with " + other.firstname);
         remainingParents.forEach(parent => {
           if (parent.child === other) {
-            this.log("\t" + other.firstname + " has a parent");
             inAParentRel = true;
           } else if (parent.child === person) {
             inAParentRel = true;
@@ -239,11 +233,6 @@ export class TreeComponent implements OnInit {
       }
     })
     return inAParentRel;
-  }
-  log(toLog) {
-    if (this.logger) {
-      this.log(toLog);
-    }
   }
   openDialog() {
     let dialogRef = this.dialog.open(ChoiceDialog);
@@ -266,22 +255,18 @@ export class TreeComponent implements OnInit {
   newNode() {
     let dialogRef = this.dialog.open(NewPersonDialog);
     dialogRef.afterClosed().subscribe(node => {
-
-      // this.tree.addNode(node);
-      // this._nodes = this.tree.nodes
       if (node !== undefined) {
         this.newContent = true;
-        this._nodes.push(node);
+        this.nodes.push(node);
         this.calculateCoordinates();
       }
     });
   }
   newRelationship() {
     let dialogRef = this.dialog.open(NewRelationshipDialog, {
-      data: this._nodes
+      data: this.nodes
     });
     dialogRef.afterClosed().subscribe(relationship => {
-      // this.tree.addRelationship(relationship);
       if (relationship !== undefined) {
         this.newContent = true;
         this.links.push(relationship)
@@ -292,7 +277,7 @@ export class TreeComponent implements OnInit {
   newParents() {
     let dialogRef = this.dialog.open(NewParentDialog, {
       data: {
-        nodes: this._nodes,
+        nodes: this.nodes,
         links: this.links
       }
     })
