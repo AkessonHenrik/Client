@@ -7,14 +7,12 @@ import { Node} from '../../d3'
   styleUrls: ['./persondialog.css']
 })
 export class NewPersonDialog {
-  firstname: string;
-  lastname: string;
-  image: string;
   constructor(public dialogRef: MdDialogRef<NewPersonDialog>) {
   }
-  createPerson() {
-    const n: Node = new Node(100, undefined, this.firstname, this.lastname);
-    console.log(n)
+  createPerson(profileData) {
+    console.log(profileData)
+    const n: Node = new Node(Math.ceil(Math.random()), undefined, profileData.firstName, profileData.lastName);
+    // console.log(n)
     this.dialogRef.close(n);
   }
 }

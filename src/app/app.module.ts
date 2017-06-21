@@ -28,10 +28,14 @@ import { ProfileViewComponent, VideoComponent, MediaComponent, ImageComponent, E
 import { EventComponent, WorkEventComponent, LifeEventComponent } from './event/event.component';
 import { LocationComponent } from './location/location.component';
 import { MediaViewerComponent } from './media-viewer/media-viewer.component';
+import { SignupComponent } from './signup/signup.component';
+import { MdNativeDateModule } from '@angular/material';
+import { NewProfileComponent } from './new-profile/new-profile.component';
 const appRoutes: Routes = [
   { path: 'tree', component: TreeComponent },
   { path: '', component: WelcomeComponent },
   { path: 'login', component: AuthComponent },
+  { path: 'signup', component: SignupComponent },
   { path: 'mediaViewer', component: MediaViewerComponent }
 ];
 
@@ -61,7 +65,9 @@ const appRoutes: Routes = [
     LocationComponent,
     WorkEventComponent,
     LifeEventComponent,
-    MediaViewerComponent
+    MediaViewerComponent,
+    SignupComponent,
+    NewProfileComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -73,7 +79,8 @@ const appRoutes: Routes = [
     MdButtonModule,
     MdMenuModule,
     MdSidenavModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    MdNativeDateModule
   ],
   providers: [D3Service, TreeDataService],
   bootstrap: [AppComponent, SidenavComponent],

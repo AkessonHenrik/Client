@@ -10,8 +10,8 @@ export class TreeDataService {
   constructor(private http: Http) {
   }
   getData(baseNodeId: number): any {
-    return this.http.get('assets/stark.json')
-    // return this.http.get('http://localhost:9000/family/' + 3)
+    // return this.http.get('assets/stark.json')
+    return this.http.get('http://localhost:9000/family/' + 2)
       .toPromise()
       .then(res => {
         TreeDataService.jsonNodes = res.json().people;
@@ -55,16 +55,18 @@ export class TreeDataService {
         }
 
         // Add base node's relationships
-        data.links.forEach(rel => {
-          if (rel.profile1 === baseNodeId || rel.profile2 === baseNodeId) {
-            linksToReturn.push(rel);
-            let otherNodeId = rel.profile1 === baseNodeId ? rel.profile2 : rel.profile1;
-            let otherNode = data.nodes.filter(node => node.id === otherNodeId)[0];
-            if (!nodesToReturn.includes(otherNode)) {
-              nodesToReturn.push(otherNode);
+        if (data.links) {
+          data.links.forEach(rel => {
+            if (rel.profile1 === baseNodeId || rel.profile2 === baseNodeId) {
+              linksToReturn.push(rel);
+              let otherNodeId = rel.profile1 === baseNodeId ? rel.profile2 : rel.profile1;
+              let otherNode = data.nodes.filter(node => node.id === otherNodeId)[0];
+              if (!nodesToReturn.includes(otherNode)) {
+                nodesToReturn.push(otherNode);
+              }
             }
-          }
-        })
+          })
+        }
 
         // Add base node's children
         if (data.parents) {
@@ -92,7 +94,7 @@ export class TreeDataService {
         // Get either rel or node that is base node's parent
         // Add that parents children
         // Add that parent rel
-
+        console.log("Hey 97");
         // Get base node's parents
         let baseParents = parentsToReturn.filter(parent => parent.child === baseNodeId);
 

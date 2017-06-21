@@ -7,13 +7,14 @@
     stroke: black;
     z-index: 1;
     background-color: white;
-    stroke-width: 0.25;
+    stroke-width: 1;
+    stroke: white;
 }
 
 .node-name {
-  font-family: 'Lato';
+  font-family: 'Open Sans';
   text-anchor: middle;
   alignment-baseline: central;
   font-weight: 300;
-  fill: black;
+  fill: white;
 }

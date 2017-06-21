@@ -19,7 +19,9 @@ import { NewRelationshipDialog } from './dialogs/relationshipDialog';
 })
 export class TreeComponent implements OnInit {
   nodes: Node[] = [];
+  newNodes: Node[] = [];
   links: Link[] = [];
+  newRelationships: Link[] = [];
   parents: ParentComponent[] = [];
   ready: boolean = false;
   // height: number = 1000;
@@ -29,14 +31,16 @@ export class TreeComponent implements OnInit {
   newContent: boolean = false;
   logger: boolean = false;
   savingContent: boolean = false;
-  constructor(private http: Http, private zone: NgZone, public dialog: MdDialog, private dataService: TreeDataService) {}
+  constructor(private http: Http, private zone: NgZone, public dialog: MdDialog, private dataService: TreeDataService) { }
   onRightClickEvent(e: MouseEvent, node: Node) {
     let data = this.dataService.getData(node.id).then(data => {
       this.createData(data.nodes, data.links, data.parents);
     })
   }
   ngOnInit() {
-    let data = this.dataService.getData(+localStorage["current_id"]).then(data => {
+    let data = this.dataService.getData(2).then(data => {
+      console.log("data");
+      console.log(data);
       this.createData(data.nodes, data.links, data.parents);
     })
   }
@@ -77,7 +81,7 @@ export class TreeComponent implements OnInit {
     jsonParents.forEach(parent => {
       let contained = false;
       this.parents.forEach(p => {
-        if(parent.id === p.id) {
+        if (parent.id === p.id) {
           contained = true;
         }
       })
@@ -126,7 +130,7 @@ export class TreeComponent implements OnInit {
     let remainingPeople = this.nodes;
     let remainingParents = this.parents;
     let remainingRelationships = this.links;
-
+    console.log(remainingRelationships);
     let levels: Node[][] = [];
     let currentLevel = 0;
     while (remainingPeople.length != 0 && currentLevel < 5) {
@@ -255,9 +259,12 @@ export class TreeComponent implements OnInit {
   newNode() {
     let dialogRef = this.dialog.open(NewPersonDialog);
     dialogRef.afterClosed().subscribe(node => {
+      console.log("hello")
       if (node !== undefined) {
         this.newContent = true;
         this.nodes.push(node);
+        this.newNodes.push(node);
+        console.log(this.newNodes);
         this.calculateCoordinates();
       }
     });
@@ -270,6 +277,8 @@ export class TreeComponent implements OnInit {
       if (relationship !== undefined) {
         this.newContent = true;
         this.links.push(relationship)
+        this.newRelationships.push(relationship);
+        console.log(this.newRelationships);
         this.calculateCoordinates();
       }
     });
