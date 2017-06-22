@@ -14,7 +14,7 @@ import 'hammerjs';
 import { RouterModule, Routes } from '@angular/router';
 import { MdSidenavModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { TreeComponent } from './tree/tree.component';
+import { TreeComponent, NewParentDialog } from './tree/tree.component';
 import { NewPersonDialog } from './tree/dialogs/personDialog';
 import { NewRelationshipDialog } from './tree/dialogs/relationshipDialog';
 import { ChoiceDialog } from './tree/dialogs/choiceDialog';
@@ -61,6 +61,7 @@ const appRoutes: Routes = [
     VideoComponent,
     ExternalVideoComponent,
     ImageComponent,
+    NewParentDialog,
     EventComponent,
     LocationComponent,
     WorkEventComponent,
@@ -84,6 +85,6 @@ const appRoutes: Routes = [
   ],
   providers: [D3Service, TreeDataService],
   bootstrap: [AppComponent, SidenavComponent],
-  entryComponents: [ChoiceDialog, NewPersonDialog, NewRelationshipDialog, ProfileDialog]
+  entryComponents: [ChoiceDialog, NewPersonDialog, NewRelationshipDialog, NewParentDialog, ProfileDialog]
 })
 export class AppModule { }

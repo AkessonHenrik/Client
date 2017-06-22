@@ -22,6 +22,7 @@ export class TreeComponent implements OnInit {
   newNodes: Node[] = [];
   links: Link[] = [];
   newRelationships: Link[] = [];
+  newParents: ParentComponent[] = [];
   parents: ParentComponent[] = [];
   ready: boolean = false;
   // height: number = 1000;
@@ -160,9 +161,6 @@ export class TreeComponent implements OnInit {
       remainingParents = tmp;
       currentLevel++;
     }
-    let maxWidth = 0;
-    levels.forEach(level => { if (maxWidth < level.length) { maxWidth = level.length; } });
-    let maxHeight = levels.length;
 
     // Reorder links
     let curr = 0;
@@ -194,18 +192,32 @@ export class TreeComponent implements OnInit {
       levels[curr] = newLevel;
       curr++;
     })
-    // const horizontalStep = 100;
+
+    let maxWidth = 0;
+    let maxWidthIndex = -1;
+    levels.forEach(level => { if (maxWidth < level.length) { maxWidth = level.length; maxWidthIndex = levels.indexOf(level); } });
+    const maxHeight = levels.length;
+    console.log("MAXWIDTHINDEX = " + maxWidthIndex)
+
+    let canvasWidth = .8 * window.screen.width;
+
+    let level0Height = window.screen.height / levels.length / 2
+    console.log("level0height: " + level0Height)
+
     const horizontalStep = window.screen.width / 10;
     const verticalStep = window.screen.height / 5;
-    // const verticalStep = 200;
-    const offset = this.width - (maxWidth * horizontalStep + maxWidth * 30)
+    const offset = this.width / maxWidth / 2//this.width - (maxWidth * (horizontalStep + maxWidth * 30))
+
+    console.log("offset = " + offset)
+
     // Setting coordinates
+    console.log("levels");
+    console.log(levels);
     for (let i = 0; i < levels.length; i++) {
       for (let j = 0; j < levels[i].length; j++) {
         levels[i][j].x = offset + maxWidth / levels[i].length * j * 100 + 100;
-        levels[i][j].y = i * verticalStep + 50;
+        levels[i][j].y = i * verticalStep + level0Height;
       }
-
     }
     this.links.forEach(l => {
       l.middle = { x: (l.source.x + l.target.x) / 2, y: (l.source.y + l.target.y) / 2 }
@@ -253,6 +265,11 @@ export class TreeComponent implements OnInit {
           this.newRelationship();
           break;
         }
+        case "parent": {
+          console.log("Chose new parent");
+          this.newParent();
+          break;
+        }
       }
     });
   }
@@ -283,13 +300,18 @@ export class TreeComponent implements OnInit {
       }
     });
   }
-  newParents() {
+  newParent() {
     let dialogRef = this.dialog.open(NewParentDialog, {
       data: {
         nodes: this.nodes,
         links: this.links
       }
     })
+    dialogRef.afterClosed().subscribe(parent => {
+      this.parents.push(parent);
+      this.newParents.push(parent);
+      this.calculateCoordinates();
+    });
   }
   saveContent() {
     this.savingContent = true;
@@ -299,16 +321,36 @@ export class TreeComponent implements OnInit {
 
 @Component({
   selector: 'parentdialog',
-  // templateUrl: './parentdialog.html',
-  // styleUrls: ['./persondialog.css']
+  templateUrl: './dialogs/parentdialog.html',
+  styleUrls: ['./dialogs/persondialog.css']
 })
 export class NewParentDialog implements OnInit {
-  parent: string;
-  child: string;
-  parentType: string;
-  nodes: Node[];
-  constructor( @Inject(MD_DIALOG_DATA) private data: { nodes: Node[], links: Link[] }, public dialogRef: MdDialogRef<NewParentDialog>) { }
-  public ngOnInit() {
 
+  parentType: string;
+  parentTypes: string[] = ["Adoptive", "Biological", "Guardian"]
+  parent: {type: string, id: number };
+  child: number;
+  nodes: Node[];
+  links: Link[];
+  createNewParent() {
+    console.log(this.parentType);
+    console.log(this.parent);
+    console.log(this.child);
+    let newParent: ParentComponent;
+    if (this.parent.type === 'link') {
+      console.log("link")
+      newParent = new LinkParentComponent(Math.ceil(Math.random()*100), this.nodes.filter(node => node.id === this.child)[0], this.links.filter(link => link.id === this.parent.id)[0], true);
+    } else if (this.parent.type === 'node') {
+      console.log("node")
+      newParent = new NodeParentComponent(Math.ceil(Math.random()*100), this.nodes.filter(node => node.id === this.child)[0], this.nodes.filter(node => node.id === this.parent.id)[0], true);
+    }
+        this.dialogRef.close(newParent);
+  }
+  constructor( @Inject(MD_DIALOG_DATA) private data: { nodes: Node[], links: Link[] }, public dialogRef: MdDialogRef<NewParentDialog>) {
+
+  }
+  public ngOnInit() {
+    this.nodes = this.data.nodes;
+    this.links = this.data.links;
   }
 }

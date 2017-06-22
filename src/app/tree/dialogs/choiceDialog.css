@@ -1,11 +1,19 @@
 .dialogButton {
-    margin: 10px;
-    clear: both;
-    padding: 10px;
+    margin: 20px!important;
+    display: list-item!important;
+    width: 500px;
+    padding: 20px!important;
 }
 
 .dialogChoice {
     font-family: "Helvetica";
     width: 500px;
     height: 500px;
+}
+.dialogTitle {
+    margin: 20px!important;
+    padding: 20px!important;
+    font-size: 30px;
+    text-align: center;
+    border-bottom: 1px solid black;
 }

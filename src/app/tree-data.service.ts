@@ -10,8 +10,8 @@ export class TreeDataService {
   constructor(private http: Http) {
   }
   getData(baseNodeId: number): any {
-    // return this.http.get('assets/stark.json')
-    return this.http.get('http://localhost:9000/family/' + 2)
+    return this.http.get('assets/stark.json')
+    // return this.http.get('http://localhost:9000/family/' + 2)
       .toPromise()
       .then(res => {
         TreeDataService.jsonNodes = res.json().people;

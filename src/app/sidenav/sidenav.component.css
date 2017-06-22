@@ -80,6 +80,9 @@ ul {
     width: fit-content;
     padding: 10px;
 }
+.searchbox {
+    color: black;
+}
 
 .search input {
     height: 70%;

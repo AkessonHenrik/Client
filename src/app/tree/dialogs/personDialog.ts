@@ -1,6 +1,6 @@
 import { OnChanges, OnInit, Component, Inject, NgZone, Input, Output, EventEmitter, ChangeDetectorRef, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
-import { Node} from '../../d3'
+import { Node } from '../../d3'
 @Component({
   selector: 'persondialog',
   templateUrl: './persondialog.html',

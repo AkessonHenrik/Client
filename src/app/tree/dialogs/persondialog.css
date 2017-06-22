@@ -1,5 +1,9 @@
 .dialogTitle {
-    margin: 5px;
+    margin: 20px!important;
+    padding: 20px!important;
+    font-size: 30px;
+    text-align: center;
+    border-bottom: 1px solid black;
 }
 
 .dialogChoice {
@@ -8,5 +12,11 @@
 }
 
 .choice {
-    margin: 20px;
+    margin: 20px!important;
+    display: block;
+}
+.addButton {
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0%);
 }

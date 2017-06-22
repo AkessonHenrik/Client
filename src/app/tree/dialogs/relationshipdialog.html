@@ -9,5 +9,5 @@
     <md-select class="choice" placeholder="To" [(ngModel)]="to">
         <md-option *ngFor="let node of nodes" [value]="node.firstname">{{ node.firstname }}</md-option>
     </md-select>
-    <button (click)="createRelationship()" md-raised-button>Add</button>
+    <button class="addButton" (click)="createRelationship()" md-raised-button>Add</button>
 </div>
