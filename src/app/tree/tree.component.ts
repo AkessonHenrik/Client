@@ -20,8 +20,8 @@ import { NewRelationshipDialog } from './dialogs/relationshipDialog';
 export class TreeComponent implements OnInit {
   nodes: Node[] = [];
   newNodes: Node[] = [];
-  links: Link[] = [];
-  newRelationships: Link[] = [];
+  links: Relationship[] = [];
+  newRelationships: Relationship[] = [];
   newParents: ParentComponent[] = [];
   parents: ParentComponent[] = [];
   ready: boolean = false;
@@ -35,89 +35,49 @@ export class TreeComponent implements OnInit {
   constructor(private http: Http, private zone: NgZone, public dialog: MdDialog, private dataService: TreeDataService) { }
   onRightClickEvent(e: MouseEvent, node: Node) {
     let data = this.dataService.getData(node.id).then(data => {
-      this.createData(data.nodes, data.links, data.parents);
+      this.createData(data.nodes, data.relationships, data.parents);
     })
   }
   ngOnInit() {
     let data = this.dataService.getData(2).then(data => {
-      console.log("data");
-      console.log(data);
       this.createData(data.nodes, data.links, data.parents);
     })
   }
   createData(
-    jsonNodes: [{ id: number, firstname: string, lastname: string, image: string }],
-    jsonRelationships: [{ id: number, profile1: number, profile2: number, relationshipType: string }],
-    jsonParents: [{ id: number, parent: number, child: number, parentType: string, biological: boolean }]) {
+    // jsonNodes: [{ id: number, firstname: string, lastname: string, image: string, gender: number, birthDay: string, deathDay: string, born: any, died: any }],
+    jsonNodes: [{ id: number, firstname: string, lastname: string, image: string, gender: number }],
+    jsonRelationships: [{ id: number, profile1: number, profile2: number, relationshipType: string, time: string, begintime: string, endtime: string }],
+    jsonParents: [{ timedentityid: number, parentsid: number, childid: number, parentType: number }]) {
     // Interpret and create NodeComponents
-    jsonNodes.forEach(node => {
-      let contained: boolean = false;
-      this.nodes.forEach(n => {
-        if (n.id === node.id) {
-          contained = true;
-        }
-      })
-      if (!contained) {
-        const n: Node = new Node(node.id, node.image, node.firstname, node.lastname);
-        this.nodes.push(n);
+    jsonNodes.forEach(jsonNode => {
+      if (this.nodes.filter(node => node.id === jsonNode.id).length == 0)
+        this.nodes.push(new Node(jsonNode.id, jsonNode.image, jsonNode.firstname, jsonNode.lastname, jsonNode.gender, null, null, null, null));
+    })
+
+    jsonRelationships.forEach(jsonRelationship => {
+      if (this.links.filter(link => link.id === jsonRelationship.id).length == 0) {
+        this.links.push(new Relationship(jsonRelationship.id, this.nodes.filter(node => node.id === jsonRelationship.profile1)[0], this.nodes.filter(node => node.id === jsonRelationship.profile2)[0], jsonRelationship.relationshipType));
       }
-    });
+    })
 
-    // Interpret and create relationships (Link)
-    jsonRelationships.forEach(link => {
-      let contained: boolean = false;
-      this.links.forEach(l => {
-        if (l.id === link.id) {
-          contained = true;
-        }
-      })
-      if (!contained) {
-        let profile1: Node = this.nodes.filter(node => node.id === link.profile1)[0];
-        let to: Node = this.nodes.filter(node => node.id === link.profile2)[0];
-        const l: Relationship = new Relationship(link.id, profile1, to, link.relationshipType);
-        this.links.push(l);
-      }
-    });
-    // Interpret and create parents
-    jsonParents.forEach(parent => {
-      let contained = false;
-      this.parents.forEach(p => {
-        if (parent.id === p.id) {
-          contained = true;
-        }
-      })
-      if (!contained) {
-        if (parent.parentType === "single") {
-          // Find node that is child
-          const child: Node = this.nodes.filter(node => node.id === parent.child)[0];
-
-          // Find node that is parent
-          const parentNode: Node = this.nodes.filter(node => node.id === parent.parent)[0];
-
-          // Create parentComponent
-          const parentComponent: NodeParentComponent = new NodeParentComponent(parent.id, child, parentNode, parent.biological);
-
-          // Add to parents array
-          if (!this.parents.includes(parentComponent)) {
-            this.parents.push(parentComponent);
-          }
-        } else {
-          // Find node that is child
-          const child: Node = this.nodes.filter(node => node.id === parent.child)[0];
-
-          // Find relationship that is parent
-          const parentRelationship: Link = this.links.filter(relationship => relationship.id === parent.parent)[0];
-
-          // Create ParentComponent
-          const parentComponent: LinkParentComponent = new LinkParentComponent(parent.id, child, parentRelationship, parent.biological);
-
-          // Add ParentComponent to parents array
-          if (!this.parents.includes(parentComponent)) {
-            this.parents.push(parentComponent);
-          }
+    jsonParents.forEach(jsonParent => {
+      if (this.parents.filter(parent => parent.id === jsonParent.timedentityid).length == 0) {
+        console.log("new parent");
+        console.log(jsonParent);
+        if (this.nodes.filter(node => node.id === jsonParent.parentsid).length == 0) { // parent is a relationship
+          console.log("Parent is rel");
+          let link = this.links.filter(link => link.id === jsonParent.parentsid)[0];
+          console.log(link);
+          this.parents.push(new LinkParentComponent(jsonParent.timedentityid, this.nodes.filter(node => node.id === jsonParent.childid)[0], link));
+        } else { // parent is a node
+          console.log("Parent is node");
+          this.parents.push(new NodeParentComponent(jsonParent.timedentityid, this.nodes.filter(node => node.id === jsonParent.childid)[0], this.nodes.filter(node => node.id === jsonParent.parentsid)[0]));
         }
       }
-    });
+    })
+
+
+    // this.calculateCoordinates();
     this.calculateCoordinates();
   }
   outputNodeEvent(node: Node) {
@@ -131,16 +91,25 @@ export class TreeComponent implements OnInit {
     let remainingPeople = this.nodes;
     let remainingParents = this.parents;
     let remainingRelationships = this.links;
+    console.log("People");
+    console.log(remainingPeople);
+    console.log("Relationships");
     console.log(remainingRelationships);
+    console.log("Parents");
+    console.log(remainingParents);
     let levels: Node[][] = [];
     let currentLevel = 0;
-    while (remainingPeople.length != 0 && currentLevel < 5) {
+    while (remainingPeople.length != 0) {
       levels[currentLevel] = [];
       remainingPeople.forEach(person => {
+        console.log("Checking: ");
+        console.log(person);
         if (remainingParents.filter(parent => parent.child === person)[0] === undefined) {
+          console.log("Haylo")
           // Does 'person' have a relationship with someone that has unplaced parents? (need to look recursively)
           let inAParentRel: Boolean = this.recursiveLooker(remainingRelationships, remainingParents, person, levels, currentLevel);
           if (!inAParentRel) {
+            console.log("pushing " + person.firstname)
             levels[currentLevel].push(person);
           }
         }
@@ -148,11 +117,11 @@ export class TreeComponent implements OnInit {
       remainingPeople = remainingPeople.filter(person => !levels[currentLevel].includes(person))
       let tmp: ParentComponent[] = [];
       remainingParents.forEach(parent => {
-        if (parent instanceof LinkParentComponent) {
+        if (parent.getType() == 1) {
           if (!(levels[currentLevel].includes(parent.parent.source) || levels[currentLevel].includes(parent.parent.target))) {
             tmp.push(parent);
           }
-        } else if (parent instanceof NodeParentComponent) {
+        } else if(parent.getType() == 2) {
           if (!levels[currentLevel].includes(parent.parent)) {
             tmp.push(parent);
           }
@@ -163,36 +132,41 @@ export class TreeComponent implements OnInit {
     }
 
     // Reorder links
-    let curr = 0;
-    let movedIds = [];
-    levels.forEach(level => {
-      // Replacement Node array
-      let newLevel: Node[] = [];
+    // let curr = 0;
+    // let movedIds = [];
+    // levels.forEach(level => {
+    //   // Replacement Node array
+    //   let newLevel: Node[] = [];
 
-      // Checking this level for relationships
-      level.forEach(person => {
-        let reassigned: boolean = false;
-        this.links.forEach(link => {
-          //Is this person is in a relationship
-          if (link.source === person || link.target === person) {
-            let other: Node = (link.source === person ? link.target : link.source);
-            if (!movedIds.includes(person.id) && !movedIds.includes(other.id)) {
-              newLevel.push(person);
-              newLevel.push(other);
-              movedIds.push(person.id);
-              movedIds.push(other.id);
-            }
-            reassigned = true;
-          }
-        })
-        if (!reassigned) {
-          newLevel.push(person);
-        }
-      })
-      levels[curr] = newLevel;
-      curr++;
-    })
+    //   // Checking this level for relationships
+    //   level.forEach(person => {
+    //     let reassigned: boolean = false;
+    //     this.links.forEach(link => {
+    //       //Is this person in a relationship
+    //       if (link.source === person || link.target === person) {
+    //         let other: Node = (link.source === person ? link.target : link.source);
+    //         if (!movedIds.includes(person.id) && !movedIds.includes(other.id)) {
+    //           newLevel.push(person);
+    //           newLevel.push(other);
+    //           movedIds.push(person.id);
+    //           movedIds.push(other.id);
+    //         }
+    //         reassigned = true;
+    //       }
+    //     })
+    //     if (!reassigned) {
+    //       newLevel.push(person);
+    //     }
+    //   })
+    //   levels[curr] = newLevel;
+    //   curr++;
+    // })
 
+    this.setCoordinates(levels);
+  }
+
+
+  setCoordinates(levels: Node[][]) {
     let maxWidth = 0;
     let maxWidthIndex = -1;
     levels.forEach(level => { if (maxWidth < level.length) { maxWidth = level.length; maxWidthIndex = levels.indexOf(level); } });
@@ -215,8 +189,10 @@ export class TreeComponent implements OnInit {
     console.log(levels);
     for (let i = 0; i < levels.length; i++) {
       for (let j = 0; j < levels[i].length; j++) {
+
         levels[i][j].x = offset + maxWidth / levels[i].length * j * 100 + 100;
         levels[i][j].y = i * verticalStep + level0Height;
+        console.log(levels[i][j])
       }
     }
     this.links.forEach(l => {
@@ -225,6 +201,37 @@ export class TreeComponent implements OnInit {
     this.parents.forEach(p => p.update());
     this.ready = true;
   }
+
+  arrangeNodes(): void {
+    let levels: Node[][] = [];
+    let remainingPeople: Node[] = this.nodes;
+    let remainingParents: ParentComponent[] = this.parents;
+    let currentLevel: number = 0;
+    while (remainingPeople.length != 0 && levels.length < 5) {
+      levels[currentLevel] = [];
+      remainingPeople.forEach(node => {
+        let inThisLevel: boolean = true;
+        remainingParents.forEach(parent => {
+          if (parent.child.id === node.id) {
+            inThisLevel = false;
+            remainingParents = remainingParents.filter(p => p.id === parent.id);
+          }
+        })
+        if (inThisLevel) {
+          levels[currentLevel].push(node);
+          remainingPeople = remainingPeople.filter(n => n.id != node.id)
+        }
+      })
+      currentLevel++;
+    }
+
+    let remainingRelationships: Relationship[] = this.links;
+
+    this.setCoordinates(levels);
+  }
+
+
+
   recursiveLooker(remainingRelationships: Link[], remainingParents: ParentComponent[], person: Node, levels: Node[][], currentLevel: number): boolean {
     let inAParentRel: boolean = false;
     remainingRelationships.forEach(rel => {
@@ -315,7 +322,79 @@ export class TreeComponent implements OnInit {
   }
   saveContent() {
     this.savingContent = true;
+    this.saveNodes().then(response => {
+      this.saveRelationships().then(response => {
+        this.saveParents().then(response => {
+          this.savingContent = false;
+          this.newContent = false;
+        })
+      })
+    })
   }
+
+  saveNodes(): Promise<string> {
+    return Promise.all(this.newNodes.map(node => this.saveNode(node, this.http))).then(_ => {
+      console.log("Node finished")
+      return Promise.resolve("Finished");
+    })
+  }
+  saveNode(newNode: Node, http: Http): Promise<string> {
+    return http.post("http://localhost:9000/profile", {
+      "firstName": newNode.firstname,
+      "lastName": newNode.lastname,
+      "gender": newNode.gender,
+      "profilePicture": "http://www.rd.com/wp-content/uploads/sites/2/2016/02/06-train-cat-shake-hands.jpg",
+      "birthDay": newNode.birthDay,
+      "deathDay": newNode.deathDay,
+      "born": newNode.born,
+      "died": newNode.died
+    }).toPromise().then(response => {
+      newNode.id = response.json().peopleentityid
+      return Promise.resolve("Done")
+    })
+  }
+
+  saveRelationships(): Promise<string> {
+    return Promise.all(this.newRelationships.map(rel => this.saveRelationship(rel, this.http))).then(_ => {
+      return Promise.resolve("Finished");
+    })
+  }
+
+  saveRelationship(newRelationship: Relationship, http: Http): Promise<string> {
+    return http.post("http://localhost:9000/relationships", {
+      profile1: newRelationship.source.id,
+      profile2: newRelationship.target.id,
+      type: newRelationship.getRelationshipTypeAsNumber(),
+      time: newRelationship.getTime()
+    }).toPromise().then(response => {
+      newRelationship.id = response.json().id
+      return Promise.resolve("Done");
+    })
+  }
+
+  saveParents(): Promise<string> {
+    return Promise.all(this.newParents.map(parent => this.saveParent(parent, this.http))).then(_ => {
+      return Promise.resolve("Parents finished");
+    })
+  }
+  saveParent(newParent: ParentComponent, http: Http): Promise<string> {
+    return http.post("http://localhost:9000/parents", {
+      // Parent info
+      parentType: "biological",
+      parent: {
+        type: (newParent instanceof LinkParentComponent ? "relationship": "single"),
+        id: newParent.parent.id
+      },
+      child: newParent.child.id,
+      time: {
+        begin: newParent.child.birthDay
+      }
+    }).toPromise().then(response => {
+      newParent.id = response.json().id
+      return Promise.resolve("Done");
+    })
+  }
+
 }
 
 
@@ -328,25 +407,20 @@ export class NewParentDialog implements OnInit {
 
   parentType: string;
   parentTypes: string[] = ["Adoptive", "Biological", "Guardian"]
-  parent: {type: string, id: number };
+  parent: { type: string, id: number };
   child: number;
   nodes: Node[];
-  links: Link[];
+  links: Relationship[];
   createNewParent() {
-    console.log(this.parentType);
-    console.log(this.parent);
-    console.log(this.child);
     let newParent: ParentComponent;
     if (this.parent.type === 'link') {
-      console.log("link")
-      newParent = new LinkParentComponent(Math.ceil(Math.random()*100), this.nodes.filter(node => node.id === this.child)[0], this.links.filter(link => link.id === this.parent.id)[0], true);
+      newParent = new LinkParentComponent(Math.ceil(Math.random() * 100), this.nodes.filter(node => node.id === this.child)[0], this.links.filter(link => link.id === this.parent.id)[0]);
     } else if (this.parent.type === 'node') {
-      console.log("node")
-      newParent = new NodeParentComponent(Math.ceil(Math.random()*100), this.nodes.filter(node => node.id === this.child)[0], this.nodes.filter(node => node.id === this.parent.id)[0], true);
+      newParent = new NodeParentComponent(Math.ceil(Math.random() * 100), this.nodes.filter(node => node.id === this.child)[0], this.nodes.filter(node => node.id === this.parent.id)[0]);
     }
-        this.dialogRef.close(newParent);
+    this.dialogRef.close(newParent);
   }
-  constructor( @Inject(MD_DIALOG_DATA) private data: { nodes: Node[], links: Link[] }, public dialogRef: MdDialogRef<NewParentDialog>) {
+  constructor( @Inject(MD_DIALOG_DATA) private data: { nodes: Node[], links: Relationship[] }, public dialogRef: MdDialogRef<NewParentDialog>) {
 
   }
   public ngOnInit() {

@@ -9,7 +9,7 @@ export class NewProfileComponent implements OnInit {
   @Output() onSubmit: EventEmitter<any> = new EventEmitter<any>();
   firstname: string;
   lastname: string;
-  born: { name: string, description: string, location: { city: string, province: string, country: string }, media: string[] } = { name: "", description: "", location: { city: "", province: "", country: "" }, media: [] };
+  born: { name: string, description: string, location: { city: string, province: string, country: string }, media: string[] } = { name: "Birth", description: "", location: { city: "", province: "", country: "" }, media: [] };
   died: { name: string, description: string, location: { city: string, province: string, country: string }, media: string[] } = { name: "", description: "", location: { city: "", province: "", country: "" }, media: [] };
   birthDay: string;
   gender: string;
@@ -20,7 +20,7 @@ export class NewProfileComponent implements OnInit {
   deathDayDay: number;
   deathDayMonth: number;
   deathDayYear: number;
-
+  genders: string[] = ["male", "female", "other"];
   constructor(private http: Http) { }
 
   verifyDates(): boolean {
@@ -29,10 +29,12 @@ export class NewProfileComponent implements OnInit {
   ngOnInit() {
   }
   submit() {
+    this.born.description = this.firstname + " is born"
+    console.log(this.gender);
     this.onSubmit.emit({
       firstName: this.firstname,
       lastName: this.lastname,
-      gender: this.gender,
+      gender: this.genders.indexOf(this.gender),
       profilePicture: "http://www.wikiality.com/file/2016/11/bears1.jpg",
       birthDay: this.birthDayDay + "-" + this.birthDayMonth + "-" + this.birthDayYear,
       deathDay: this.deathDayDay + "-" + this.deathDayMonth + "-" + this.deathDayYear,

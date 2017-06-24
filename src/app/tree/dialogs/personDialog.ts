@@ -10,9 +10,10 @@ export class NewPersonDialog {
   constructor(public dialogRef: MdDialogRef<NewPersonDialog>) {
   }
   createPerson(profileData) {
+    console.log("=======================")
     console.log(profileData)
-    const n: Node = new Node(Math.ceil(Math.random()), undefined, profileData.firstName, profileData.lastName);
-    // console.log(n)
+    console.log("=======================")
+    const n: Node = new Node(-1 * Math.ceil(Math.random() * 100), undefined, profileData.firstName, profileData.lastName, profileData.gender, profileData.birthDay, profileData.deathDay, profileData.born, profileData.died);
     this.dialogRef.close(n);
   }
 }

@@ -9,5 +9,25 @@
     <md-select class="choice" placeholder="To" [(ngModel)]="to">
         <md-option *ngFor="let node of nodes" [value]="node.firstname">{{ node.firstname }}</md-option>
     </md-select>
+    <h2>Began:</h2>    
+    <md-input-container class="date">
+        <input class="date" mdInput [(ngModel)]="beginDay" placeholder="Day">
+    </md-input-container>
+    <md-input-container class="date">
+        <input class="date" mdInput [(ngModel)]="beginMonth" placeholder="Month">
+    </md-input-container>
+    <md-input-container class="date">
+        <input class="date" mdInput [(ngModel)]="beginYear" placeholder="Year">
+    </md-input-container>
+    <h2>Ended (optional):</h2>
+    <md-input-container class="date">
+        <input class="date" mdInput [(ngModel)]="endDay" placeholder="Day">
+    </md-input-container>
+    <md-input-container class="date">
+        <input class="date" mdInput [(ngModel)]="endMonth" placeholder="Month">
+    </md-input-container>
+    <md-input-container class="date">
+        <input class="date" mdInput [(ngModel)]="endYear" placeholder="Year">
+    </md-input-container>
     <button class="addButton" (click)="createRelationship()" md-raised-button>Add</button>
 </div>

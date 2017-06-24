@@ -7,6 +7,6 @@
     <svg:circle class="node" [attr.fill]="'url(#' + node.id+')'" [attr.cx]="node.x" [attr.cy]="node.y" [attr.r]="globals.nodeRadius">
     </svg:circle>
 </svg:g>
-<svg:text class="node-name" [attr.x]="node.x" [attr.y]="node.y + globals.nodeRadius + node.fontSize/2" [attr.font-size]="node.fontSize">
+<svg:text class="node-name" [attr.x]="node.x" [attr.y]="node.y + globals.nodeRadius + globals.fontSize/2" [attr.font-size]="globals.fontSize">
     {{node.firstname[0]}}
 </svg:text>
