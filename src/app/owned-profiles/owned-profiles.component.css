@@ -1,0 +1,22 @@
+.profile {
+  width: 20%;
+  max-height: 200px;
+  margin: 30px!important;
+  cursor: pointer;
+  display: inline-block;
+}
+.profilePicture {
+    position: relative;
+    float: left;
+    width: 50%;
+    height: auto;
+}
+.info {
+    padding: 5px!important;
+    margin: none;
+    width: 50%;
+    float: left;
+}
+.name {
+    font-size: 20px!important;
+}

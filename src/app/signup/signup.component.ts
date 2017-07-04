@@ -41,6 +41,8 @@ export class SignupComponent implements OnInit {
         password: this.password
       }).toPromise().then(response => {
         console.log(response);
+        localStorage["treemily_id"] = response.json().profileid
+        localStorage["treemily_email"] = response.json().email
       })
     })
   }

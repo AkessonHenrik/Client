@@ -12,6 +12,9 @@ import { TreeDataService } from '../tree-data.service';
 import { ChoiceDialog } from './dialogs/choiceDialog';
 import { NewPersonDialog } from './dialogs/personDialog';
 import { NewRelationshipDialog } from './dialogs/relationshipDialog';
+import { ActivatedRoute } from '@angular/router';
+import * as globals from '../globals';
+
 @Component({
   selector: 'app-tree',
   templateUrl: './tree.component.html',
@@ -20,31 +23,34 @@ import { NewRelationshipDialog } from './dialogs/relationshipDialog';
 export class TreeComponent implements OnInit {
   nodes: Node[] = [];
   newNodes: Node[] = [];
+  id: number;
   links: Relationship[] = [];
   newRelationships: Relationship[] = [];
   newParents: ParentComponent[] = [];
   parents: ParentComponent[] = [];
   ready: boolean = false;
-  // height: number = 1000;
-  // width: number = 1600;
   height: number = window.screen.height;
   width: number = window.screen.width;
   newContent: boolean = false;
   logger: boolean = false;
   savingContent: boolean = false;
-  constructor(private http: Http, private zone: NgZone, public dialog: MdDialog, private dataService: TreeDataService) { }
+  constructor(private http: Http, private zone: NgZone, public dialog: MdDialog, private dataService: TreeDataService, private route: ActivatedRoute) { }
   onRightClickEvent(e: MouseEvent, node: Node) {
     let data = this.dataService.getData(node.id).then(data => {
       this.createData(data.nodes, data.relationships, data.parents);
     })
   }
   ngOnInit() {
-    let data = this.dataService.getData(2).then(data => {
-      this.createData(data.nodes, data.links, data.parents);
+    this.route.params.subscribe(params => {
+      this.id = +params['id'];
+      if (this.id) {
+        let data = this.dataService.getData(this.id).then(data => {
+          this.createData(data.nodes, data.links, data.parents);
+        })
+      }
     })
   }
   createData(
-    // jsonNodes: [{ id: number, firstname: string, lastname: string, image: string, gender: number, birthDay: string, deathDay: string, born: any, died: any }],
     jsonNodes: [{ id: number, firstname: string, lastname: string, image: string, gender: number }],
     jsonRelationships: [{ id: number, profile1: number, profile2: number, relationshipType: string, time: string, begintime: string, endtime: string }],
     jsonParents: [{ timedentityid: number, parentsid: number, childid: number, parentType: number }]) {
@@ -54,28 +60,30 @@ export class TreeComponent implements OnInit {
         this.nodes.push(new Node(jsonNode.id, jsonNode.image, jsonNode.firstname, jsonNode.lastname, jsonNode.gender, null, null, null, null));
     })
 
-    jsonRelationships.forEach(jsonRelationship => {
-      if (this.links.filter(link => link.id === jsonRelationship.id).length == 0) {
-        this.links.push(new Relationship(jsonRelationship.id, this.nodes.filter(node => node.id === jsonRelationship.profile1)[0], this.nodes.filter(node => node.id === jsonRelationship.profile2)[0], jsonRelationship.relationshipType));
-      }
-    })
-
-    jsonParents.forEach(jsonParent => {
-      if (this.parents.filter(parent => parent.id === jsonParent.timedentityid).length == 0) {
-        console.log("new parent");
-        console.log(jsonParent);
-        if (this.nodes.filter(node => node.id === jsonParent.parentsid).length == 0) { // parent is a relationship
-          console.log("Parent is rel");
-          let link = this.links.filter(link => link.id === jsonParent.parentsid)[0];
-          console.log(link);
-          this.parents.push(new LinkParentComponent(jsonParent.timedentityid, this.nodes.filter(node => node.id === jsonParent.childid)[0], link));
-        } else { // parent is a node
-          console.log("Parent is node");
-          this.parents.push(new NodeParentComponent(jsonParent.timedentityid, this.nodes.filter(node => node.id === jsonParent.childid)[0], this.nodes.filter(node => node.id === jsonParent.parentsid)[0]));
+    if (jsonRelationships) {
+      jsonRelationships.forEach(jsonRelationship => {
+        if (this.links.filter(link => link.id === jsonRelationship.id).length == 0) {
+          this.links.push(new Relationship(jsonRelationship.id, this.nodes.filter(node => node.id === jsonRelationship.profile1)[0], this.nodes.filter(node => node.id === jsonRelationship.profile2)[0], jsonRelationship.relationshipType));
         }
-      }
-    })
-
+      })
+    }
+    if (jsonParents) {
+      jsonParents.forEach(jsonParent => {
+        if (this.parents.filter(parent => parent.id === jsonParent.timedentityid).length == 0) {
+          console.log("new parent");
+          console.log(jsonParent);
+          if (this.nodes.filter(node => node.id === jsonParent.parentsid).length == 0) { // parent is a relationship
+            console.log("Parent is rel");
+            let link = this.links.filter(link => link.id === jsonParent.parentsid)[0];
+            console.log(link);
+            this.parents.push(new LinkParentComponent(jsonParent.timedentityid, this.nodes.filter(node => node.id === jsonParent.childid)[0], link));
+          } else { // parent is a node
+            console.log("Parent is node");
+            this.parents.push(new NodeParentComponent(jsonParent.timedentityid, this.nodes.filter(node => node.id === jsonParent.childid)[0], this.nodes.filter(node => node.id === jsonParent.parentsid)[0]));
+          }
+        }
+      })
+    }
 
     // this.calculateCoordinates();
     this.calculateCoordinates();
@@ -103,7 +111,7 @@ export class TreeComponent implements OnInit {
       levels[currentLevel] = [];
       remainingPeople.forEach(person => {
         console.log("Checking: ");
-        console.log(person);
+        console.log(person.firstname);
         if (remainingParents.filter(parent => parent.child === person)[0] === undefined) {
           console.log("Haylo")
           // Does 'person' have a relationship with someone that has unplaced parents? (need to look recursively)
@@ -121,7 +129,7 @@ export class TreeComponent implements OnInit {
           if (!(levels[currentLevel].includes(parent.parent.source) || levels[currentLevel].includes(parent.parent.target))) {
             tmp.push(parent);
           }
-        } else if(parent.getType() == 2) {
+        } else if (parent.getType() == 2) {
           if (!levels[currentLevel].includes(parent.parent)) {
             tmp.push(parent);
           }
@@ -283,7 +291,6 @@ export class TreeComponent implements OnInit {
   newNode() {
     let dialogRef = this.dialog.open(NewPersonDialog);
     dialogRef.afterClosed().subscribe(node => {
-      console.log("hello")
       if (node !== undefined) {
         this.newContent = true;
         this.nodes.push(node);
@@ -315,9 +322,11 @@ export class TreeComponent implements OnInit {
       }
     })
     dialogRef.afterClosed().subscribe(parent => {
-      this.parents.push(parent);
-      this.newParents.push(parent);
-      this.calculateCoordinates();
+      if (parent) {
+        this.parents.push(parent);
+        this.newParents.push(parent);
+        this.calculateCoordinates();
+      }
     });
   }
   saveContent() {
@@ -334,7 +343,6 @@ export class TreeComponent implements OnInit {
 
   saveNodes(): Promise<string> {
     return Promise.all(this.newNodes.map(node => this.saveNode(node, this.http))).then(_ => {
-      console.log("Node finished")
       return Promise.resolve("Finished");
     })
   }
@@ -350,7 +358,17 @@ export class TreeComponent implements OnInit {
       "died": newNode.died
     }).toPromise().then(response => {
       newNode.id = response.json().peopleentityid
-      return Promise.resolve("Done")
+      return this.saveGhost(newNode, http);
+    })
+  }
+
+  saveGhost(newNode: Node, http: Http): Promise<string> {
+    return http.post("http://localhost:9000/ghost", {
+      ownerId: globals.getUserId(),
+      profileId: newNode.id
+    }).toPromise().then(response => {
+      // Handle error?
+      return Promise.resolve("Finished");
     })
   }
 
@@ -378,16 +396,17 @@ export class TreeComponent implements OnInit {
     })
   }
   saveParent(newParent: ParentComponent, http: Http): Promise<string> {
+    console.log(newParent.child.birthDay)
     return http.post("http://localhost:9000/parents", {
       // Parent info
       parentType: "biological",
       parent: {
-        type: (newParent instanceof LinkParentComponent ? "relationship": "single"),
+        type: (newParent instanceof LinkParentComponent ? "relationship" : "single"),
         id: newParent.parent.id
       },
       child: newParent.child.id,
       time: {
-        begin: newParent.child.birthDay
+        begin: "01-01-01"//newParent.child.birthDay
       }
     }).toPromise().then(response => {
       newParent.id = response.json().id
@@ -412,13 +431,15 @@ export class NewParentDialog implements OnInit {
   nodes: Node[];
   links: Relationship[];
   createNewParent() {
-    let newParent: ParentComponent;
-    if (this.parent.type === 'link') {
-      newParent = new LinkParentComponent(Math.ceil(Math.random() * 100), this.nodes.filter(node => node.id === this.child)[0], this.links.filter(link => link.id === this.parent.id)[0]);
-    } else if (this.parent.type === 'node') {
-      newParent = new NodeParentComponent(Math.ceil(Math.random() * 100), this.nodes.filter(node => node.id === this.child)[0], this.nodes.filter(node => node.id === this.parent.id)[0]);
+    if (this.parent && this.child && this.parentType) {
+      let newParent: ParentComponent;
+      if (this.parent.type === 'link') {
+        newParent = new LinkParentComponent(Math.ceil(Math.random() * 100), this.nodes.filter(node => node.id === this.child)[0], this.links.filter(link => link.id === this.parent.id)[0]);
+      } else if (this.parent.type === 'node') {
+        newParent = new NodeParentComponent(Math.ceil(Math.random() * 100), this.nodes.filter(node => node.id === this.child)[0], this.nodes.filter(node => node.id === this.parent.id)[0]);
+      }
+      this.dialogRef.close(newParent);
     }
-    this.dialogRef.close(newParent);
   }
   constructor( @Inject(MD_DIALOG_DATA) private data: { nodes: Node[], links: Relationship[] }, public dialogRef: MdDialogRef<NewParentDialog>) {
 

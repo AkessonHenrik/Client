@@ -16,11 +16,11 @@
     </md-toolbar>
     <md-sidenav class="sidebar" #start mode="side">
         <ul class="menuOptions">
-            <li (click)="redirectToTree()">
+            <li (click)="redirectToMyTree()">
                 My Family Tree
             </li>
-            <li>Owned profiles</li>
-            <li>Create a new tree</li>
+            <li (click)="redirectToOwnedProfiles()">Owned profiles</li>
+            <li (click)="redirectToNewTree()">Create a new tree</li>
             <li>My profile</li>
         </ul>
     </md-sidenav>

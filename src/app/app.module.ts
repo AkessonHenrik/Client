@@ -31,8 +31,11 @@ import { MediaViewerComponent } from './media-viewer/media-viewer.component';
 import { SignupComponent } from './signup/signup.component';
 import { MdNativeDateModule } from '@angular/material';
 import { NewProfileComponent } from './new-profile/new-profile.component';
+import { OwnedProfilesComponent } from './owned-profiles/owned-profiles.component';
 const appRoutes: Routes = [
-  { path: 'tree', component: TreeComponent },
+  { path: 'tree/:id', component: TreeComponent },
+  { path: 'newTree', component: TreeComponent },
+  { path: 'owned', component: OwnedProfilesComponent },
   { path: '', component: WelcomeComponent },
   { path: 'login', component: AuthComponent },
   { path: 'signup', component: SignupComponent },
@@ -68,7 +71,8 @@ const appRoutes: Routes = [
     LifeEventComponent,
     MediaViewerComponent,
     SignupComponent,
-    NewProfileComponent
+    NewProfileComponent,
+    OwnedProfilesComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
