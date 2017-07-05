@@ -10,5 +10,17 @@
     <md-select class="choice" placeholder="Child" [(ngModel)]="child">
         <md-option *ngFor="let node of nodes" [value]="node.id">{{ node.firstname }}</md-option>
     </md-select>
+    <div *ngIf="parentType != 'biological'">
+    <h2>Began:</h2>    
+    <md-input-container class="date">
+        <input class="date" mdInput [(ngModel)]="beginDay" placeholder="Day">
+    </md-input-container>
+    <md-input-container class="date">
+        <input class="date" mdInput [(ngModel)]="beginMonth" placeholder="Month">
+    </md-input-container>
+    <md-input-container class="date">
+        <input class="date" mdInput [(ngModel)]="beginYear" placeholder="Year">
+    </md-input-container>
+    </div>
     <button class="addButton" (click)="createNewParent()" md-raised-button>Add</button>
 </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdSnackBar } from '@angular/material';
 import { Http } from '@angular/http';
+import * as globals from '../globals';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -29,13 +30,13 @@ export class SignupComponent implements OnInit {
   }
 
   createAccountAndProfile(profileData) {
-    this.http.post("http://localhost:9000/profile", profileData).toPromise().then(response => {
+    this.http.post(globals.profileEndpoint, profileData).toPromise().then(response => {
       let body = response.json();
       let id = body.peopleentityid;
       console.log(id);
       return id;
     }).then(id => {
-      this.http.post("http://localhost:9000/signup", {
+      this.http.post(globals.signupEndpoint, {
         profileId: id,
         email: this.email,
         password: this.password

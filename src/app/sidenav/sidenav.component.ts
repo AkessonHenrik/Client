@@ -44,4 +44,9 @@ export class SidenavComponent implements OnInit {
   focusOutFunction() {
     this.searchingToggled = false;
   }
+  logout() {
+    delete localStorage["treemily_id"];
+    delete localStorage["treemily_email"];
+    this.router.navigateByUrl('/login');
+  }
 }

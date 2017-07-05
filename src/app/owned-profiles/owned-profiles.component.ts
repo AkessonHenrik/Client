@@ -12,7 +12,7 @@ export class OwnedProfilesComponent implements OnInit {
   constructor(private http: Http, private router: Router) { }
   profiles = [];
   ngOnInit() {
-    this.http.get("http://localhost:9000/owned/" + globals.getUserId()).toPromise().then(response => {
+    this.http.get(globals.server + "/owned/" + globals.getUserId()).toPromise().then(response => {
       this.profiles = response.json()
     })
   }

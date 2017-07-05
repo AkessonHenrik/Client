@@ -59,7 +59,14 @@ ul {
     float: right!important;
     color: white;
 }
-
+.inner-sidenav-content {
+  overflow: auto;
+  position: absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  top:64px;
+}
 .material-icons.md-36 {
     font-size: 36px;
 }

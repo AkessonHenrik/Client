@@ -1,5 +1,5 @@
 import { Node } from './';
-
+import * as globals from '../../globals';
 export abstract class Link {
   source: Node;
   target: Node;
@@ -18,12 +18,11 @@ export abstract class Link {
 }
 
 export class Relationship extends Link {
-  relationshipTypes = ["Spouse", "Partner", "Sibling", "Cousin", "Friend", "Other/Unknown"]
   relationshipType: string;
   icon: string;
-  constructor(id: number, source, target, relationshipType: string) {
+  constructor(id: number, source, target, type: number) {
     super(id, source, target);
-    this.relationshipType = relationshipType;
+    this.relationshipType = globals.relationshipTypes[type];
     switch (this.relationshipType) {
       case "Spouse": {
         this.icon = '/assets/wedding.svg';
@@ -36,20 +35,15 @@ export class Relationship extends Link {
     }
   }
   getRelationshipTypeAsNumber(): number {
-    return this.relationshipTypes.indexOf(this.relationshipType);
+    return globals.relationshipTypes.indexOf(this.relationshipType);
   }
   getTime() {
-    console.log("Hai gais");
     if (this.time instanceof String) {
       let res = {
         begintime: this.time
       };
-      console.log("Gonna return");
-      console.log(res);
       return res;
     } else {
-      console.log("gonna return");
-      console.log(this.time);
       return this.time
     }
   }
