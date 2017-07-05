@@ -28,7 +28,7 @@ export class TreeComponent implements OnInit {
   newParents: ParentComponent[] = [];
   parents: ParentComponent[] = [];
   ready: boolean = false;
-  height: number = window.screen.height;
+  height: number = Math.min(window.screen.height, 800);
   width: number = window.screen.width;
   newContent: boolean = false;
   logger: boolean = false;
