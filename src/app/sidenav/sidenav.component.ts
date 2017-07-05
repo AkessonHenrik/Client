@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
 import { MdSnackBarConfig } from '@angular/material';
 import { ViewEncapsulation } from '@angular/core';
-
+import * as globals from '../globals';
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
@@ -16,11 +16,17 @@ export class SidenavComponent implements OnInit {
   searchInput: string = ""
   ngOnInit() {
   }
-  redirectToTree() {
-    this.router.navigateByUrl('/tree');
+  redirectToMyTree() {
+    this.router.navigate(['/tree/', globals.getUserId()]);
   }
-  loggedIn(): boolean {
-    return localStorage['treemily_credentials'] !== undefined;
+  redirectToNewTree() {
+    this.router.navigateByUrl('/newTree')
+  }
+  redirectToOwnedProfiles() {
+    this.router.navigateByUrl('/owned');
+  }
+  loggedIn() {
+    return localStorage["treemily_id"] !== undefined
   }
   login() {
     this.router.navigateByUrl('/login');
@@ -37,5 +43,10 @@ export class SidenavComponent implements OnInit {
   }
   focusOutFunction() {
     this.searchingToggled = false;
+  }
+  logout() {
+    delete localStorage["treemily_id"];
+    delete localStorage["treemily_email"];
+    this.router.navigateByUrl('/login');
   }
 }

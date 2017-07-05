@@ -14,11 +14,8 @@ import 'hammerjs';
 import { RouterModule, Routes } from '@angular/router';
 import { MdSidenavModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { GraphComponent } from './visuals/graph/graph.component';
 import { TreeComponent } from './tree/tree.component';
-import { NewPersonDialog } from './tree/dialogs/personDialog';
-import { NewRelationshipDialog } from './tree/dialogs/relationshipDialog';
-import { ChoiceDialog } from './tree/dialogs/choiceDialog';
+import { ChoiceDialog, NewPersonDialog, NewRelationshipDialog, NewParentDialog } from './tree/dialogs/';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { AuthComponent } from './auth/auth.component';
 import { HomeComponent } from './home/home.component';
@@ -28,25 +25,25 @@ import { TreeDataService } from './tree-data.service';
 import { ProfileViewComponent, VideoComponent, MediaComponent, ImageComponent, ExternalVideoComponent } from './profile-view/profile-view.component';
 import { EventComponent, WorkEventComponent, LifeEventComponent } from './event/event.component';
 import { LocationComponent } from './location/location.component';
-import { GalleryModule, GalleryConfig } from 'ng-gallery';
 import { MediaViewerComponent } from './media-viewer/media-viewer.component';
+import { SignupComponent } from './signup/signup.component';
+import { MdNativeDateModule } from '@angular/material';
+import { NewProfileComponent } from './new-profile/new-profile.component';
+import { OwnedProfilesComponent } from './owned-profiles/owned-profiles.component';
 const appRoutes: Routes = [
-  // { path: 'crisis-center', component: CrisisListComponent },
-  { path: 'tree', component: TreeComponent },
+  { path: 'tree/:id', component: TreeComponent },
+  { path: 'newTree', component: TreeComponent },
+  { path: 'owned', component: OwnedProfilesComponent },
   { path: '', component: WelcomeComponent },
   { path: 'login', component: AuthComponent },
+  { path: 'signup', component: SignupComponent },
   { path: 'mediaViewer', component: MediaViewerComponent }
 ];
-
-export const galleryConfig: GalleryConfig = {
-  // ...
-}
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    GraphComponent,
     ...SHARED_VISUALS,
     ...D3_DIRECTIVES,
     TreeComponent,
@@ -65,11 +62,15 @@ export const galleryConfig: GalleryConfig = {
     VideoComponent,
     ExternalVideoComponent,
     ImageComponent,
+    NewParentDialog,
     EventComponent,
     LocationComponent,
     WorkEventComponent,
     LifeEventComponent,
-    MediaViewerComponent
+    MediaViewerComponent,
+    SignupComponent,
+    NewProfileComponent,
+    OwnedProfilesComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -82,10 +83,10 @@ export const galleryConfig: GalleryConfig = {
     MdMenuModule,
     MdSidenavModule,
     NgbModule.forRoot(),
-    GalleryModule.forRoot(galleryConfig)
+    MdNativeDateModule
   ],
   providers: [D3Service, TreeDataService],
   bootstrap: [AppComponent, SidenavComponent],
-  entryComponents: [ChoiceDialog, NewPersonDialog, NewRelationshipDialog, ProfileDialog]
+  entryComponents: [ChoiceDialog, NewPersonDialog, NewRelationshipDialog, NewParentDialog, ProfileDialog]
 })
 export class AppModule { }

@@ -1,15 +1,8 @@
 <div class="dialogChoice">
-    <h1 md-dialog-title>New element</h1>
-    <div md-dialog-content>What would you like to add?</div>
+    <h1 class="dialogTitle" md-dialog-title>New element</h1>
     <div md-dialog-actions>
-        <div class="dialogButton">
-            <button md-button (click)="dialogRef.close('node')">Add Person</button>
-        </div>
-        <div class="dialogButton">
-            <button md-button (click)="dialogRef.close('relationship')">Add Relationship</button>
-        </div>
-        <div class="dialogButton">
-            <button md-button (click)="dialogRef.close('parent')">Add Parent/child Relationship</button>
-        </div>
+        <button md-raised-button class="dialogButton" (click)="dialogRef.close('node')">Add Person</button>
+        <button md-raised-button class="dialogButton" (click)="dialogRef.close('relationship')">Add Relationship</button>
+        <button md-raised-button class="dialogButton" (click)="dialogRef.close('parent')">Add Parent</button>
     </div>
 </div>

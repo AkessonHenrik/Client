@@ -11,7 +11,7 @@ import { Node } from '../d3/models/node'
   styleUrls: ['./profile-view.component.css']
 })
 export class ProfileViewComponent implements OnInit {
-  @Input('node') node: Node;
+  @Input('profile') node: Node;
   firstName: string;
   lastName: string;
   profilePicture: string;
@@ -20,7 +20,7 @@ export class ProfileViewComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.node)
-    this.http.get('assets/' + this.node.firstname + this.node.lastName + '.json')
+    this.http.get('assets/' + this.node.firstname + this.node.lastname + '.json')
       .toPromise()
       .then(res => {
         let body = res.json();
