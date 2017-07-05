@@ -10,10 +10,12 @@ import * as globals from '../globals';
 export class OwnedProfilesComponent implements OnInit {
 
   constructor(private http: Http, private router: Router) { }
+  loading: boolean = true;
   profiles = [];
   ngOnInit() {
     this.http.get(globals.server + "/owned/" + globals.getUserId()).toPromise().then(response => {
       this.profiles = response.json()
+      this.loading = false;
     })
   }
   goToTree(id: number) {

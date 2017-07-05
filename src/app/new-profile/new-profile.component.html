@@ -10,8 +10,8 @@
   <md-radio-button class="choice" value="male">Male</md-radio-button>
   <md-radio-button class="choice" value="other">Other</md-radio-button>
 </md-radio-group>
+<label for="file">Choose a profile picture</label>
 <input type="file" name="file" (change)="fileChange($event)" placeholder="Upload profile picture" accept=".jpg,.png,.gif">
-<label for="file">Choose a file</label>
 <h2>Birth</h2>
 <md-input-container class="container">
   <input mdInput class="accountInput" [(ngModel)]="born.location.city" placeholder="Birth city">

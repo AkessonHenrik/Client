@@ -1,15 +1,23 @@
-<md-card *ngFor="let profile of profiles" class="profile">
-  <img md-card-image class="profilePicture" src={{profile.image}}>
-  <md-card-header class="info">
-    <md-card-title class="name">{{profile.firstname}}</md-card-title>
-    <md-card-title class="name">{{profile.lastname}}</md-card-title>
-    <md-card-subtitle class="gender">{{getGender(profile.gender)}}</md-card-subtitle>
-  </md-card-header>
-  <md-card-content>
+<div *ngIf="!loading">
+  <div class="noProfiles" *ngIf="profiles.length === 0">
+    <p>You currently don't own any profiles :-(</p><br>
+    <p>Why not add people to your family tree or create a new one?</p>
+  </div>
 
-  </md-card-content>
-  <md-card-actions>
-    <button md-button (click)="goToTree(profile.id)">TREE</button>
-    <button md-button>EDIT</button>
-  </md-card-actions>
-</md-card>
+  <md-card *ngFor="let profile of profiles" class="profile">
+    <img md-card-image class="profilePicture" src={{profile.image}}>
+    <md-card-header class="info">
+      <md-card-title class="name">{{profile.firstname}}</md-card-title>
+      <md-card-title class="name">{{profile.lastname}}</md-card-title>
+      <md-card-subtitle class="gender">{{getGender(profile.gender)}}</md-card-subtitle>
+    </md-card-header>
+    <md-card-content>
+
+    </md-card-content>
+    <md-card-actions>
+      <button md-button (click)="goToTree(profile.id)">TREE</button>
+      <button md-button>EDIT</button>
+    </md-card-actions>
+  </md-card>
+</div>
+<md-spinner *ngIf="loading" class="loadingContent"></md-spinner>
