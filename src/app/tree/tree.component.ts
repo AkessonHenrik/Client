@@ -331,7 +331,7 @@ export class TreeComponent implements OnInit {
       "firstName": newNode.firstname,
       "lastName": newNode.lastname,
       "gender": newNode.gender,
-      "profilePicture": "http://www.rd.com/wp-content/uploads/sites/2/2016/02/06-train-cat-shake-hands.jpg",
+      "profilePicture": newNode.image,
       "birthDay": newNode.birthDay,
       "deathDay": newNode.deathDay,
       "born": newNode.born,

@@ -24,3 +24,4 @@ export const signupEndpoint = server + "/signup"
 export const ghostEndpoint = server + "/ghost"
 export const parentsEndpoint = server + "/parents"
 export const relationshipTypes: string[] = ["Spouse", "Partner", "Sibling", "Cousin", "Friend", "Other/Unknown"]
+export const fileEndpoint = server + "/assets/";
