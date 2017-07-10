@@ -14,11 +14,15 @@ export class HttpService {
     let options = new RequestOptions({ headers: headers });
     return this.http.post(globals.server + "/upload", formData, options)
       .toPromise().then(response => {
+        console.log("Uploaded media");
         return response.json();
       })
   }
 
   addEvent(event): Promise<any> {
+    console.log(5);
+    console.log("Sending:");
+    console.log(event);
     return this.http.post(globals.eventEndpoint, event).toPromise().then(response => {
       console.log(response);
       return Promise.resolve(response.json())

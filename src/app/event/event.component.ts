@@ -96,7 +96,7 @@ export class LocatedEventComponent extends EventComponent implements OnInit {
       name: this.name,
       description: this.description,
       time: this.time,
-      media: [],
+      media: this.media,
       type: this.getType(),
       location: this.location.toObject(),
       owner: globals.getUserId()
@@ -126,7 +126,7 @@ export class MoveEventComponent extends EventComponent implements OnInit {
       name: this.name,
       description: this.description,
       time: this.time,
-      media: [],
+      media: this.media,
       type: this.getType(),
       location: this.location.toObject(),
       owner: globals.getUserId()

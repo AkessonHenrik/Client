@@ -62,6 +62,7 @@ export class NewEventComponent implements OnInit {
 
   create() {
     if (this.valid()) {
+      console.log(1);
       switch (this.eventType) {
         case "Event": { // Event
           let event = new EventComponent();
@@ -97,17 +98,18 @@ export class NewEventComponent implements OnInit {
   }
 
   postEvent(event: EventComponent): Promise<string> {
+    console.log(3);
     return this.uploadMedia().then(response => {
       console.log(response);
     }).then(_ => {
-      this.media.map(media => {
+      return this.media.forEach(media => {
         event.addMedia(media);
       })
     }).then(_ => {
-      console.log(event.getAsObject());
       return this.httpService.addEvent(event.getAsObject());
     }).then(response => {
       console.log(response);
+      event = null;
       return Promise.resolve("Hey");
     })
   }
@@ -119,15 +121,18 @@ export class NewEventComponent implements OnInit {
       })
     })
     ).then(_ => {
-      return Promise.resolve("Finished");
+      console.log(4);
+      return Promise.resolve("Media upload finished");
     })
   }
 
   valid(): boolean {
+    console.log(0);
     return this.name !== "" && this.description !== "" && this.beginDay !== null && this.beginMonth !== null && this.beginYear !== null;
   }
 
   initializeEvent(event: EventComponent) {
+    console.log(2);
     event.name = this.name;
     event.description = this.description;
     event.time = [this.beginDay + "-" + this.beginMonth + "-" + this.beginYear];
