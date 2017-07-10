@@ -30,7 +30,10 @@ export class EventComponent {
   }
 
   addMedia(media: { type: string, path: string }) {
+    console.log("Adding media");
     this.media.push(media);
+    console.log("Added media");
+    console.log(this.media);
   }
 }
 
@@ -47,7 +50,7 @@ export class EventComponent {
   `,
   styles: ['./event.component.css']
 })
-export class WorkEventComponent extends EventComponent {
+export class WorkEventComponent extends EventComponent implements OnInit {
   @Input('event') event: WorkEventComponent;
   company: string;
   position: string;
@@ -65,6 +68,9 @@ export class WorkEventComponent extends EventComponent {
       company: this.company,
       position: this.position
     }
+  }
+  ngOnInit() {
+    console.log(this.event);
   }
 }
 

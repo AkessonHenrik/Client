@@ -5,6 +5,7 @@ import { LocationComponent } from '../location/location.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { LocatedEventComponent, EventComponent, WorkEventComponent, MoveEventComponent } from '../event/event.component';
 import { Node } from '../d3/models/node'
+import * as globals from '../globals';
 @Component({
   selector: 'app-profile-view',
   templateUrl: './profile-view.component.html',
@@ -27,6 +28,7 @@ export class ProfileViewComponent implements OnInit {
         .toPromise()
         .then(res => {
           let body = res.json();
+          console.log(body);
           this.firstname = body.profile.firstname
           this.lastname = body.profile.lastname
           this.profile = body.profile;
@@ -66,10 +68,10 @@ export class ProfileViewComponent implements OnInit {
               newEvent.time = event.time;
               this.events.push(newEvent);
             }
-            // newEvent.media = [];
-            // event.media.forEach(media => {
-            // newEvent.media.push({ type: media.type, path: media.path })
-            // })
+            newEvent.media = [];
+            event.media.forEach(media => {
+              newEvent.media.push({ type: media.type, path: globals.fileEndpoint + media.path })
+            })
           })
           this.profileReady = true;
         })

@@ -41,7 +41,7 @@ export class NewProfileComponent implements OnInit {
   submit() {
     if (this.file) {
       this.httpService.upload(this.file).then(response => {
-        this.pictureUrl = globals.fileEndpoint + response.json();
+        this.pictureUrl = globals.fileEndpoint + response;
       }).then(_ => {
         this.born.description = this.firstname + " is born"
 

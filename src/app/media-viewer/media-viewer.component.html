@@ -1,9 +1,9 @@
 <div id="wrapper">
     <button id="previous" md-button (click)="decrement()"><i class="material-icons">keyboard_arrow_left</i></button>
     <div class="media">
-        <image-component *ngIf="media[i].type === 'image'" style="margin-left: 50%; transform: translate(-50%, 0%);" [source]="media[i].path"></image-component>
-        <video-component *ngIf="media[i].type === 'video'" style="margin-left: 50%; transform: translate(-50%, 0%);" [source]="media[i].path"></video-component>
-        <external-video-component *ngIf="media[i].type === 'externalvideo'" style="margin-left: 50%; transform: translate(-50%, 0%);" [source]="media[i].path"></external-video-component>
+        <image-component *ngIf="media[i].type === 0" style="margin-left: 50%; transform: translate(-50%, 0%);" [source]="media[i].path"></image-component>
+        <video-component *ngIf="media[i].type === 1" style="margin-left: 50%; transform: translate(-50%, 0%);" [source]="media[i].path"></video-component>
+        <external-video-component *ngIf="media[i].type === 2" style="margin-left: 50%; transform: translate(-50%, 0%);" [source]="media[i].path"></external-video-component>
     </div>
     <button id="next" md-button (click)="increment()"><i class="material-icons">keyboard_arrow_right</i></button>
 </div>

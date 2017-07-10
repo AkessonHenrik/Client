@@ -22,5 +22,6 @@ export class MediaViewerComponent implements OnInit {
     }
   }
   ngOnInit() {
+    console.log(this.media);
   }
 }
