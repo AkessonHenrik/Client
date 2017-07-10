@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import { LocationComponent } from '../location/location.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { LocatedEvent, EventComponent, WorkEventComponent, LifeEventComponent } from '../event/event.component';
+import { LocatedEventComponent, EventComponent, WorkEventComponent, MoveEventComponent } from '../event/event.component';
 import { Node } from '../d3/models/node'
 @Component({
   selector: 'app-profile-view',
@@ -12,53 +12,70 @@ import { Node } from '../d3/models/node'
 })
 export class ProfileViewComponent implements OnInit {
   @Input('profile') node: Node;
-  firstName: string;
-  lastName: string;
+  firstname: string;
+  lastname: string;
+  profile: any;
   profilePicture: string;
-  life: LifeEventComponent;
+  born: any;
+  died: any;
   events: EventComponent[] = []
-
+  profileReady: boolean = false;
   ngOnInit() {
     console.log(this.node)
-    this.http.get('assets/' + this.node.firstname + this.node.lastname + '.json')
-      .toPromise()
-      .then(res => {
-        let body = res.json();
-        console.log(body)
-        this.firstName = body.firstName
-        this.lastName = body.lastName
-        this.profilePicture = body.profilePicture
+    if (this.node.id > 0) {
+      this.http.get("http://localhost:9000/profile/" + this.node.id)
+        .toPromise()
+        .then(res => {
+          let body = res.json();
+          this.firstname = body.profile.firstname
+          this.lastname = body.profile.lastname
+          this.profile = body.profile;
+          this.profilePicture = body.profile.image
 
-        this.life = body.life;
-        body.events.forEach(event => {
-          let newEvent;
-          if (event.type === "WorkEvent") {
-            newEvent = new WorkEventComponent();
-            newEvent.company = event.company;
-            newEvent.position = event.position;
-            newEvent.location = new LocationComponent(event.location.city, event.location.province, event.location.country);
-            newEvent.name = event.name;
-            newEvent.description = event.description;
-            newEvent.time = event.time;
-            this.events.push(newEvent);
-          } else if(event.type === "LocatedEvent") {
-            newEvent = new LocatedEvent();
-            newEvent.name = event.name;
-            newEvent.description = event.description;
-            newEvent.time = event.time;
-            newEvent.location = new LocationComponent(event.location.city, event.location.province, event.location.country);
-            this.events.push(newEvent)
-          }
-          newEvent.media = [];
-          event.media.forEach(media => {
-            newEvent.media.push({ type: media.type, path: media.path })
+          this.born = body.born;
+          this.died = body.died;
+          body.events.forEach(event => {
+            let newEvent;
+            if (event.type === "WorkEvent") {
+              newEvent = new WorkEventComponent();
+              newEvent.name = event.name;
+              newEvent.description = event.description;
+              newEvent.company = event.company;
+              newEvent.position = event.position;
+              newEvent.location = new LocationComponent(event.location.city, event.location.province, event.location.country);
+              newEvent.time = event.time;
+              this.events.push(newEvent);
+            } else if (event.type === "LocatedEvent") {
+              newEvent = new LocatedEventComponent();
+              newEvent.name = event.name;
+              newEvent.description = event.description;
+              newEvent.time = event.time;
+              newEvent.location = new LocationComponent(event.location.city, event.location.province, event.location.country);
+              this.events.push(newEvent)
+            } else if (event.type === "MoveEvent") {
+              newEvent = new MoveEventComponent();
+              newEvent.name = event.name;
+              newEvent.description = event.description;
+              newEvent.time = event.time;
+              newEvent.location = new LocationComponent(event.location.city, event.location.province, event.location.country);
+              this.events.push(newEvent);
+            } else {
+              newEvent = new EventComponent();
+              newEvent.name = event.name;
+              newEvent.description = event.description;
+              newEvent.time = event.time;
+              this.events.push(newEvent);
+            }
+            // newEvent.media = [];
+            // event.media.forEach(media => {
+            // newEvent.media.push({ type: media.type, path: media.path })
+            // })
           })
+          this.profileReady = true;
         })
-      })
+    }
   }
-  constructor(private http: Http) {
-
-  }
+  constructor(private http: Http) { }
 }
 
 

@@ -1,0 +1,50 @@
+.choice {
+    margin-top: 15px!important;
+    margin-left: 15px!important;
+    margin-bottom: 15px!important;
+    display: block;
+}
+.container {
+    display: block;
+    width: 300px;
+    margin-top: 20px!important;
+}
+.form {
+    position: absolute;
+    width: 60%;
+    height: 80%;
+    left: 50%;
+    top: 10%;
+    transform: translate(-50%, 0%);
+}
+md-tab-group {
+    height: 100%!important;
+}
+.accountInput {
+    width: 300px;
+    display: block;
+    margin: 10px;
+}
+.date {
+    margin-top: 20px!important;
+    width: 50px;
+}
+input button {
+    background-color: blue;
+}
+input[type="file"] {
+    display: none;
+}
+.custom-file-upload {
+    background-color: purple;
+    height: 40px;
+    width: 150px;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 30px;
+    margin-top: 10px!important;
+    margin-bottom: 10px!important;
+    margin-left: 5px!important;
+    
+    cursor: pointer;
+}

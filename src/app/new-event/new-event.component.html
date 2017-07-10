@@ -1,0 +1,62 @@
+<md-select class="choice" placeholder="Event type" [(ngModel)]="eventType">
+  <md-option *ngFor="let eventType of eventTypes" [value]="eventType">{{ eventType }}</md-option>
+</md-select>
+
+<md-input-container class="container" style="margin-top: 50px!important">
+  <input mdInput class="accountInput" [(ngModel)]="name" placeholder="Event name">
+</md-input-container>
+
+<md-input-container class="container">
+  <input mdInput class="accountInput" [(ngModel)]="description" placeholder="Event description">
+</md-input-container>
+
+<label for="file-upload" class="custom-file-upload">
+    <i class="fa fa-cloud-upload"></i>Event media</label>
+<input type="file" id="file-upload" name="file" (change)="fileChange($event)" accept=".jpg,.png,.gif" multiple/>
+
+
+<div *ngIf="eventType === 'Work Event'">
+  <h2>New work information</h2>
+  <md-input-container class="container">
+    <input mdInput class="accountInput" [(ngModel)]="position" placeholder="Position">
+  </md-input-container>
+  <md-input-container class="container">
+    <input mdInput class="accountInput" [(ngModel)]="company" placeholder="Company">
+  </md-input-container>
+</div>
+
+<div *ngIf="isLocated()">
+  <h2>Location</h2>
+  <md-input-container class="container">
+    <input mdInput class="accountInput" [(ngModel)]="location.city" placeholder="City">
+  </md-input-container>
+  <md-input-container class="container">
+    <input mdInput class="accountInput" [(ngModel)]="location.province" placeholder="Province">
+  </md-input-container>
+  <md-input-container class="container">
+    <input mdInput class="accountInput" [(ngModel)]="location.country" placeholder="Country">
+  </md-input-container>
+</div>
+
+<h2>Begin Date</h2>
+<md-input-container class="date">
+  <input class="date" mdInput [(ngModel)]="beginDay" placeholder="Day">
+</md-input-container>
+<md-input-container class="date">
+  <input class="date" mdInput [(ngModel)]="beginMonth" placeholder="Month">
+</md-input-container>
+<md-input-container class="date">
+  <input class="date" mdInput [(ngModel)]="beginYear" placeholder="Year">
+</md-input-container>
+
+<h2>End Date (optional)</h2>
+<md-input-container class="date">
+  <input class="date" mdInput [(ngModel)]="endDay" placeholder="Day">
+</md-input-container>
+<md-input-container class="date">
+  <input class="date" mdInput [(ngModel)]="endMonth" placeholder="Month">
+</md-input-container>
+<md-input-container class="date">
+  <input class="date" mdInput [(ngModel)]="endYear" placeholder="Year">
+</md-input-container>
+<button style="display: block; margin-top: 50px;" md-raised-button (click)="create()">Submit</button>

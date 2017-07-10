@@ -18,4 +18,11 @@ export class LocationComponent {
   toString() {
     return this.city + ", " + this.province + ", " + this.country;
   }
+  toObject() {
+    return {
+      "city": this.city,
+      "province": this.province,
+      "country": this.country
+    }
+  }
 }

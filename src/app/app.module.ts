@@ -23,21 +23,24 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { ProfileComponent } from './profile/profile.component'
 import { TreeDataService } from './tree-data.service';
 import { ProfileViewComponent, VideoComponent, MediaComponent, ImageComponent, ExternalVideoComponent } from './profile-view/profile-view.component';
-import { EventComponent, WorkEventComponent, LifeEventComponent } from './event/event.component';
+import { EventComponent, WorkEventComponent, LocatedEventComponent, MoveEventComponent } from './event/event.component';
 import { LocationComponent } from './location/location.component';
 import { MediaViewerComponent } from './media-viewer/media-viewer.component';
 import { SignupComponent } from './signup/signup.component';
 import { MdNativeDateModule } from '@angular/material';
 import { NewProfileComponent } from './new-profile/new-profile.component';
 import { OwnedProfilesComponent } from './owned-profiles/owned-profiles.component';
+import { NewEventComponent } from './new-event/new-event.component';
+import { HttpService } from './http-service.service';
 const appRoutes: Routes = [
   { path: 'tree/:id', component: TreeComponent },
   { path: 'newTree', component: TreeComponent },
   { path: 'owned', component: OwnedProfilesComponent },
-  { path: '', component: WelcomeComponent },
+  { path: 'welcome', component: WelcomeComponent },
   { path: 'login', component: AuthComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'mediaViewer', component: MediaViewerComponent }
+  { path: 'mediaViewer', component: MediaViewerComponent },
+  { path: '', component: NewEventComponent }
 ];
 
 
@@ -66,11 +69,13 @@ const appRoutes: Routes = [
     EventComponent,
     LocationComponent,
     WorkEventComponent,
-    LifeEventComponent,
     MediaViewerComponent,
     SignupComponent,
     NewProfileComponent,
-    OwnedProfilesComponent
+    OwnedProfilesComponent,
+    MoveEventComponent,
+    LocatedEventComponent,
+    NewEventComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -85,7 +90,7 @@ const appRoutes: Routes = [
     NgbModule.forRoot(),
     MdNativeDateModule
   ],
-  providers: [D3Service, TreeDataService],
+  providers: [D3Service, TreeDataService, HttpService],
   bootstrap: [AppComponent, SidenavComponent],
   entryComponents: [ChoiceDialog, NewPersonDialog, NewRelationshipDialog, NewParentDialog, ProfileDialog]
 })

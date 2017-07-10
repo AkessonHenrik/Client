@@ -6,14 +6,17 @@
         "id": 1,
         "name": "Born",
         "description": "Jon Snow is born",
-        "time": ["283/01/01"],
+        "time": [
+            "283/01/01"
+        ],
         "born": {
             "city": "Tower of Joy",
             "province": "Dorne",
             "country": "Westeros"
         },
         "died": null,
-        "media": [{
+        "media": [
+            {
                 "type": "image",
                 "path": "./assets/towerOfJoy.jpg"
             },
@@ -23,20 +26,24 @@
             }
         ]
     },
-    "events": [{
+    "events": [
+        {
             "id": 4,
             "name": "Became King in the North",
             "description": "After retaking Winterfell from the Boltons, Jon Snow was named King in the North by the lords of the North",
             "type": "WorkEvent",
             "company": "The North",
             "position": "King",
-            "time": ["301/01/01"],
+            "time": [
+                "301/01/01"
+            ],
             "location": {
                 "city": "Winterfell",
                 "province": "The North",
                 "country": "Westeros"
             },
-            "media": [{
+            "media": [
+                {
                     "type": "image",
                     "path": "./assets/king.jpg"
                 },
@@ -53,13 +60,17 @@
             "type": "WorkEvent",
             "company": "Night's Watch",
             "position": "Lord Commander of the Night's Watch",
-            "time": ["300/01/01", "301/01/01"],
+            "time": [
+                "300/01/01",
+                "301/01/01"
+            ],
             "location": {
                 "city": "Castle Black",
                 "province": "The Wall",
                 "country": "Westeros"
             },
-            "media": [{
+            "media": [
+                {
                     "type": "image",
                     "path": "./assets/lordCommander.jpg"
                 },
@@ -76,16 +87,20 @@
             "type": "WorkEvent",
             "company": "Night's Watch",
             "position": "Watcher",
-            "time": ["297/01/01"],
+            "time": [
+                "297/01/01"
+            ],
             "location": {
                 "city": "Castle Black",
                 "province": "The Wall",
                 "country": "Westeros"
             },
-            "media": [{
-                "type": "externalvideo",
-                "path": "https://www.youtube.com/embed/Tb8du53_jsA"
-            }]
+            "media": [
+                {
+                    "type": "externalvideo",
+                    "path": "https://www.youtube.com/embed/Tb8du53_jsA"
+                }
+            ]
         }
     ]
 }
