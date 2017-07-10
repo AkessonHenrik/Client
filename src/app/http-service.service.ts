@@ -28,4 +28,15 @@ export class HttpService {
       return Promise.resolve(response.json())
     })
   }
+
+  createAccount(accountData) {
+    return this.http.post(globals.signupEndpoint, accountData)
+  }
+  createProfile(profileData): Promise<number> {
+    return this.http.post(globals.profileEndpoint, profileData).toPromise().then(response => {
+      let body = response.json();
+      let id: number = body.peopleentityid;
+      return id;
+    })
+  }
 }

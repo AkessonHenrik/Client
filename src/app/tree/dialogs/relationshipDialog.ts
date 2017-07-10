@@ -22,14 +22,13 @@ export class NewRelationshipDialog implements OnInit {
   endYear: number;
   relationshipTypes: string[];
   
+  files: File[] = [];
+
   nodes: Node[];
   constructor( @Inject(MD_DIALOG_DATA) private data: Node[], public dialogRef: MdDialogRef<NewRelationshipDialog>) {
     this.relationshipTypes = globals.relationshipTypes;
   }
   createRelationship() {
-    // const n: Node = new Node(100, undefined, this.firstname, this.lastname);
-    // console.log(n)
-    console.log(this.relationshipType)
     let fromNode: Node = this.nodes.filter(node => node.firstname === this.from)[0]
     let toNode: Node = this.nodes.filter(node => node.firstname === this.to)[0]
     let returnRel = new Relationship(100, fromNode, toNode, globals.relationshipTypes.indexOf(this.relationshipType));
@@ -44,8 +43,6 @@ export class NewRelationshipDialog implements OnInit {
   }
   public ngOnInit() {
     //set custom data from parent component
-    console.log("OnInit")
-    console.log(this.data);
     this.nodes = this.data;
   }
 }

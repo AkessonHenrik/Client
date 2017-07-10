@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 import { LocationComponent } from '../location/location.component';
 import { EventComponent, LocatedEventComponent, WorkEventComponent, MoveEventComponent } from '../event/event.component';
 import { HttpService } from '../http-service.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-new-event',
   templateUrl: './new-event.component.html',
@@ -34,7 +35,7 @@ export class NewEventComponent implements OnInit {
   company: string;
   position: string;
 
-  constructor(private httpService: HttpService) { }
+  constructor(private httpService: HttpService, private router: Router) { }
 
   isLocated(): boolean {
     return this.eventTypes.indexOf(this.eventType) === 1 || this.eventTypes.indexOf(this.eventType) === 2 || this.eventTypes.indexOf(this.eventType) === 3;
@@ -139,5 +140,10 @@ export class NewEventComponent implements OnInit {
     if (this.endDay) {
       event.time.push(this.endDay + "-" + this.endMonth + "-" + this.endYear);
     }
+  }
+
+  removeFile(file: File) {
+    var index = this.files.indexOf(file);
+    this.files.splice(index, 1);
   }
 }

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MdSnackBar } from '@angular/material';
-import { Http } from '@angular/http';
+import { Http } from '@angular/http'; 
+import { Router } from '@angular/router';
 import * as globals from '../globals';
+import { HttpService } from '../http-service.service';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -11,7 +13,7 @@ export class SignupComponent implements OnInit {
   email: string;
   password: string;
   repeatPassword: string;
-  constructor(public snackBar: MdSnackBar, private http: Http) { }
+  constructor(public snackBar: MdSnackBar, private http: Http, private router: Router, private httpService: HttpService) { }
   next() {
     if (this.verifyEmailFormat(this.email)) {
       if (this.verifyPasswords(this.password, this.repeatPassword)) {
@@ -30,13 +32,8 @@ export class SignupComponent implements OnInit {
   }
 
   createAccountAndProfile(profileData) {
-    this.http.post(globals.profileEndpoint, profileData).toPromise().then(response => {
-      let body = response.json();
-      let id = body.peopleentityid;
-      console.log(id);
-      return id;
-    }).then(id => {
-      this.http.post(globals.signupEndpoint, {
+    this.httpService.createProfile(profileData).then(id => {
+      this.httpService.createAccount({
         profileId: id,
         email: this.email,
         password: this.password
@@ -44,6 +41,8 @@ export class SignupComponent implements OnInit {
         console.log(response);
         localStorage["treemily_id"] = response.json().profileid
         localStorage["treemily_email"] = response.json().email
+      }).then(_ => {
+        this.router.navigateByUrl('tree/' + localStorage["treemily_id"]);
       })
     })
   }

@@ -1,0 +1,17 @@
+MUST IMPLEMENT:
+- New relationship: Create event with media
+- Where should a new event be created from?
+- Editing people, events, relationships (especially times)
+- Deleting people, events, relationships
+- Rights
+- Visibility
+- Import people from search
+- Claim profiles from search
+- Welcome page
+- proper icons
+- Media, Relationship, Gender types
+- 
+
+
+OPTIONAL:
+- Modify visibility
