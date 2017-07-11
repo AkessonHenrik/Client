@@ -39,4 +39,14 @@ export class HttpService {
       return id;
     })
   }
+
+  search(firstname, lastname): Promise<any> {
+    return this.http.post(globals.server + "/search", {
+      firstname: firstname,
+      lastname: lastname
+    }).toPromise().then(response => {
+      console.log(response.json());
+      return Promise.resolve(response.json());
+    })
+  }
 }

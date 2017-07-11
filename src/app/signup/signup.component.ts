@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MdSnackBar } from '@angular/material';
-import { Http } from '@angular/http'; 
+import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import * as globals from '../globals';
 import { HttpService } from '../http-service.service';
@@ -13,8 +13,20 @@ export class SignupComponent implements OnInit {
   email: string;
   password: string;
   repeatPassword: string;
+  choice: string;
+  profileSearchFirstname: string;
+  profileSearchLastname: string;
+  activeTab: number = 0;
+
+  profiles = [];
   constructor(public snackBar: MdSnackBar, private http: Http, private router: Router, private httpService: HttpService) { }
   next() {
+    if (this.choice === 'new') {
+      this.activeTab = 1;
+    } else if (this.choice === 'existing') {
+      this.activeTab = 2;
+    }
+    console.log(this.choice);
     if (this.verifyEmailFormat(this.email)) {
       if (this.verifyPasswords(this.password, this.repeatPassword)) {
         console.log("ok");
@@ -48,7 +60,6 @@ export class SignupComponent implements OnInit {
   }
 
   verifyEmailFormat(email: string) {
-    console.log(email);
     let re = /\S+@\S+\.\S+/;
     return re.test(email);
   }
@@ -56,9 +67,28 @@ export class SignupComponent implements OnInit {
     return !(!password1 || !password2 || password1 != password2 || password1.length < 8);
   }
   ngOnInit() {
+    this.activeTab = 2;
+    this.profileSearchFirstname = "Henrik";
+    this.profileSearchLastname = "Akesson";
+    this.search();
   }
   getAccountInfo() {
     return { email: this.email, password: this.password };
   }
 
+  search() {
+    this.profiles = [];
+    this.httpService.search(this.profileSearchFirstname, this.profileSearchLastname).then(result => {
+      this.profiles = result;
+    })
+  }
+  claim(id) {
+    this.httpService.createAccount({
+      profileId: id,
+      email: this.email,
+      password: this.password
+    }).toPromise().then(response => {
+      console.log(response);
+    });
+  }
 }

@@ -1,5 +1,5 @@
-<div class="form">
-  <md-tab-group>
+<div class="form" style="position: fixed">
+  <md-tab-group [(selectedIndex)]="activeTab">
     <md-tab label="Account information">
       <md-input-container class="container" style="margin-top: 50px!important">
         <input mdInput class="accountInput" [(ngModel)]="email" placeholder="Enter email address">
@@ -10,14 +10,36 @@
       <md-input-container class="container">
         <input mdInput class="accountInput" [(ngModel)]="repeatPassword" placeholder="Repeat password" type="password">
       </md-input-container>
-      <md-radio-group style="margin-top: 20px!important">
-        <md-radio-button class="choice" value="1">I want to create a new profile</md-radio-button>
-        <md-radio-button class="choice" value="2">I want to claim an existing profile</md-radio-button>
+      <md-radio-group [(ngModel)]="choice" style="margin-top: 20px!important">
+        <md-radio-button class="choice" value="new">I want to create a new profile</md-radio-button>
+        <md-radio-button class="choice" value="existing">I want to claim an existing profile</md-radio-button>
       </md-radio-group>
       <button md-raised-button (click)="next()">Next</button>
     </md-tab>
-    <md-tab label="Profile information">
+    <md-tab label="Profile information" disabled="activeTab===1">
       <app-new-profile (onSubmit)="createAccountAndProfile($event)"></app-new-profile>
     </md-tab>
+    <md-tab label="Profile search" disabled>
+      <md-input-container class="container">
+        <input mdInput class="accountInput" [(ngModel)]="profileSearchFirstname" placeholder="First name" type="text">
+      </md-input-container>
+      <md-input-container class="container">
+        <input mdInput class="accountInput" [(ngModel)]="profileSearchLastname" placeholder="Last name" type="text">
+      </md-input-container>
+      <button md-raised-button (click)="search()">Search</button>
+    </md-tab>
   </md-tab-group>
+</div>
+<div class="searchResult">
+  <md-card *ngFor="let profile of profiles" class="profile">
+    <img md-card-image class="profilePicture" src={{profile.image}}>
+    <md-card-header class="info">
+      <md-card-title class="name">{{profile.firstname}}</md-card-title>
+      <md-card-title class="name">{{profile.lastname}}</md-card-title>
+      <md-card-subtitle class="gender">{{profile.gender}}</md-card-subtitle>
+    </md-card-header>
+    <md-card-actions>
+      <button md-button (click)="claim(profile.id)">CLAIM</button>
+    </md-card-actions>
+  </md-card>
 </div>
