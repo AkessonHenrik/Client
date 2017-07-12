@@ -56,6 +56,17 @@ export class NewProfileComponent implements OnInit {
           died: this.died
         });
       })
+    } else {
+      this.onSubmit.emit({
+        firstName: this.firstname,
+        lastName: this.lastname,
+        gender: this.genders.indexOf(this.gender),
+        profilePicture: "http://s3.amazonaws.com/37assets/svn/765-default-avatar.png",
+        birthDay: this.birthDayDay + "-" + this.birthDayMonth + "-" + this.birthDayYear,
+        deathDay: this.deathDayDay + "-" + this.deathDayMonth + "-" + this.deathDayYear,
+        born: this.born,
+        died: this.died
+      });
     }
   }
 }

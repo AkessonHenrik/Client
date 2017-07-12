@@ -17,30 +17,29 @@ export class SignupComponent implements OnInit {
   profileSearchFirstname: string;
   profileSearchLastname: string;
   activeTab: number = 0;
-
+  errorMessage: string = "";
   profiles = [];
-  constructor(public snackBar: MdSnackBar, private http: Http, private router: Router, private httpService: HttpService) { }
+  searched: boolean = false;
+  constructor(private router: Router, private httpService: HttpService) { }
   next() {
-    if (this.choice === 'new') {
-      this.activeTab = 1;
-    } else if (this.choice === 'existing') {
-      this.activeTab = 2;
-    }
     console.log(this.choice);
     if (this.verifyEmailFormat(this.email)) {
       if (this.verifyPasswords(this.password, this.repeatPassword)) {
-        console.log("ok");
+        if (this.choice) {
+          if (this.choice === 'new') {
+            this.activeTab = 1;
+          } else if (this.choice === 'existing') {
+            this.activeTab = 2;
+          }
+        } else {
+          this.errorMessage = "Choose a profile option below";
+        }
       } else {
-        this.openSnackBar("Your password must be at least 8 characters long", "ok")
+        this.errorMessage = "Your password must be at least 8 characters long"
       }
     } else {
-      this.openSnackBar("Invalid email", "ok")
+      this.errorMessage = "Invalid email format";
     }
-  }
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 5000,
-    });
   }
 
   createAccountAndProfile(profileData) {
@@ -77,18 +76,26 @@ export class SignupComponent implements OnInit {
   }
 
   search() {
+    this.searched = false;
     this.profiles = [];
     this.httpService.search(this.profileSearchFirstname, this.profileSearchLastname).then(result => {
       this.profiles = result;
+      if (this.profiles.length === 0) {
+        this.searched = true;
+      }
     })
   }
   claim(id) {
     this.httpService.createAccount({
       profileId: id,
       email: this.email,
-      password: this.password
+      password: this.password,
     }).toPromise().then(response => {
       console.log(response);
     });
+  }
+
+  onTabSelect($event: any) {
+    this.searched = false;
   }
 }

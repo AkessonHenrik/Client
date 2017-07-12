@@ -4,6 +4,7 @@ import { MdSnackBar } from '@angular/material';
 import { MdSnackBarConfig } from '@angular/material';
 import { ViewEncapsulation } from '@angular/core';
 import * as globals from '../globals';
+import { HttpService } from '../http-service.service';
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
@@ -11,7 +12,7 @@ import * as globals from '../globals';
 })
 export class SidenavComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private httpService: HttpService) { }
   searchingToggled: boolean = false;
   searchInput: string = ""
   ngOnInit() {
@@ -40,6 +41,11 @@ export class SidenavComponent implements OnInit {
   }
   launchSearch(value: string) {
     console.log("Searching for " + value);
+    let firstname = value.substring(0, value.indexOf(" "));
+    let lastname = value.substring(value.indexOf(" ") + 1);
+    console.log("-" + firstname + "-")
+    console.log("-" + lastname + "-")
+    this.httpService.search(firstname, lastname).then(r => console.log(r))
   }
   focusOutFunction() {
     this.searchingToggled = false;

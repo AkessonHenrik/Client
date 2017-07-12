@@ -10,10 +10,9 @@
         add
     </i>
 </button>
-<button md-fab class="share">
-    <i class="large material-icons">
-        share
-    </i>
+<button md-fab class="share" (click)="search()">
+<i class="material-icons md-36">search</i>
 </button>
+
 <button md-raised-button class="newContent" (click)="saveContent()" *ngIf="newContent">Save</button>
 <md-spinner *ngIf="savingContent" class="savingContent"></md-spinner>

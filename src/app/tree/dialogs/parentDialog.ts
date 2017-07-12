@@ -21,7 +21,7 @@ export class NewParentDialog implements OnInit {
 
     createNewParent() {
         if (this.parent && this.child && this.parentType) {
-            let begin = this.beginDay + "-" + this.beginMonth + "-" + this.beginYear;
+            let begin = (this.beginDay ? this.beginDay + "-" + this.beginMonth + "-" + this.beginYear : null);
             let newParent: ParentComponent;
             if (this.parent.type === 'link') {
                 newParent = new LinkParentComponent(Math.ceil(Math.random() * 100), this.nodes.filter(node => node.id === this.child)[0], this.links.filter(link => link.id === this.parent.id)[0], begin);

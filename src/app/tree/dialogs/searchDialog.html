@@ -1,0 +1,21 @@
+<div class="dialogChoice">
+    <h1 class="dialogTitle" md-dialog-title>Search for a profile</h1>
+    <md-input-container>
+        <input mdInput [(ngModel)]="firstname" placeholder="First name">
+    </md-input-container>
+    <md-input-container>
+        <input mdInput [(ngModel)]="lastname" placeholder="Last name">
+    </md-input-container>
+    <button class="addButton" (click)="search()" md-raised-button>Search</button><br>
+    <md-card *ngFor="let profile of profiles" class="profile">
+        <img md-card-image class="profilePicture" src={{profile.image}}>
+        <md-card-header class="info">
+            <md-card-title class="name">{{profile.firstname}}</md-card-title>
+            <md-card-title class="name">{{profile.lastname}}</md-card-title>
+            <md-card-subtitle class="gender">{{getGender(profile.gender)}}</md-card-subtitle>
+        </md-card-header>
+        <md-card-actions>
+            <button md-button (click)="import(profile)">IMPORT</button>
+        </md-card-actions>
+    </md-card>
+</div>

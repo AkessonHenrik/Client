@@ -15,7 +15,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MdSidenavModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TreeComponent } from './tree/tree.component';
-import { ChoiceDialog, NewPersonDialog, NewRelationshipDialog, NewParentDialog } from './tree/dialogs/';
+import { ChoiceDialog, NewPersonDialog, NewRelationshipDialog, NewParentDialog, SearchDialog } from './tree/dialogs/';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { AuthComponent } from './auth/auth.component';
 import { HomeComponent } from './home/home.component';
@@ -66,6 +66,7 @@ const appRoutes: Routes = [
     ExternalVideoComponent,
     ImageComponent,
     NewParentDialog,
+    SearchDialog,
     EventComponent,
     LocationComponent,
     WorkEventComponent,
@@ -92,6 +93,6 @@ const appRoutes: Routes = [
   ],
   providers: [D3Service, TreeDataService, HttpService],
   bootstrap: [AppComponent, SidenavComponent],
-  entryComponents: [ChoiceDialog, NewPersonDialog, NewRelationshipDialog, NewParentDialog, ProfileDialog]
+  entryComponents: [ChoiceDialog, NewPersonDialog, NewRelationshipDialog, NewParentDialog, ProfileDialog, SearchDialog]
 })
 export class AppModule { }

@@ -1,6 +1,9 @@
 <div class="form" style="position: fixed">
-  <md-tab-group [(selectedIndex)]="activeTab">
+  <md-tab-group [(selectedIndex)]="activeTab" (selectChange)="onTabSelect($event)">
     <md-tab label="Account information">
+      <div id="error">
+        {{ errorMessage }}
+      </div>
       <md-input-container class="container" style="margin-top: 50px!important">
         <input mdInput class="accountInput" [(ngModel)]="email" placeholder="Enter email address">
       </md-input-container>
@@ -16,21 +19,26 @@
       </md-radio-group>
       <button md-raised-button (click)="next()">Next</button>
     </md-tab>
-    <md-tab label="Profile information" disabled="activeTab===1">
+    <md-tab label="Profile information" disabled="activeTab === 1">
       <app-new-profile (onSubmit)="createAccountAndProfile($event)"></app-new-profile>
     </md-tab>
-    <md-tab label="Profile search" disabled>
+    <md-tab label="Profile search" disabled="activeTab === 2">
       <md-input-container class="container">
         <input mdInput class="accountInput" [(ngModel)]="profileSearchFirstname" placeholder="First name" type="text">
       </md-input-container>
       <md-input-container class="container">
         <input mdInput class="accountInput" [(ngModel)]="profileSearchLastname" placeholder="Last name" type="text">
       </md-input-container>
-      <button md-raised-button (click)="search()">Search</button>
+      <button md-raised-button (click)="search()">SEARCH</button>
     </md-tab>
   </md-tab-group>
 </div>
 <div class="searchResult">
+  <div class="noProfiles" *ngIf="profiles.length === 0 && searched">
+    <p>No Profiles were found</p><br>
+    <p>:-(</p><br>
+    <p>Search for another name or create a new profile</p>
+  </div>
   <md-card *ngFor="let profile of profiles" class="profile">
     <img md-card-image class="profilePicture" src={{profile.image}}>
     <md-card-header class="info">

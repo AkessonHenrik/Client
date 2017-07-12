@@ -15,7 +15,7 @@
 <input type="file" id="file-upload" name="file" (change)="fileChange($event)" accept=".jpg,.png,.gif" multiple/>
 <div id="files">
   <div *ngFor="let file of files">
-    <p>{{file.name}} <i class="material-icons" style="cursor: pointer;" (click)="removeFile(file)">clear</i></p>
+    <p>{{file.name}} <i class="material-icons" style="cursor: pointer; position: relative; top: 7px;" (click)="removeFile(file)">clear</i></p>
   </div>
 </div>
 <div *ngIf="eventType === 'Work Event'">

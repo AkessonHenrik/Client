@@ -4,67 +4,78 @@
             "id": 1,
             "firstname": "Eddard",
             "lastname": "Stark",
-            "image": "https://upload.wikimedia.org/wikipedia/en/5/52/Ned_Stark-Sean_Bean.jpg"
+            "image": "https://upload.wikimedia.org/wikipedia/en/5/52/Ned_Stark-Sean_Bean.jpg",
+            "gender": 2
         },
         {
             "id": 2,
             "firstname": "Catelyn",
             "lastname": "Stark",
-            "image": "https://upload.wikimedia.org/wikipedia/en/2/25/Catelyn_Stark-Michelle_Fairley_S3.jpg"
+            "image": "https://upload.wikimedia.org/wikipedia/en/2/25/Catelyn_Stark-Michelle_Fairley_S3.jpg",
+            "gender": 2
         },
         {
             "id": 3,
             "firstname": "Robb",
             "lastname": "Stark",
-            "image": "http://vignette1.wikia.nocookie.net/gameofthrones/images/e/e9/Robb-3x03.jpg/revision/latest?cb=20130413125346"
+            "image": "http://vignette1.wikia.nocookie.net/gameofthrones/images/e/e9/Robb-3x03.jpg/revision/latest?cb=20130413125346",
+            "gender": 2
         },
         {
             "id": 4,
             "firstname": "Sansa",
             "lastname": "Stark",
-            "image": "https://vignette4.wikia.nocookie.net/gameofthrones/images/6/68/Sansa_stark_s6_battle_bastards_infobox.jpg/revision/latest/scale-to-width-down/342?cb=20160807084759"
+            "image": "https://vignette4.wikia.nocookie.net/gameofthrones/images/6/68/Sansa_stark_s6_battle_bastards_infobox.jpg/revision/latest/scale-to-width-down/342?cb=20160807084759",
+            "gender": 2
         },
         {
             "id": 5,
             "firstname": "Arya",
             "lastname": "Stark",
-            "image": "http://vignette1.wikia.nocookie.net/gameofthrones/images/e/e9/Arya_Stark_4.jpg/revision/latest/scale-to-width-down/2000?cb=20140428152515"
+            "image": "http://vignette1.wikia.nocookie.net/gameofthrones/images/e/e9/Arya_Stark_4.jpg/revision/latest/scale-to-width-down/2000?cb=20140428152515",
+            "gender": 2
         },
         {
             "id": 6,
             "firstname": "Rickon",
             "lastname": "Stark",
-            "image": "https://vignette2.wikia.nocookie.net/gameofthrones/images/d/d9/Battle_of_the_Bastards_42.jpg/revision/latest?cb=20160621185459"
+            "image": "https://vignette2.wikia.nocookie.net/gameofthrones/images/d/d9/Battle_of_the_Bastards_42.jpg/revision/latest?cb=20160621185459",
+            "gender": 2
         },
         {
             "id": 7,
             "firstname": "Jon",
             "lastname": "Snow",
-            "image": "https://static.comicvine.com/uploads/original/11120/111207460/4639880-1104112163-Jon-S.jpg"
+            "image": "https://static.comicvine.com/uploads/original/11120/111207460/4639880-1104112163-Jon-S.jpg",
+            "gender": 2
         },
         {
             "id": 8,
             "firstname": "Talisa",
             "lastname": "Stark",
-            "image": "https://vignette3.wikia.nocookie.net/gameofthrones/images/c/ca/Talisa3x9.jpg/revision/latest/scale-to-width-down/315?cb=20150515053353"
+            "image": "https://vignette3.wikia.nocookie.net/gameofthrones/images/c/ca/Talisa3x9.jpg/revision/latest/scale-to-width-down/315?cb=20150515053353",
+            "gender": 2
         },
         {
             "id": 9,
             "firstname": "Lyanna",
             "lastname": "Stark",
-            "image": "https://s-media-cache-ak0.pinimg.com/originals/c3/32/75/c33275dc32e10d1a1378d7ef9f0dab87.jpg"
+            "image": "https://s-media-cache-ak0.pinimg.com/originals/c3/32/75/c33275dc32e10d1a1378d7ef9f0dab87.jpg",
+            "gender": 2
         },
         {
             "id": 10,
             "firstname": "Rhaegar",
             "lastname": "Targaryen",
-            "image": "http://awoiaf.westeros.org/images/thumb/2/22/Rhaegar_twoiaf.jpg/320px-Rhaegar_twoiaf.jpg"
+            "image": "http://awoiaf.westeros.org/images/thumb/2/22/Rhaegar_twoiaf.jpg/320px-Rhaegar_twoiaf.jpg",
+            "gender": 2
         },
         {
             "id": 12,
             "firstname": "Daenerys",
             "lastname": "Targaryen",
-            "image": "https://s-media-cache-ak0.pinimg.com/736x/d7/74/88/d774880fa436108194df9776b019353e.jpg"
+            "image": "https://s-media-cache-ak0.pinimg.com/736x/d7/74/88/d774880fa436108194df9776b019353e.jpg",
+            "gender": 2
         },
         {
             "id": 13,
@@ -75,19 +86,22 @@
             "id": 14,
             "firstname": "Rickard",
             "lastname": "Stark",
-            "image": "https://vignette3.wikia.nocookie.net/gameofthrones/images/e/eb/Vlcsnap-2016-05-23-02h18m09s851.png/revision/latest?cb=20160523052104"
+            "image": "https://vignette3.wikia.nocookie.net/gameofthrones/images/e/eb/Vlcsnap-2016-05-23-02h18m09s851.png/revision/latest?cb=20160523052104",
+            "gender": 2
         },
         {
             "id": 15,
             "firstname": "Lyarra",
             "lastname": "Stark",
-            "image": "https://s-media-cache-ak0.pinimg.com/564x/f1/81/4d/f1814d9cd38f898f613753ac7ca7528c.jpg"
+            "image": "https://s-media-cache-ak0.pinimg.com/564x/f1/81/4d/f1814d9cd38f898f613753ac7ca7528c.jpg",
+            "gender": 2
         },
         {
             "id": 11,
             "firstname": "Aerys",
             "lastname": "Targaryen",
-            "image": "http://awoiaf.westeros.org/images/c/c0/AERYS_II.jpg"
+            "image": "http://awoiaf.westeros.org/images/c/c0/AERYS_II.jpg",
+            "gender": 2
         }
     ],
     "relationships": [
@@ -95,13 +109,19 @@
             "id": 1,
             "profile1": 1,
             "profile2": 2,
-            "relationshipType": "Spouse"
+            "type": 0,
+            "time": "2010-05-10",
+            "begintime": null,
+            "endtime": null
         },
         {
             "id": 2,
             "profile1": 3,
             "profile2": 8,
-            "relationshipType": "Spouse"
+            "type": 0,
+            "time": "2010-05-10",
+            "begintime": null,
+            "endtime": null
         },
         {
             "id": 3,
@@ -113,84 +133,87 @@
             "id": 4,
             "profile1": 14,
             "profile2": 15,
-            "relationshipType": "Spouse"
+            "type": 0,
+            "time": "2010-05-10",
+            "begintime": null,
+            "endtime": null
         }
     ],
     "parents": [
         {
-            "id": 1,
-            "parent": 2,
-            "child": 13,
+            "timedentityid": 1,
+            "parentsid": 2,
+            "childid": 13,
             "parentType": "relationship",
             "biological": true
         },
         {
-            "id": 2,
-            "parent": 1,
-            "child": 3,
+            "timedentityid": 2,
+            "parentsid": 1,
+            "childid": 3,
             "parentType": "relationship",
             "biological": true
         },
         {
-            "id": 3,
-            "parent": 1,
-            "child": 4,
+            "timedentityid": 3,
+            "parentsid": 1,
+            "childid": 4,
             "parentType": "relationship",
             "biological": true
         },
         {
-            "id": 4,
-            "parent": 1,
-            "child": 5,
+            "timedentityid": 4,
+            "parentsid": 1,
+            "childid": 5,
             "parentType": "relationship",
             "biological": true
         },
         {
-            "id": 5,
-            "parent": 1,
-            "child": 6,
+            "timedentityid": 5,
+            "parentsid": 1,
+            "childid": 6,
             "parentType": "relationship",
             "biological": true
         },
         {
-            "id": 6,
-            "parent": 1,
-            "child": 7,
+            "timedentityid": 6,
+            "parentsid": 1,
+            "childid": 7,
             "parentType": "single",
             "biological": false
         },
         {
-            "id": 7,
-            "parent": 3,
-            "child": 7,
+            "timedentityid": 7,
+            "parentsid": 3,
+            "childid": 7,
             "parentType": "relationship",
             "biological": true
         },
         {
-            "id": 9,
-            "parent": 11,
-            "child": 10,
+            "timedentityid": 9,
+            "parentsid": 11,
+            "childid": 10,
             "parentType": "single",
             "biological": true
         },
         {
-            "id": 10,
-            "parent": 11,
-            "child": 12,
+            "timedentityid": 10,
+            "parentsid": 11,
+            "childid": 12,
             "parentType": "single",
             "biological": true
         },
         {
-            "id": 11,
-            "parent": 4,
-            "child": 1,
+            "timedentityid": 11,
+            "parentsid": 4,
+            "childid": 1,
             "parentType": "relationship",
             "biological": true
         },
         {
-            "id": 12,
-            "parent": 4,
-            "child": 9,
+            "timedentityid": 12,
+            "parentsid": 4,
+            "childid": 9,
             "parentType": "relationship",
             "biological": true
         }

@@ -45,7 +45,6 @@ export class HttpService {
       firstname: firstname,
       lastname: lastname
     }).toPromise().then(response => {
-      console.log(response.json());
       return Promise.resolve(response.json());
     })
   }

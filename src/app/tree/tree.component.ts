@@ -12,6 +12,7 @@ import { TreeDataService } from '../tree-data.service';
 import { ChoiceDialog, NewParentDialog, NewPersonDialog } from './dialogs/';
 import { NewRelationshipDialog } from './dialogs/relationshipDialog';
 import { ActivatedRoute } from '@angular/router';
+import { SearchDialog } from './dialogs/searchDialog';
 import * as globals from '../globals';
 
 @Component({
@@ -68,6 +69,7 @@ export class TreeComponent implements OnInit {
     }
     if (jsonRelationships) {
       jsonRelationships.forEach(jsonRelationship => {
+        console.log("Hello rel")
         if (this.links.filter(link => link.id === jsonRelationship.id).length == 0) {
           this.links.push(new Relationship(jsonRelationship.id, this.nodes.filter(node => node.id === jsonRelationship.profile1)[0], this.nodes.filter(node => node.id === jsonRelationship.profile2)[0], jsonRelationship.type));
         }
@@ -75,6 +77,7 @@ export class TreeComponent implements OnInit {
     }
     if (jsonParents) {
       jsonParents.forEach(jsonParent => {
+        console.log("Hello par")
         if (this.parents.filter(parent => parent.id === jsonParent.timedentityid).length == 0) {
           if (this.nodes.filter(node => node.id === jsonParent.parentsid).length == 0) { // parent is a relationship
             let link = this.links.filter(link => link.id === jsonParent.parentsid)[0];
@@ -103,6 +106,7 @@ export class TreeComponent implements OnInit {
     let levels: Node[][] = [];
     let currentLevel = 0;
     while (remainingPeople.length != 0) {
+      console.log(currentLevel)
       levels[currentLevel] = [];
       remainingPeople.forEach(person => {
         if (remainingParents.filter(parent => parent.child === person)[0] === undefined) {
@@ -300,6 +304,7 @@ export class TreeComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(parent => {
       if (parent) {
+        this.newContent = true;
         this.parents.push(parent);
         this.newParents.push(parent);
         this.calculateCoordinates();
@@ -327,6 +332,7 @@ export class TreeComponent implements OnInit {
     })
   }
   saveNode(newNode: Node, http: Http): Promise<string> {
+    console.log("savenode: " + newNode.firstname);
     return http.post(globals.profileEndpoint, {
       "firstName": newNode.firstname,
       "lastName": newNode.lastname,
@@ -343,6 +349,7 @@ export class TreeComponent implements OnInit {
   }
 
   saveGhost(newNode: Node, http: Http): Promise<string> {
+    console.log("saveghost: " + newNode.firstname);
     return http.post(globals.ghostEndpoint, {
       ownerId: globals.getUserId(),
       profileId: newNode.id
@@ -359,6 +366,7 @@ export class TreeComponent implements OnInit {
   }
 
   saveRelationship(newRelationship: Relationship, http: Http): Promise<string> {
+    console.log("saverelationship: " + newRelationship.source.firstname + " - " + newRelationship.target.firstname);
     return http.post(globals.relationshipsEndpoint, {
       profile1: newRelationship.source.id,
       profile2: newRelationship.target.id,
@@ -393,4 +401,18 @@ export class TreeComponent implements OnInit {
     })
   }
 
+  search() {
+    let dialogRef = this.dialog.open(SearchDialog);
+    dialogRef.afterClosed().subscribe(result => {
+      if (this.nodes.filter(node => node.id === result.id).length > 0) {
+        console.log("gotit")
+      } else {
+        console.log(result);
+        this.nodes.push(result);
+        console.log("NEWNODES");
+        console.log(this.newNodes);
+        this.calculateCoordinates();
+      }
+    });
+  }
 }

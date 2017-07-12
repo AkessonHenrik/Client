@@ -88,6 +88,7 @@ ul {
     padding: 10px;
 }
 .searchbox {
+    background-color: white!important;
     color: black;
 }
 
