@@ -1,6 +1,8 @@
 import { Inject, Component, Input, Output, EventEmitter, ChangeDetectorRef, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { Router } from '@angular/router';
 import { ProfileViewComponent } from '../../../profile-view/profile-view.component'
+import { Node } from '../../../d3/models/node';
 @Component({
   selector: 'profileDialog',
   templateUrl: './profileDialog.html',
@@ -8,7 +10,11 @@ import { ProfileViewComponent } from '../../../profile-view/profile-view.compone
 })
 export class ProfileDialog {
   node: Node;
-  constructor( @Inject(MD_DIALOG_DATA) private data: Node, public dialogRef: MdDialogRef<ProfileDialog>) {
+  constructor( @Inject(MD_DIALOG_DATA) private data: Node, public dialogRef: MdDialogRef<ProfileDialog>, private router: Router) {
     this.node = data;
+  }
+  redirectToProfilePage() {
+    this.router.navigateByUrl('profilePage/' + this.node.id)
+    this.dialogRef.close();
   }
 }

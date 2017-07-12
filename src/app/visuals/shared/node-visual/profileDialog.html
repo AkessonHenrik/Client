@@ -1,3 +1,4 @@
 <div class="dialogChoice">
+    <button *ngIf="node.id > 0" md-raised-button class="fullProfile" (click)="redirectToProfilePage()">View full profile</button>
     <app-profile-view [profileId]="node.id"></app-profile-view>
 </div>
