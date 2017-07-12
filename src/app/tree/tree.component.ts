@@ -22,6 +22,7 @@ import * as globals from '../globals';
 })
 export class TreeComponent implements OnInit {
   nodes: Node[] = [];
+  lastModifications: { type: string, id: number }[] = [];
   newNodes: Node[] = [];
   id: number;
   links: Relationship[] = [];
@@ -278,6 +279,7 @@ export class TreeComponent implements OnInit {
         this.newContent = true;
         this.nodes.push(node);
         this.newNodes.push(node);
+        this.lastModifications.push({ type: "node", id: node.id });
         this.calculateCoordinates();
       }
     });
@@ -291,6 +293,7 @@ export class TreeComponent implements OnInit {
         this.newContent = true;
         this.links.push(relationship)
         this.newRelationships.push(relationship);
+        this.lastModifications.push({ type: "relationship", id: relationship.id });
         this.calculateCoordinates();
       }
     });
@@ -304,9 +307,11 @@ export class TreeComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(parent => {
       if (parent) {
+        console.log(parent);
         this.newContent = true;
         this.parents.push(parent);
         this.newParents.push(parent);
+        this.lastModifications.push({ type: "parent", id: parent.id });
         this.calculateCoordinates();
       }
     });
@@ -321,6 +326,7 @@ export class TreeComponent implements OnInit {
           this.newNodes = []
           this.newRelationships = []
           this.newParents = []
+          this.lastModifications = []
         })
       })
     })
@@ -414,5 +420,30 @@ export class TreeComponent implements OnInit {
         this.calculateCoordinates();
       }
     });
+  }
+
+  undo() {
+    let lastModification = this.lastModifications.pop();
+    console.log(lastModification);
+    switch (lastModification.type) {
+      case "relationship": {
+        this.links = this.links.filter(node => node.id !== lastModification.id)
+        this.newRelationships = this.newRelationships.filter(node => node.id !== lastModification.id)
+        break;
+      }
+      case "node": {
+        this.nodes = this.nodes.filter(node => node.id !== lastModification.id)
+        this.newNodes = this.newNodes.filter(node => node.id !== lastModification.id)
+        break;
+      }
+      case "parent": {
+        this.parents = this.parents.filter(parent => parent.id !== lastModification.id);
+        this.newParents = this.newParents.filter(parent => parent.id !== lastModification.id);
+        break;
+      }
+    }
+    if(this.lastModifications.length === 0) {
+      this.newContent = false;
+    }
   }
 }

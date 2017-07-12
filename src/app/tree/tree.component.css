@@ -43,6 +43,30 @@
     transition: .2s;
 }
 
+.undo {
+    position: absolute;
+    left: 70%;
+    top: 90%;
+    background-color: #F44336;
+    transform: translate(-50%, 0%);
+    height: 60px;
+    width: 100px;
+    color: white;
+    font-size: 30px;
+}
+
+.undo:hover {
+    height: 70px;
+    width: 120px;
+    transition: .2s;
+}
+
+.undo:hover::after {
+    height: 60px;
+    width: 100px;
+    transition: .2s;
+}
+
 .savingContent {
     z-index: 10;
     position: absolute;

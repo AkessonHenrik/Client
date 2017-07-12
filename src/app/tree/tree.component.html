@@ -15,4 +15,5 @@
 </button>
 
 <button md-raised-button class="newContent" (click)="saveContent()" *ngIf="newContent">Save</button>
+<button md-raised-button class="undo" (click)="undo()" *ngIf="lastModifications.length > 0">Undo</button>
 <md-spinner *ngIf="savingContent" class="savingContent"></md-spinner>
