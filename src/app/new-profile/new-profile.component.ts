@@ -57,11 +57,35 @@ export class NewProfileComponent implements OnInit {
         });
       })
     } else {
+      let profilePic = "";
+      console.log(this.gender);
+      if (this.gender === "male") {
+        profilePic = "http://s3.amazonaws.com/37assets/svn/765-default-avatar.png";
+      } else if (this.gender === "other") {
+        profilePic = "https://maxcdn.icons8.com/Share/icon/Alphabet//question_mark1600.png";
+      } else {
+        profilePic = "https://singlesdatingworld.com/images/woman.jpg";
+      }
+      // switch (this.gender) {
+      //   case "male": {
+      //     profilePic = "http://s3.amazonaws.com/37assets/svn/765-default-avatar.png";
+      //     break;
+      //   }
+      //   case "female": {
+      //     profilePic = "https://maxcdn.icons8.com/Share/icon/Alphabet//question_mark1600.png"
+      //     break;
+      //   }
+      //   case "other": {
+      //     profilePic = "https://maxcdn.icons8.com/Share/icon/Alphabet//question_mark1600.png"
+      //     break;
+      //   }
+
+      // }
       this.onSubmit.emit({
         firstName: this.firstname,
         lastName: this.lastname,
         gender: this.genders.indexOf(this.gender),
-        profilePicture: "http://s3.amazonaws.com/37assets/svn/765-default-avatar.png",
+        profilePicture: profilePic,
         birthDay: this.birthDayDay + "-" + this.birthDayMonth + "-" + this.birthDayYear,
         deathDay: this.deathDayDay + "-" + this.deathDayMonth + "-" + this.deathDayYear,
         born: this.born,

@@ -55,4 +55,7 @@ export class SidenavComponent implements OnInit {
     delete localStorage["treemily_email"];
     this.router.navigateByUrl('/login');
   }
+  redirectToMyProfile() {
+    this.router.navigateByUrl('/profilePage/' + globals.getUserId());
+  }
 }

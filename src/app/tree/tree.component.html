@@ -11,9 +11,11 @@
     </i>
 </button>
 <button md-fab class="share" (click)="search()">
-<i class="material-icons md-36">search</i>
+    <i class="material-icons md-36">search</i>
 </button>
-
+<!-- <button md-fab class="recenter" (click)="recenter()">
+    <i class="material-icons">aspect_ratio</i>
+</button> -->
 <button md-raised-button class="newContent" (click)="saveContent()" *ngIf="newContent">Save</button>
 <button md-raised-button class="undo" (click)="undo()" *ngIf="lastModifications.length > 0">Undo</button>
 <md-spinner *ngIf="savingContent" class="savingContent"></md-spinner>

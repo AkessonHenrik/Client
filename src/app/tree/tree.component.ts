@@ -169,7 +169,6 @@ export class TreeComponent implements OnInit {
     this.setCoordinates(levels);
   }
 
-
   setCoordinates(levels: Node[][]) {
     let maxWidth = 0;
     let maxWidthIndex = -1;
@@ -442,8 +441,13 @@ export class TreeComponent implements OnInit {
         break;
       }
     }
-    if(this.lastModifications.length === 0) {
+    if (this.lastModifications.length === 0) {
       this.newContent = false;
     }
+  }
+
+  recenter() {
+    console.log("RECENTER");
+    this.calculateCoordinates();
   }
 }

@@ -2,11 +2,13 @@
     <md-sidenav-container #sidenav style="height:100%;width:100%;">
         <md-toolbar>
             <button *ngIf="loggedIn()" md-button (click)="start.toggle();"><md-icon style="color: white;">menu</md-icon></button>
-            <div class="link" (click)="console.log('hey')"><p>Treemily</p></div>
+            <div class="link" (click)="console.log('hey')">
+                <p>Treemily</p>
+            </div>
             <div *ngIf="!loggedIn()" class="link">
                 <p (click)="signup()">Sign up</p>
             </div>
-            <div *ngIf="!loggedIn()"  class="link">
+            <div *ngIf="!loggedIn()" class="link">
                 <p (click)="login()">Sign in</p>
             </div>
             <div (click)="toggleSearch()" class="search link">
@@ -23,7 +25,7 @@
                 </li>
                 <li (click)="redirectToOwnedProfiles()">Owned profiles</li>
                 <li (click)="redirectToNewTree()">Create a new tree</li>
-                <li>My profile</li>
+                <li (click)="redirectToMyProfile()">My profile</li>
             </ul>
         </md-sidenav>
         <div class="inner-sidenav-content">

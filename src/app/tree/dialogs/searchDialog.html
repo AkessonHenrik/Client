@@ -1,9 +1,9 @@
 <div class="dialogChoice">
     <h1 class="dialogTitle" md-dialog-title>Search for a profile</h1>
-    <md-input-container>
+    <md-input-container class="firstname">
         <input mdInput [(ngModel)]="firstname" placeholder="First name">
     </md-input-container>
-    <md-input-container>
+    <md-input-container class="lastname">
         <input mdInput [(ngModel)]="lastname" placeholder="Last name">
     </md-input-container>
     <button class="addButton" (click)="search()" md-raised-button>Search</button><br>

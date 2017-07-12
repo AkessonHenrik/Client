@@ -32,6 +32,7 @@ import { NewProfileComponent } from './new-profile/new-profile.component';
 import { OwnedProfilesComponent } from './owned-profiles/owned-profiles.component';
 import { NewEventComponent } from './new-event/new-event.component';
 import { HttpService } from './http-service.service';
+import { ProfilePageComponent } from './profile-page/profile-page.component';
 const appRoutes: Routes = [
   { path: 'tree/:id', component: TreeComponent },
   { path: 'newTree', component: TreeComponent },
@@ -40,7 +41,8 @@ const appRoutes: Routes = [
   { path: 'login', component: AuthComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'mediaViewer', component: MediaViewerComponent },
-  { path: '', component: NewEventComponent }
+  { path: '', component: NewEventComponent },
+  { path: 'profilePage/:id', component: ProfilePageComponent }
 ];
 
 
@@ -76,7 +78,8 @@ const appRoutes: Routes = [
     OwnedProfilesComponent,
     MoveEventComponent,
     LocatedEventComponent,
-    NewEventComponent
+    NewEventComponent,
+    ProfilePageComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

@@ -12,7 +12,7 @@ import * as globals from '../globals';
   styleUrls: ['./profile-view.component.css']
 })
 export class ProfileViewComponent implements OnInit {
-  @Input('profile') node: Node;
+  @Input('profileId') id: number;
   firstname: string;
   lastname: string;
   profile: any;
@@ -22,9 +22,8 @@ export class ProfileViewComponent implements OnInit {
   events: EventComponent[] = []
   profileReady: boolean = false;
   ngOnInit() {
-    console.log(this.node)
-    if (this.node.id > 0) {
-      this.http.get("http://localhost:9000/profile/" + this.node.id)
+    if (this.id > 0) {
+      this.http.get("http://localhost:9000/profile/" + this.id)
         .toPromise()
         .then(res => {
           let body = res.json();
