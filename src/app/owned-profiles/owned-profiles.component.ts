@@ -24,5 +24,8 @@ export class OwnedProfilesComponent implements OnInit {
   getGender(gender: number) {
     return globals.getGender(gender);
   }
+  goToProfile(id: number) {
+    this.router.navigateByUrl('profilePage/' + id);
+  }
 
 }

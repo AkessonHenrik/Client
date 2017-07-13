@@ -61,16 +61,12 @@ export class TreeComponent implements OnInit {
     if (jsonNodes) {
       jsonNodes.forEach(jsonNode => {
         if (this.nodes.filter(node => node.id === jsonNode.id).length == 0) {
-          console.log("Adding:")
-          console.log(jsonNode);
-          console.log();
           this.nodes.push(new Node(jsonNode.id, jsonNode.image, jsonNode.firstname, jsonNode.lastname, jsonNode.gender, null, null, null, null));
         }
       })
     }
     if (jsonRelationships) {
       jsonRelationships.forEach(jsonRelationship => {
-        console.log("Hello rel")
         if (this.links.filter(link => link.id === jsonRelationship.id).length == 0) {
           this.links.push(new Relationship(jsonRelationship.id, this.nodes.filter(node => node.id === jsonRelationship.profile1)[0], this.nodes.filter(node => node.id === jsonRelationship.profile2)[0], jsonRelationship.type));
         }
@@ -78,7 +74,6 @@ export class TreeComponent implements OnInit {
     }
     if (jsonParents) {
       jsonParents.forEach(jsonParent => {
-        console.log("Hello par")
         if (this.parents.filter(parent => parent.id === jsonParent.timedentityid).length == 0) {
           if (this.nodes.filter(node => node.id === jsonParent.parentsid).length == 0) { // parent is a relationship
             let link = this.links.filter(link => link.id === jsonParent.parentsid)[0];
@@ -107,7 +102,6 @@ export class TreeComponent implements OnInit {
     let levels: Node[][] = [];
     let currentLevel = 0;
     while (remainingPeople.length != 0) {
-      console.log(currentLevel)
       levels[currentLevel] = [];
       remainingPeople.forEach(person => {
         if (remainingParents.filter(parent => parent.child === person)[0] === undefined) {
@@ -444,10 +438,6 @@ export class TreeComponent implements OnInit {
     if (this.lastModifications.length === 0) {
       this.newContent = false;
     }
-  }
-
-  recenter() {
-    console.log("RECENTER");
     this.calculateCoordinates();
   }
 }

@@ -14,8 +14,8 @@ export class EventComponent {
   id: number;
   name: string;
   description: string;
+  owner: number;
   time: string[];
-  location: LocationComponent;
   media: { type: string, path: string }[] = [];
   getType() { return "Event"; }
   getAsObject() {
@@ -25,7 +25,7 @@ export class EventComponent {
       time: this.time,
       media: this.media,
       type: this.getType(),
-      owner: globals.getUserId()
+      owner: this.owner
     }
   }
 
@@ -64,7 +64,7 @@ export class WorkEventComponent extends EventComponent implements OnInit {
       media: this.media,
       type: this.getType(),
       location: this.location.toObject(),
-      owner: globals.getUserId(),
+      owner: this.owner,
       company: this.company,
       position: this.position
     }
@@ -99,7 +99,7 @@ export class LocatedEventComponent extends EventComponent implements OnInit {
       media: this.media,
       type: this.getType(),
       location: this.location.toObject(),
-      owner: globals.getUserId()
+      owner: this.owner
     }
   }
 }
@@ -129,7 +129,7 @@ export class MoveEventComponent extends EventComponent implements OnInit {
       media: this.media,
       type: this.getType(),
       location: this.location.toObject(),
-      owner: globals.getUserId()
+      owner: this.owner
     }
   }
 }

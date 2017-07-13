@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Output, Input, EventEmitter, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { LocationComponent } from '../location/location.component';
 import { EventComponent, LocatedEventComponent, WorkEventComponent, MoveEventComponent } from '../event/event.component';
@@ -11,10 +11,12 @@ import { Router } from '@angular/router';
 })
 export class NewEventComponent implements OnInit {
 
+  @Output() onSubmit: EventEmitter<any> = new EventEmitter<any>();
+  @Input() owner: number;
   // Event types
   eventTypes = ["Event", "Located Event", "Move Event", "Work Event"];
   eventType: string;
-
+  interval: boolean = false;
   // Basic event
   name: string;
   description: string;
@@ -54,16 +56,14 @@ export class NewEventComponent implements OnInit {
     let fileList: FileList = [].slice.call(event.target.files);
     if (fileList.length > 0) {
       for (var i = 0; i < fileList.length; i++) {
-        console.log("media")
         this.files.push(fileList[i]);
-        console.log(this.files);
       }
     }
   }
 
   create() {
+    console.log(this.interval)
     if (this.valid()) {
-      console.log(1);
       switch (this.eventType) {
         case "Event": { // Event
           let event = new EventComponent();
@@ -96,12 +96,11 @@ export class NewEventComponent implements OnInit {
         }
       }
     }
+    this.onSubmit.emit();
   }
 
   postEvent(event: EventComponent): Promise<string> {
-    console.log(3);
     return this.uploadMedia().then(response => {
-      console.log(response);
     }).then(_ => {
       return this.media.forEach(media => {
         event.addMedia(media);
@@ -109,7 +108,6 @@ export class NewEventComponent implements OnInit {
     }).then(_ => {
       return this.httpService.addEvent(event.getAsObject());
     }).then(response => {
-      console.log(response);
       event = null;
       return Promise.resolve("Hey");
     })
@@ -122,19 +120,17 @@ export class NewEventComponent implements OnInit {
       })
     })
     ).then(_ => {
-      console.log(4);
       return Promise.resolve("Media upload finished");
     })
   }
 
   valid(): boolean {
-    console.log(0);
     return this.name !== "" && this.description !== "" && this.beginDay !== null && this.beginMonth !== null && this.beginYear !== null;
   }
 
   initializeEvent(event: EventComponent) {
-    console.log(2);
     event.name = this.name;
+    event.owner = this.owner;
     event.description = this.description;
     event.time = [this.beginDay + "-" + this.beginMonth + "-" + this.beginYear];
     if (this.endDay) {

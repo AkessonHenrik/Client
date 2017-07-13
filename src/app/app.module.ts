@@ -32,7 +32,9 @@ import { NewProfileComponent } from './new-profile/new-profile.component';
 import { OwnedProfilesComponent } from './owned-profiles/owned-profiles.component';
 import { NewEventComponent } from './new-event/new-event.component';
 import { HttpService } from './http-service.service';
+import { OwnerService } from './owner.service';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
+import { NewEventDialogComponent } from './new-event-dialog/new-event-dialog.component';
 const appRoutes: Routes = [
   { path: 'tree/:id', component: TreeComponent },
   { path: 'newTree', component: TreeComponent },
@@ -79,7 +81,8 @@ const appRoutes: Routes = [
     MoveEventComponent,
     LocatedEventComponent,
     NewEventComponent,
-    ProfilePageComponent
+    ProfilePageComponent,
+    NewEventDialogComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -94,8 +97,8 @@ const appRoutes: Routes = [
     NgbModule.forRoot(),
     MdNativeDateModule
   ],
-  providers: [D3Service, TreeDataService, HttpService],
+  providers: [D3Service, TreeDataService, HttpService, OwnerService],
   bootstrap: [AppComponent, SidenavComponent],
-  entryComponents: [ChoiceDialog, NewPersonDialog, NewRelationshipDialog, NewParentDialog, ProfileDialog, SearchDialog]
+  entryComponents: [ChoiceDialog, NewPersonDialog, NewRelationshipDialog, NewParentDialog, ProfileDialog, SearchDialog, NewEventDialogComponent]
 })
 export class AppModule { }

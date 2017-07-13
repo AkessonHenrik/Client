@@ -72,6 +72,10 @@ export class ProfileViewComponent implements OnInit {
               newEvent.media.push({ type: media.type, path: globals.fileEndpoint + media.path })
             })
           })
+          // Sort events chronologically
+          this.events.sort(function (event1, event2) {
+            return event1.time[0] > event2.time[0] ? -1 : event1.time[0] < event2.time[0] ? 1 : 0;
+          })
           this.profileReady = true;
         })
     }

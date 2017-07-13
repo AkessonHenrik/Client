@@ -1,3 +1,11 @@
 <div id="profileView">
-  <app-profile-view [profileId]="profileId"></app-profile-view>
+  <app-profile-view *ngIf="rerender" [profileId]="profileId"></app-profile-view>
 </div>
+  <button md-fab (click)="openDialog()" class="edit" mdTooltip="Add Event" [mdTooltipPosition]="'left'">
+    <i class="material-icons">
+        add
+    </i>
+  </button>
+  <button md-fab (click)="openDialog()" class="create" mdTooltip="Edit" [mdTooltipPosition]="'left'">  
+    <i class="material-icons">create</i>
+  </button>

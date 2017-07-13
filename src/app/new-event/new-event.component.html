@@ -40,8 +40,10 @@
     <input mdInput class="accountInput" [(ngModel)]="location.country" placeholder="Country">
   </md-input-container>
 </div>
+<md-slide-toggle [(ngModel)]="interval">Time interval</md-slide-toggle>
 
-<h2>Begin Date</h2>
+<h2 *ngIf="interval">Begin Date</h2>
+<h2 *ngIf="!interval">Date</h2>
 <md-input-container class="date">
   <input class="date" mdInput [(ngModel)]="beginDay" placeholder="Day">
 </md-input-container>
@@ -51,15 +53,16 @@
 <md-input-container class="date">
   <input class="date" mdInput [(ngModel)]="beginYear" placeholder="Year">
 </md-input-container>
-
-<h2>End Date (optional)</h2>
-<md-input-container class="date">
-  <input class="date" mdInput [(ngModel)]="endDay" placeholder="Day">
-</md-input-container>
-<md-input-container class="date">
-  <input class="date" mdInput [(ngModel)]="endMonth" placeholder="Month">
-</md-input-container>
-<md-input-container class="date">
-  <input class="date" mdInput [(ngModel)]="endYear" placeholder="Year">
-</md-input-container>
-<button style="display: block; margin-top: 50px;" md-raised-button (click)="create()">Submit</button>
+<div *ngIf="interval">
+  <h2>End Date (optional)</h2>
+  <md-input-container class="date">
+    <input class="date" mdInput [(ngModel)]="endDay" placeholder="Day">
+  </md-input-container>
+  <md-input-container class="date">
+    <input class="date" mdInput [(ngModel)]="endMonth" placeholder="Month">
+  </md-input-container>
+  <md-input-container class="date">
+    <input class="date" mdInput [(ngModel)]="endYear" placeholder="Year">
+  </md-input-container>
+</div>
+<button style="display: block; margin-top: 50px!important;" md-raised-button (click)="create()">Submit</button>

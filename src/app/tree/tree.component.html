@@ -5,17 +5,20 @@
         <g [node]="node" (contextmenu)="onRightClickEvent($event, node)" *ngFor="let node of nodes"></g>
     </g>
 </svg>
-<button md-fab (click)="openDialog()" class="add">
-    <i class="material-icons">
-        add
-    </i>
+<button md-fab (click)="openDialog()" class="add" mdTooltip="New component" [mdTooltipPosition]="'left'">
+<i class="material-icons">create</i>
 </button>
-<button md-fab class="share" (click)="search()">
-    <i class="material-icons md-36">search</i>
+<button md-fab class="share" (click)="search()" mdTooltip="Search for a profile" [mdTooltipPosition]="'left'">
+<i class="material-icons md-36">search</i>
 </button>
 <!-- <button md-fab class="recenter" (click)="recenter()">
     <i class="material-icons">aspect_ratio</i>
 </button> -->
-<button md-raised-button class="newContent" (click)="saveContent()" *ngIf="newContent">Save</button>
-<button md-raised-button class="undo" (click)="undo()" *ngIf="lastModifications.length > 0">Undo</button>
+<button md-raised-button class="newContent" (click)="saveContent()" *ngIf="newContent">
+<i class="material-icons">save</i>
+Save
+</button>
+<button md-raised-button class="undo" (click)="undo()" *ngIf="lastModifications.length > 0">
+<i class="material-icons">undo</i>Undo
+</button>
 <md-spinner *ngIf="savingContent" class="savingContent"></md-spinner>

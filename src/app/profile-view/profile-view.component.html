@@ -6,6 +6,7 @@
         <h2 *ngIf="died !== null">Died: {{died.time[0]}} in {{died.location.city}}, {{died.location.province}}, {{died.location.country}}</h2>
     </div>
     <div *ngFor="let event of events">
+        <hr>
         <app-work-event *ngIf="event.getType() === 'WorkEvent'" [event]="event"></app-work-event>
         <app-move-event *ngIf="event.getType() === 'MoveEvent'" [event]="event"></app-move-event>
         <app-located-event *ngIf="event.getType() === 'LocatedEvent'" [event]="event"></app-located-event>
