@@ -4,7 +4,7 @@ MUST IMPLEMENT:
 - Rights
 - Visibility
 - Welcome page
-- proper icons
+- proper icons and parent types
 - Media, Relationship, Gender types
 - Better responses (404, "access denied", ...)
 - JWT
@@ -13,6 +13,7 @@ MUST IMPLEMENT:
 - Comments
 - Migrate TreeComponent http calls to http-service
 - Rename http-service.service to http.service
+- CSS
 
 OPTIONAL:
 - Modify visibility

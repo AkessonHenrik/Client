@@ -5,23 +5,22 @@
     transform: translate(-50%, 0);
 }
 .edit {
-    z-index: 1;
-    position: fixed;
-    right: 20px;
-    margin: none;
     bottom: 10px;
 }
 
 .create {
-    z-index: 1;
-    position: fixed;
-    right: 20px;
-    margin: none;
     top: 10%;
 }
-
+.tree {
+    top: 50%;
+}
 .edit,
-.create {
+.create,
+.tree {
+    right: 20px;
+    z-index: 1;
+    position: fixed;
+    margin: none;
     font-size: 1.8rem;
     width: 60px;
     height: 60px;

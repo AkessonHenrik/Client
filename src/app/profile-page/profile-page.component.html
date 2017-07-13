@@ -1,11 +1,14 @@
 <div id="profileView">
   <app-profile-view *ngIf="rerender" [profileId]="profileId"></app-profile-view>
 </div>
-  <button md-fab (click)="openDialog()" class="edit" mdTooltip="Add Event" [mdTooltipPosition]="'left'">
+<button md-fab (click)="openDialog()" class="edit" mdTooltip="Add Event" [mdTooltipPosition]="'left'">
     <i class="material-icons">
         add
     </i>
   </button>
-  <button md-fab (click)="openDialog()" class="create" mdTooltip="Edit" [mdTooltipPosition]="'left'">  
+<button md-fab (click)="openDialog()" class="create" mdTooltip="Edit" [mdTooltipPosition]="'left'">  
     <i class="material-icons">create</i>
+  </button>
+<button md-fab (click)="redirectToTree()" class="tree" mdTooltip="Open tree" [mdTooltipPosition]="'left'">  
+    <img style="height: 25px; width: 25px;" src="assets/tree.png">
   </button>

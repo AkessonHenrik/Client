@@ -20,6 +20,7 @@ export class EventComponent {
   getType() { return "Event"; }
   getAsObject() {
     return {
+      id: this.id,
       name: this.name,
       description: this.description,
       time: this.time,
@@ -35,6 +36,13 @@ export class EventComponent {
     console.log("Added media");
     console.log(this.media);
   }
+  initialize(data) {
+    this.name = data.name;
+    this.description = data.description;
+    this.owner = data.owner;
+    this.time = data.time;
+    this.media = data.media;
+  };
 }
 
 
@@ -58,6 +66,7 @@ export class WorkEventComponent extends EventComponent implements OnInit {
   getType() { return "WorkEvent"; }
   getAsObject() {
     return {
+      id: this.id,
       name: this.name,
       description: this.description,
       time: this.time,
@@ -93,6 +102,7 @@ export class LocatedEventComponent extends EventComponent implements OnInit {
   ngOnInit() { }
   getAsObject() {
     return {
+      id: this.id,
       name: this.name,
       description: this.description,
       time: this.time,
@@ -101,6 +111,10 @@ export class LocatedEventComponent extends EventComponent implements OnInit {
       location: this.location.toObject(),
       owner: this.owner
     }
+  }
+  initialize(data) {
+    this.location = data.location;
+    super.initialize(data);
   }
 }
 
@@ -123,6 +137,7 @@ export class MoveEventComponent extends EventComponent implements OnInit {
   }
   getAsObject() {
     return {
+      id: this.id,
       name: this.name,
       description: this.description,
       time: this.time,

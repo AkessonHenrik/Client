@@ -14,7 +14,7 @@ import { NewRelationshipDialog } from './dialogs/relationshipDialog';
 import { ActivatedRoute } from '@angular/router';
 import { SearchDialog } from './dialogs/searchDialog';
 import * as globals from '../globals';
-
+import { HttpService } from '../http-service.service';
 @Component({
   selector: 'app-tree',
   templateUrl: './tree.component.html',
@@ -24,6 +24,7 @@ export class TreeComponent implements OnInit {
   nodes: Node[] = [];
   lastModifications: { type: string, id: number }[] = [];
   newNodes: Node[] = [];
+  newEvents = [];
   id: number;
   links: Relationship[] = [];
   newRelationships: Relationship[] = [];
@@ -35,7 +36,7 @@ export class TreeComponent implements OnInit {
   newContent: boolean = false;
   logger: boolean = false;
   savingContent: boolean = false;
-  constructor(private http: Http, private zone: NgZone, public dialog: MdDialog, private dataService: TreeDataService, private route: ActivatedRoute) { }
+  constructor(private http: Http, private zone: NgZone, public dialog: MdDialog, private dataService: TreeDataService, private route: ActivatedRoute, private httpService: HttpService) { }
   onRightClickEvent(e: MouseEvent, node: Node) {
     let data = this.dataService.getData(node.id).then(data => {
       this.createData(data.nodes, data.links, data.parents);
@@ -286,7 +287,10 @@ export class TreeComponent implements OnInit {
         this.newContent = true;
         this.links.push(relationship)
         this.newRelationships.push(relationship);
+        this.newEvents.push(relationship.event);
+        console.log(this.newEvents);
         this.lastModifications.push({ type: "relationship", id: relationship.id });
+        console.log(this.links);
         this.calculateCoordinates();
       }
     });
@@ -366,15 +370,7 @@ export class TreeComponent implements OnInit {
 
   saveRelationship(newRelationship: Relationship, http: Http): Promise<string> {
     console.log("saverelationship: " + newRelationship.source.firstname + " - " + newRelationship.target.firstname);
-    return http.post(globals.relationshipsEndpoint, {
-      profile1: newRelationship.source.id,
-      profile2: newRelationship.target.id,
-      type: newRelationship.getRelationshipTypeAsNumber(),
-      time: newRelationship.getTime()
-    }).toPromise().then(response => {
-      newRelationship.id = response.json().id
-      return Promise.resolve("Done");
-    })
+    return this.httpService.createRelationship(newRelationship);
   }
 
   saveParents(): Promise<string> {

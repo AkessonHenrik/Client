@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileViewComponent } from '../profile-view/profile-view.component';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { NewEventDialogComponent } from '../new-event-dialog/new-event-dialog.component';
 @Component({
@@ -10,7 +10,7 @@ import { NewEventDialogComponent } from '../new-event-dialog/new-event-dialog.co
 })
 export class ProfilePageComponent implements OnInit {
   rerender: boolean = true;
-  constructor(private route: ActivatedRoute, public dialog: MdDialog) { }
+  constructor(private route: ActivatedRoute, public dialog: MdDialog, private router: Router) { }
   profileId: number;
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -28,5 +28,7 @@ export class ProfilePageComponent implements OnInit {
       this.rerender = true;
     });
   }
-
+  redirectToTree() {
+    this.router.navigateByUrl("tree/" + this.profileId);
+  }
 }

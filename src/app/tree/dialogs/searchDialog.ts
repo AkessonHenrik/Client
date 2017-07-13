@@ -9,8 +9,8 @@ import { HttpService } from '../../http-service.service';
     styleUrls: ['./persondialog.css', './searchDialog.css']
 })
 export class SearchDialog implements OnInit {
-    firstname: string;
-    lastname: string;
+    firstname: string = "";
+    lastname: string = "";
 
     profiles = [];
 

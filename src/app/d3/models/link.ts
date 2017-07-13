@@ -1,5 +1,6 @@
 import { Node } from './';
 import * as globals from '../../globals';
+import { EventComponent, LocatedEventComponent } from '../../event/event.component';
 export abstract class Link {
   source: Node;
   target: Node;
@@ -19,8 +20,9 @@ export abstract class Link {
 
 export class Relationship extends Link {
   relationshipType: string;
+  event: EventComponent | LocatedEventComponent;
   icon: string;
-  constructor(id: number, source, target, type: number) {
+  constructor(id: number, source, target, type: number, event?: EventComponent) {
     super(id, source, target);
     this.relationshipType = globals.relationshipTypes[type];
     switch (this.relationshipType) {
@@ -33,6 +35,7 @@ export class Relationship extends Link {
         break;
       }
     }
+    this.event = event;
   }
   getRelationshipTypeAsNumber(): number {
     return globals.relationshipTypes.indexOf(this.relationshipType);
