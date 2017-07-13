@@ -1,4 +1,6 @@
-<app-work-event *ngIf="event.getType() === 'WorkEvent'" [event]="event"></app-work-event>
-<app-move-event *ngIf="event.getType() === 'MoveEvent'" [event]="event"></app-move-event>
-<app-located-event *ngIf="event.getType() === 'LocatedEvent'" [event]="event"></app-located-event>
-<app-event *ngIf="event.getType() === 'Event'" [event]="event"></app-event>
+<div *ngIf="event !== undefined">
+    <app-work-event *ngIf="event.getType() === 'WorkEvent'" [event]="event"></app-work-event>
+    <app-move-event *ngIf="event.getType() === 'MoveEvent'" [event]="event"></app-move-event>
+    <app-located-event *ngIf="event.getType() === 'LocatedEvent'" [event]="event"></app-located-event>
+    <app-event *ngIf="event.getType() === 'Event'" [event]="event"></app-event>
+</div>
