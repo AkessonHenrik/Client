@@ -1,24 +1,23 @@
-<svg #svg width="100%" [attr.height]="height">
-    <g [zoomableOf]="svg">
-        <g [linkVisual]="link" *ngFor="let link of links"></g>
-        <g [parentVisual]="parent" *ngFor="let parent of parents"></g>
-        <g [node]="node" (contextmenu)="onRightClickEvent($event, node)" *ngFor="let node of nodes"></g>
-    </g>
-</svg>
-<button md-fab (click)="openDialog()" class="add" mdTooltip="New component" [mdTooltipPosition]="'left'">
+<div oncontextmenu="return false;">
+    <svg #svg width="100%" [attr.height]="height">
+        <g [zoomableOf]="svg">
+            <g [linkVisual]="link" *ngFor="let link of links"></g>
+            <g [parentVisual]="parent" *ngFor="let parent of parents"></g>
+            <g [node]="node" (contextmenu)="onRightClickEvent($event, node)" *ngFor="let node of nodes"></g>
+        </g>
+    </svg>
+    <button md-fab (click)="openDialog()" class="add" mdTooltip="New component" [mdTooltipPosition]="'left'">
 <i class="material-icons">create</i>
 </button>
-<button md-fab class="share" (click)="search()" mdTooltip="Search for a profile" [mdTooltipPosition]="'left'">
+    <button md-fab class="share" (click)="search()" mdTooltip="Search for a profile" [mdTooltipPosition]="'left'">
 <i class="material-icons md-36">search</i>
 </button>
-<!-- <button md-fab class="recenter" (click)="recenter()">
-    <i class="material-icons">aspect_ratio</i>
-</button> -->
-<button md-raised-button class="newContent" (click)="saveContent()" *ngIf="newContent">
+    <button md-raised-button class="newContent" (click)="saveContent()" *ngIf="newContent">
 <i class="material-icons">save</i>
 Save
 </button>
-<button md-raised-button class="undo" (click)="undo()" *ngIf="lastModifications.length > 0">
+    <button md-raised-button class="undo" (click)="undo()" *ngIf="lastModifications.length > 0">
 <i class="material-icons">undo</i>Undo
 </button>
-<md-spinner *ngIf="savingContent" class="savingContent"></md-spinner>
+    <md-spinner *ngIf="savingContent" class="savingContent"></md-spinner>
+</div>

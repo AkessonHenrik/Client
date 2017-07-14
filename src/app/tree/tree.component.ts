@@ -15,6 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SearchDialog } from './dialogs/searchDialog';
 import * as globals from '../globals';
 import { HttpService } from '../http-service.service';
+
 @Component({
   selector: 'app-tree',
   templateUrl: './tree.component.html',
@@ -42,6 +43,7 @@ export class TreeComponent implements OnInit {
       this.createData(data.nodes, data.links, data.parents);
     })
   }
+
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.id = +params['id'];
