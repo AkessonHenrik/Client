@@ -25,7 +25,7 @@
                 <input class="date" mdInput [(ngModel)]="beginYear" placeholder="Year">
             </md-input-container>
             <div *ngIf="interval" style="display: block">
-                <h2>End Date (optional)</h2>
+                <h2>End Date</h2>
                 <md-input-container class="date">
                     <input class="date" mdInput [(ngModel)]="endDay" placeholder="Day">
                 </md-input-container>
@@ -36,14 +36,14 @@
                     <input class="date" mdInput [(ngModel)]="endYear" placeholder="Year">
                 </md-input-container>
             </div>
-            <md-checkbox style="display: block" [(ngModel)]="associateEvent">Associate event</md-checkbox>
-            <button *ngIf="!associateEvent" class="addButton" (click)="createRelationshipOnly()" md-raised-button>Add</button>
-            <button *ngIf="associateEvent" class="addButton" (click)="next()" md-raised-button>Next</button>
+            <md-checkbox style="display: block" [(ngModel)]="addDetails">Add details</md-checkbox>
+            <button *ngIf="!addDetails" class="addButton" (click)="createRelationshipWithoutDetails()" md-raised-button>Add</button>
+            <button *ngIf="addDetails" class="addButton" (click)="next()" md-raised-button>Next</button>
         </md-tab>
 
-        <md-tab label="Relationship event" disabled="associateEvent === false">
+        <md-tab label="Relationship event" disabled="addDetails === false">
             <md-input-container class="container">
-                <input mdInput class="accountInput" [(ngModel)]="description" placeholder="Event description">
+                <input mdInput class="accountInput" [(ngModel)]="description" placeholder="Description">
             </md-input-container>
             <label for="file-upload" class="custom-file-upload">
                 <i class="fa fa-cloud-upload"></i>Event media
@@ -68,7 +68,7 @@
                     <input mdInput class="accountInput" [(ngModel)]="location.country" placeholder="Country">
                 </md-input-container>
             </div>
-            <button style="display: block; margin-top: 50px!important;" md-raised-button (click)="createRelationshipWithEvent()">Submit</button>
+            <button style="display: block; margin-top: 50px!important;" md-raised-button (click)="createRelationshipWithDetails()">Submit</button>
         </md-tab>
     </md-tab-group>
 </div>

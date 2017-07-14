@@ -70,6 +70,8 @@ export class HttpService {
   getEvent(id: number): Promise<any> {
     return this.http.get(globals.eventEndpoint + "/" + id).toPromise().then(response => {
       return Promise.resolve(response);
+    }).catch(error => {
+      return Promise.resolve(404)
     })
   }
 }

@@ -1,3 +1,4 @@
+<div id="error">{{error}}</div>
 <div *ngIf="event !== undefined">
     <app-work-event *ngIf="event.getType() === 'WorkEvent'" [event]="event"></app-work-event>
     <app-move-event *ngIf="event.getType() === 'MoveEvent'" [event]="event"></app-move-event>

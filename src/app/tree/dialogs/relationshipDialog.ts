@@ -30,7 +30,7 @@ export class NewRelationshipDialog implements OnInit {
   files: File[] = [];
   interval: boolean = false;
   isLocated: boolean = false;
-  associateEvent: boolean = false;
+  addDetails: boolean = false;
 
   nodes: Node[];
 
@@ -40,7 +40,7 @@ export class NewRelationshipDialog implements OnInit {
   constructor( @Inject(MD_DIALOG_DATA) private data: Node[], public dialogRef: MdDialogRef<NewRelationshipDialog>, private httpService: HttpService) {
     this.relationshipTypes = globals.relationshipTypes;
   }
-  createRelationshipWithEvent() {
+  createRelationshipWithDetails() {
     let returnRel = this.createRelationship();
     let time = [this.beginDay + "-" + this.beginMonth + "-" + this.beginYear];
     if (this.interval) {
@@ -85,7 +85,7 @@ export class NewRelationshipDialog implements OnInit {
       return Promise.resolve("Media upload finished");
     })
   }
-  createRelationshipOnly() {
+  createRelationshipWithoutDetails() {
     this.dialogRef.close(this.createRelationship());
   }
   createRelationship() {
@@ -99,10 +99,18 @@ export class NewRelationshipDialog implements OnInit {
     if (end) {
       returnRel.time.end = end;
     }
+    returnRel.event = new EventComponent();
+    returnRel.event.initialize({
+      name: "Relationship between " + returnRel.source.firstname + " and " + returnRel.target.firstname,
+      description: "Became " + this.relationshipType,
+      time: [returnRel.time.begin],
+      media: this.media,
+      owner: returnRel.id,
+    })
     return returnRel;
   }
   public ngOnInit() {
-    console.log(this.associateEvent);
+    console.log(this.addDetails);
     //set custom data from parent component
     this.nodes = this.data;
     this.location = this.location = {

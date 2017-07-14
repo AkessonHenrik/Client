@@ -66,10 +66,10 @@ export class SignupComponent implements OnInit {
     return !(!password1 || !password2 || password1 != password2 || password1.length < 8);
   }
   ngOnInit() {
-    this.activeTab = 2;
-    this.profileSearchFirstname = "Henrik";
-    this.profileSearchLastname = "Akesson";
-    this.search();
+    // this.activeTab = 2;
+    // this.profileSearchFirstname = "Henrik";
+    // this.profileSearchLastname = "Akesson";
+    // this.search();
   }
   getAccountInfo() {
     return { email: this.email, password: this.password };
