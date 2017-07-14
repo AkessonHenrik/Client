@@ -5,6 +5,7 @@ import * as globals from '../../globals';
 import { NewEventComponent } from '../../new-event/new-event.component'
 import { LocatedEventComponent, EventComponent } from '../../event/event.component';
 import { LocationComponent } from '../../location/location.component';
+import { HttpService } from '../../http-service.service';
 @Component({
   selector: 'relationshipdialog',
   templateUrl: './relationshipdialog.html',
@@ -36,7 +37,7 @@ export class NewRelationshipDialog implements OnInit {
 
   description: string;
   media: { type: string, path: string }[] = [];
-  constructor( @Inject(MD_DIALOG_DATA) private data: Node[], public dialogRef: MdDialogRef<NewRelationshipDialog>) {
+  constructor( @Inject(MD_DIALOG_DATA) private data: Node[], public dialogRef: MdDialogRef<NewRelationshipDialog>, private httpService: HttpService) {
     this.relationshipTypes = globals.relationshipTypes;
   }
   createRelationshipWithEvent() {
@@ -65,8 +66,24 @@ export class NewRelationshipDialog implements OnInit {
         owner: returnRel.id,
       })
     }
-    this.dialogRef.close(returnRel)
+    this.uploadMedia().then(response => {
+      return this.media.forEach(media => {
+        returnRel.event.addMedia(media);
+      })
+    }).then(response => {
+      this.dialogRef.close(returnRel)
+    })
 
+  }
+  uploadMedia(): Promise<string> {
+    return Promise.all(this.files.map(file => {
+      return this.httpService.upload(file).then(response => {
+        this.media.push({ type: "image", path: response.toString() })
+      })
+    })
+    ).then(_ => {
+      return Promise.resolve("Media upload finished");
+    })
   }
   createRelationshipOnly() {
     this.dialogRef.close(this.createRelationship());
@@ -74,7 +91,7 @@ export class NewRelationshipDialog implements OnInit {
   createRelationship() {
     let fromNode: Node = this.nodes.filter(node => node.firstname === this.from)[0]
     let toNode: Node = this.nodes.filter(node => node.firstname === this.to)[0]
-    let returnRel = new Relationship(100, fromNode, toNode, globals.relationshipTypes.indexOf(this.relationshipType));
+    let returnRel = new Relationship(-3, fromNode, toNode, globals.relationshipTypes.indexOf(this.relationshipType));
     let end = (this.endDay ? this.endDay + "-" + this.endMonth + "-" + this.endYear : null);
     returnRel.time = {
       begin: this.beginDay + "-" + this.beginMonth + "-" + this.beginYear
@@ -103,6 +120,7 @@ export class NewRelationshipDialog implements OnInit {
     if (fileList.length > 0) {
       for (var i = 0; i < fileList.length; i++) {
         this.files.push(fileList[i]);
+        console.log(fileList[i].name);
       }
     }
   }

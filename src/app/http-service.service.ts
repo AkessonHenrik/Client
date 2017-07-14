@@ -60,8 +60,9 @@ export class HttpService {
       newRelationship.id = response.json().id
       if (newRelationship.event) {
         newRelationship.event.id = newRelationship.id;
+        newRelationship.event.owner = newRelationship.id;
+        return this.addEvent(newRelationship.event.getAsObject());
       }
-      return this.addEvent(newRelationship.event.getAsObject());
     })
   }
 

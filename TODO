@@ -1,3 +1,15 @@
+FIRST:
+- Finish relationship events
+    - Media
+    - Generify event creation (separate event upload from media upload)
+    - Adapt to other event creation
+    - Test whether there is a relationship event or not
+    - Change icons depending on relationshiptype
+
+
+
+
+
 MUST IMPLEMENT:
 - New relationship: Create event with media
 - Deleting & Editing people, events, relationships (especially times)
