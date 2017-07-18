@@ -22,7 +22,8 @@ import { HomeComponent } from './home/home.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ProfileComponent } from './profile/profile.component'
 import { TreeDataService } from './tree-data.service';
-import { ProfileViewComponent, VideoComponent, MediaComponent, AudioComponent, ImageComponent, ExternalVideoComponent } from './profile-view/profile-view.component';
+import { ProfileViewComponent } from './profile-view/profile-view.component';
+import { VideoComponent, MediaComponent, AudioComponent, ImageComponent, ExternalVideoComponent } from './media/media.component';
 import { EventComponent, WorkEventComponent, LocatedEventComponent, MoveEventComponent } from './event/event.component';
 import { LocationComponent } from './location/location.component';
 import { MediaViewerComponent } from './media-viewer/media-viewer.component';

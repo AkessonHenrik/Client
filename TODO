@@ -1,5 +1,4 @@
 MUST IMPLEMENT:
-- Separate video-component etc from profile-view
 - Deleting & Editing events, relationships (especially times)
 - Rights
 - Visibility

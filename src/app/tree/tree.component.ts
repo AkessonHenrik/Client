@@ -352,8 +352,8 @@ export class TreeComponent implements OnInit {
   saveNode(newNode: Node, http: Http): Promise<string> {
     console.log(newNode)
     return this.httpService.createProfile({
-      "firstName": newNode.firstname,
-      "lastName": newNode.lastname,
+      "firstname": newNode.firstname,
+      "lastname": newNode.lastname,
       "gender": newNode.gender,
       "profilePicture": newNode.image,
       "birthDay": newNode.birthDay,

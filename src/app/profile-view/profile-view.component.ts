@@ -35,8 +35,6 @@ export class ProfileViewComponent implements OnInit {
           this.profile = body.profile;
           this.profilePicture = body.profile.image
           let born = body.born;
-          this.born = body.born;
-          this.died = body.died;
           if (born.type === "WorkEvent") {
             this.born = new WorkEventComponent();
             this.born.name = born.name;
@@ -72,6 +70,44 @@ export class ProfileViewComponent implements OnInit {
             this.born.media.push({ type: media.type, path: globals.fileEndpoint + media.path, postid: media.postid })
           })
           this.events.push(this.born);
+          if (body.died !== null) {
+            let died = body.died;
+            if (died.type === "WorkEvent") {
+              this.died = new WorkEventComponent();
+              this.died.name = died.name;
+              this.died.id = died.id;
+              this.died.description = died.description;
+              this.died.company = died.company;
+              this.died.position = died.position;
+              this.died.location = new LocationComponent(died.location.city, died.location.province, died.location.country);
+              this.died.time = died.time;
+            } else if (died.type === "LocatedEvent") {
+              this.died = new LocatedEventComponent();
+              this.died.name = died.name;
+              this.died.id = died.id;
+              this.died.description = died.description;
+              this.died.time = died.time;
+              this.died.location = new LocationComponent(died.location.city, died.location.province, died.location.country);
+            } else if (died.type === "MoveEvent") {
+              this.died = new MoveEventComponent();
+              this.died.name = died.name;
+              this.died.id = died.id;
+              this.died.description = died.description;
+              this.died.time = died.time;
+              this.died.location = new LocationComponent(died.location.city, died.location.province, died.location.country);
+            } else {
+              this.died = new EventComponent();
+              this.died.name = died.name;
+              this.died.id = died.id;
+              this.died.description = died.description;
+              this.died.time = died.time;
+            }
+            this.died.media = [];
+            died.media.forEach(media => {
+              this.died.media.push({ type: media.type, path: globals.fileEndpoint + media.path, postid: media.postid })
+            })
+            this.events.push(this.died);
+          }
           body.events.forEach(event => {
             let newEvent;
             if (event.type === "WorkEvent") {
@@ -123,54 +159,4 @@ export class ProfileViewComponent implements OnInit {
     }
   }
   constructor(private httpService: HttpService, public dialog: MdDialog) { }
-}
-
-
-@Component({
-  selector: 'media-component',
-  template: ``,
-  styleUrls: ['./profile-view.component.css']
-})
-export class MediaComponent {
-  @Input('source') source: string;
-  constructor(public sanitizer: DomSanitizer) { }
-  getUrl(): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(this.source);
-  }
-}
-
-@Component({
-  selector: 'video-component',
-  template: `<video width="auto" height="300" controls type="video/mp4" [src]="getUrl()"></video>`,
-  styleUrls: ['./profile-view.component.css']
-})
-export class VideoComponent extends MediaComponent {
-  @Input('source') source;
-}
-
-@Component({
-  selector: 'image-component',
-  template: `<img style="margin: 2px!important" [src]="getUrl()" width="auto" height="300">`,
-  styleUrls: ['./profile-view.component.css']
-})
-export class ImageComponent extends MediaComponent {
-  @Input('source') source;
-}
-
-@Component({
-  selector: 'external-video-component',
-  template: `<iframe width="534" height="300" [src]="getUrl()" style="border: none;"></iframe>`,
-  styleUrls: ['./profile-view.component.css']
-})
-export class ExternalVideoComponent extends MediaComponent {
-  @Input('source') source;
-}
-
-@Component({
-  selector: 'audio-component',
-  template: `<audio controls width="534" height="300" [src]="getUrl()" style="border: none;"></audio>`,
-  styleUrls: ['./profile-view.component.css']
-})
-export class AudioComponent extends MediaComponent {
-  @Input('source') source;
 }

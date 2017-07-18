@@ -30,7 +30,7 @@ export class Node {
 
   constructor(id: number, image, firstname: string, lastname: string, gender: number, birthDay: string, deathDay: string, born, died) {
     this.id = id;
-    this.image = !image ? globals.defaultAvatar : image;
+    this.image = image;
     this.firstname = firstname;
     this.lastname = lastname;
     this.gender = this.genders[gender];

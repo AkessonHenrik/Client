@@ -6,14 +6,17 @@
 </md-input-container>
 <md-radio-group style="margin-top: 20px!important" [(ngModel)]="gender">
   <h3>Gender</h3>
-  <md-radio-button class="choice" value="female">Female</md-radio-button>
-  <md-radio-button class="choice" value="male">Male</md-radio-button>
-  <md-radio-button class="choice" value="other">Other</md-radio-button>
+  <md-radio-button class="choice" value="1">Female</md-radio-button>
+  <md-radio-button class="choice" value="0">Male</md-radio-button>
+  <md-radio-button class="choice" value="2">Other</md-radio-button>
 </md-radio-group>
 <label for="file-upload" class="custom-file-upload">
     <i class="fa fa-cloud-upload"></i>Choose profile picture</label>
 <input type="file" id="file-upload" name="file" (change)="fileChange($event)" accept=".jpg,.png,.gif"/>
 <h2>Birth</h2>
+<md-input-container class="container">
+  <input mdInput class="accountInput" [(ngModel)]="born.description" placeholder="Details (optional)">
+</md-input-container>
 <md-input-container class="container">
   <input mdInput class="accountInput" [(ngModel)]="born.location.city" placeholder="Birth city">
 </md-input-container>
@@ -33,6 +36,9 @@
   <input class="date" mdInput [(ngModel)]="birthDayYear" placeholder="Year">
 </md-input-container>
 <h2>Death (optional)</h2>
+<md-input-container class="container">
+  <input mdInput class="accountInput" [(ngModel)]="died.description" placeholder="Details (optional)">
+</md-input-container>
 <md-input-container class="container">
   <input mdInput class="accountInput" [(ngModel)]="died.location.city" placeholder="City of death">
 </md-input-container>

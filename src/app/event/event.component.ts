@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LocationComponent } from '../location/location.component';
-import { MediaComponent, VideoComponent, ImageComponent } from '../profile-view/profile-view.component';
 import { MediaViewerComponent } from '../media-viewer/media-viewer.component';
 import * as globals from '../globals';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';

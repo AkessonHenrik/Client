@@ -10,16 +10,17 @@ import { HttpService } from '../http.service';
 })
 export class NewProfileComponent implements OnInit {
   @Output() onSubmit: EventEmitter<any> = new EventEmitter<any>();
+  @Input() initialProfile;
   firstname: string;
   lastname: string;
   born: { name: string, description: string, location: { city: string, province: string, country: string }, media: string[] } = { name: "born", description: "", location: { city: "", province: "", country: "" }, media: [] };
   died: { name: string, description: string, location: { city: string, province: string, country: string }, media: string[] } = { name: "died", description: "", location: { city: "", province: "", country: "" }, media: [] };
   birthDay: string;
-  gender: string;
+  gender: number;
   birthDayDay: number;
   birthDayMonth: number;
   birthDayYear: number;
-  deathDay: number;
+  deathDay: string;
   deathDayDay: number;
   deathDayMonth: number;
   deathDayYear: number;
@@ -31,6 +32,33 @@ export class NewProfileComponent implements OnInit {
     return true;
   }
   ngOnInit() {
+    if (this.initialProfile) {
+      this.firstname = this.initialProfile.profile.firstname;
+      this.lastname = this.initialProfile.profile.lastname;
+      this.gender = this.initialProfile.profile.gender;
+      this.born.name = this.initialProfile.born.name;
+      this.born.description = this.initialProfile.born.description;
+      this.born.location.city = this.initialProfile.born.location.city;
+      this.born.location.province = this.initialProfile.born.location.province;
+      this.born.location.country = this.initialProfile.born.location.country;
+      this.born.media = this.initialProfile.born.media;
+      this.birthDay = this.initialProfile.born.time[0];
+      let values = this.birthDay.split("-");
+      this.birthDayYear = +(values[0]);
+      this.birthDayMonth = +(values[1]);
+      this.birthDayDay = +(values[2]);
+      if (this.initialProfile.died !== null && this.initialProfile.died !== undefined) {
+        this.died.description = this.initialProfile.died.description;
+        this.died.location.city = this.initialProfile.died.location.city;
+        this.died.location.province = this.initialProfile.died.location.province;
+        this.died.location.country = this.initialProfile.died.location.country;
+        this.deathDay = this.initialProfile.died.time[0];
+        let values = this.deathDay.split("-");
+        this.deathDayYear = +(values[0]);
+        this.deathDayMonth = +(values[1]);
+        this.deathDayDay = +(values[2]);
+      }
+    }
   }
   fileChange(event) {
     let fileList: FileList = event.target.files;
@@ -44,38 +72,34 @@ export class NewProfileComponent implements OnInit {
         this.pictureUrl = globals.fileEndpoint + response.path;
       }).then(_ => {
         this.born.description = this.firstname + " is born"
-
-        this.onSubmit.emit({
-          firstName: this.firstname,
-          lastName: this.lastname,
-          gender: this.genders.indexOf(this.gender),
+        let returnObject = {
+          firstname: this.firstname,
+          lastname: this.lastname,
+          gender: this.gender,
           profilePicture: this.pictureUrl,
           birthDay: this.birthDayDay + "-" + this.birthDayMonth + "-" + this.birthDayYear,
-          deathDay: this.deathDayDay + "-" + this.deathDayMonth + "-" + this.deathDayYear,
-          born: this.born,
-          died: this.died
-        });
+          born: this.born
+        }
+        if (this.deathDayDay) {
+          returnObject["died"] = this.died;
+          returnObject["deathDay"] = this.deathDayDay + "-" + this.deathDayMonth + "-" + this.deathDayYear;
+        }
+        this.onSubmit.emit(returnObject);
       })
     } else {
-      let profilePic = "";
-      console.log(this.gender);
-      if (this.gender === "male") {
-        profilePic = "http://s3.amazonaws.com/37assets/svn/765-default-avatar.png";
-      } else if (this.gender === "other") {
-        profilePic = "https://maxcdn.icons8.com/Share/icon/Alphabet//question_mark1600.png";
-      } else {
-        profilePic = "https://singlesdatingworld.com/images/woman.jpg";
-      }
-      this.onSubmit.emit({
-        firstName: this.firstname,
-        lastName: this.lastname,
-        gender: this.genders.indexOf(this.gender),
-        profilePicture: profilePic,
+      this.born.description = this.firstname + " is born"
+      let returnObject = {
+        firstname: this.firstname,
+        lastname: this.lastname,
+        gender: this.gender,
         birthDay: this.birthDayDay + "-" + this.birthDayMonth + "-" + this.birthDayYear,
-        deathDay: this.deathDayDay + "-" + this.deathDayMonth + "-" + this.deathDayYear,
-        born: this.born,
-        died: this.died
-      });
+        born: this.born
+      }
+      if (this.deathDayDay) {
+        returnObject["died"] = this.died;
+        returnObject["deathDay"] = this.deathDayDay + "-" + this.deathDayMonth + "-" + this.deathDayYear;
+      }
+      this.onSubmit.emit(returnObject);
     }
   }
 }

@@ -41,11 +41,18 @@ export class ProfilePageComponent implements OnInit {
   }
 
   edit() {
-    let dialogRef = this.dialog.open(EditProfileDialogComponent);
-    dialogRef.afterClosed().subscribe(result => {
-      this.httpService.updateProfile(result, this.profileId).then(_ => {
-        // window.location.reload();
-      })
-    });
+    let body;
+    this.httpService.getProfile(this.profileId).then(res => body = res.json()).then(_ => {
+      let dialogRef = this.dialog.open(EditProfileDialogComponent, {
+        data: body
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.httpService.updateProfile(result, this.profileId).then(_ => {
+            window.location.reload();
+          })
+        }
+      });
+    })
   }
 }

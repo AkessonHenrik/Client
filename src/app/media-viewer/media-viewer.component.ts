@@ -1,5 +1,5 @@
 import { Input, Component, OnInit } from '@angular/core';
-import { MediaComponent, ImageComponent, VideoComponent, AudioComponent } from '../profile-view/profile-view.component'
+import { MediaComponent, ImageComponent, VideoComponent, AudioComponent } from '../media/media.component'
 @Component({
   selector: 'app-media-viewer',
   templateUrl: './media-viewer.component.html',
