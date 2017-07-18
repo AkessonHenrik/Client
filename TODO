@@ -1,7 +1,6 @@
 MUST IMPLEMENT:
 - Separate video-component etc from profile-view
 - ProfileView use httpservice
-- Comments
 - Deleting & Editing people, events, relationships (especially times)
 - Rights
 - Visibility

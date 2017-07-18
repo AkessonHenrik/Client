@@ -29,6 +29,13 @@ export class ProfilePageComponent implements OnInit {
       window.location.reload();
     });
   }
+
+  deleteProfile() {
+    this.httpService.delete(this.profileId).then(response => {
+      this.router.navigateByUrl("owned");
+    })
+  }
+
   redirectToTree() {
     this.router.navigateByUrl("tree/" + this.profileId);
   }

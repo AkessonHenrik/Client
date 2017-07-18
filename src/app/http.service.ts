@@ -24,6 +24,11 @@ export class HttpService {
       console.log(response);
     })
   }
+
+  delete(timedentityid: number): Promise<any> {
+    return this.http.delete(globals.profileEndpoint + "/" + timedentityid).toPromise();
+  }
+
   getComments(postid: number): Promise<any> {
     console.log("C'mon get " + postid)
     return this.http.get(globals.commentEndpoint + "/" + postid).toPromise().then(response => {
