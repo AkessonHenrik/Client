@@ -2,7 +2,7 @@ import { Output, EventEmitter, Input, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Http, RequestOptions, Headers } from '@angular/http';
 import * as globals from '../globals';
-import { HttpService } from '../http-service.service';
+import { HttpService } from '../http.service';
 @Component({
   selector: 'app-new-profile',
   templateUrl: './new-profile.component.html',
@@ -41,7 +41,7 @@ export class NewProfileComponent implements OnInit {
   submit() {
     if (this.file) {
       this.httpService.upload(this.file).then(response => {
-        this.pictureUrl = globals.fileEndpoint + response;
+        this.pictureUrl = globals.fileEndpoint + response.path;
       }).then(_ => {
         this.born.description = this.firstname + " is born"
 
@@ -66,21 +66,6 @@ export class NewProfileComponent implements OnInit {
       } else {
         profilePic = "https://singlesdatingworld.com/images/woman.jpg";
       }
-      // switch (this.gender) {
-      //   case "male": {
-      //     profilePic = "http://s3.amazonaws.com/37assets/svn/765-default-avatar.png";
-      //     break;
-      //   }
-      //   case "female": {
-      //     profilePic = "https://maxcdn.icons8.com/Share/icon/Alphabet//question_mark1600.png"
-      //     break;
-      //   }
-      //   case "other": {
-      //     profilePic = "https://maxcdn.icons8.com/Share/icon/Alphabet//question_mark1600.png"
-      //     break;
-      //   }
-
-      // }
       this.onSubmit.emit({
         firstName: this.firstname,
         lastName: this.lastname,

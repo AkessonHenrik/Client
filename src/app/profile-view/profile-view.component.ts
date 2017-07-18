@@ -1,11 +1,13 @@
-import { OnInit, Input, Component } from '@angular/core';
-import { Http } from '@angular/http';
+import { ViewChild, ElementRef, OnInit, Input, Component } from '@angular/core';
+import { Http, Request } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import { LocationComponent } from '../location/location.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { LocatedEventComponent, EventComponent, WorkEventComponent, MoveEventComponent } from '../event/event.component';
 import { Node } from '../d3/models/node'
 import * as globals from '../globals';
+import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+
 @Component({
   selector: 'app-profile-view',
   templateUrl: './profile-view.component.html',
@@ -32,13 +34,49 @@ export class ProfileViewComponent implements OnInit {
           this.lastname = body.profile.lastname
           this.profile = body.profile;
           this.profilePicture = body.profile.image
-
+          let born = body.born;
           this.born = body.born;
           this.died = body.died;
+          if (born.type === "WorkEvent") {
+            this.born = new WorkEventComponent();
+            this.born.name = born.name;
+            this.born.id = born.id;
+            this.born.description = born.description;
+            this.born.company = born.company;
+            this.born.position = born.position;
+            this.born.location = new LocationComponent(born.location.city, born.location.province, born.location.country);
+            this.born.time = born.time;
+          } else if (born.type === "LocatedEvent") {
+            this.born = new LocatedEventComponent();
+            this.born.name = born.name;
+            this.born.id = born.id;
+            this.born.description = born.description;
+            this.born.time = born.time;
+            this.born.location = new LocationComponent(born.location.city, born.location.province, born.location.country);
+          } else if (born.type === "MoveEvent") {
+            this.born = new MoveEventComponent();
+            this.born.name = born.name;
+            this.born.id = born.id;
+            this.born.description = born.description;
+            this.born.time = born.time;
+            this.born.location = new LocationComponent(born.location.city, born.location.province, born.location.country);
+          } else {
+            this.born = new EventComponent();
+            this.born.name = born.name;
+            this.born.id = born.id;
+            this.born.description = born.description;
+            this.born.time = born.time;
+          }
+          this.born.media = [];
+          born.media.forEach(media => {
+            this.born.media.push({ type: media.type, path: globals.fileEndpoint + media.path, postid: media.postid })
+          })
+          this.events.push(this.born);
           body.events.forEach(event => {
             let newEvent;
             if (event.type === "WorkEvent") {
               newEvent = new WorkEventComponent();
+              newEvent.id = event.id;
               newEvent.name = event.name;
               newEvent.description = event.description;
               newEvent.company = event.company;
@@ -48,6 +86,7 @@ export class ProfileViewComponent implements OnInit {
               this.events.push(newEvent);
             } else if (event.type === "LocatedEvent") {
               newEvent = new LocatedEventComponent();
+              newEvent.id = event.id;
               newEvent.name = event.name;
               newEvent.description = event.description;
               newEvent.time = event.time;
@@ -55,6 +94,7 @@ export class ProfileViewComponent implements OnInit {
               this.events.push(newEvent)
             } else if (event.type === "MoveEvent") {
               newEvent = new MoveEventComponent();
+              newEvent.id = event.id;
               newEvent.name = event.name;
               newEvent.description = event.description;
               newEvent.time = event.time;
@@ -62,6 +102,7 @@ export class ProfileViewComponent implements OnInit {
               this.events.push(newEvent);
             } else {
               newEvent = new EventComponent();
+              newEvent.id = event.id;
               newEvent.name = event.name;
               newEvent.description = event.description;
               newEvent.time = event.time;
@@ -69,18 +110,19 @@ export class ProfileViewComponent implements OnInit {
             }
             newEvent.media = [];
             event.media.forEach(media => {
-              newEvent.media.push({ type: media.type, path: globals.fileEndpoint + media.path })
+              newEvent.media.push({ type: media.type, path: globals.fileEndpoint + media.path, postid: media.postid })
             })
           })
           // Sort events chronologically
           this.events.sort(function (event1, event2) {
             return event1.time[0] > event2.time[0] ? -1 : event1.time[0] < event2.time[0] ? 1 : 0;
           })
+          console.log(this.dialog)
           this.profileReady = true;
         })
     }
   }
-  constructor(private http: Http) { }
+  constructor(private http: Http, public dialog: MdDialog) { }
 }
 
 
@@ -99,14 +141,11 @@ export class MediaComponent {
 
 @Component({
   selector: 'video-component',
-  template: `<video width="auto" height="300" controls><source [src]="getUrl()"></video>`,
+  template: `<video width="auto" height="300" controls type="video/mp4" [src]="getUrl()"></video>`,
   styleUrls: ['./profile-view.component.css']
 })
 export class VideoComponent extends MediaComponent {
   @Input('source') source;
-  getUrl(): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(this.source);
-  }
 }
 
 @Component({
@@ -124,5 +163,14 @@ export class ImageComponent extends MediaComponent {
   styleUrls: ['./profile-view.component.css']
 })
 export class ExternalVideoComponent extends MediaComponent {
+  @Input('source') source;
+}
+
+@Component({
+  selector: 'audio-component',
+  template: `<audio controls width="534" height="300" [src]="getUrl()" style="border: none;"></audio>`,
+  styleUrls: ['./profile-view.component.css']
+})
+export class AudioComponent extends MediaComponent {
   @Input('source') source;
 }

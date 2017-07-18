@@ -2,7 +2,7 @@ import { OnChanges, OnInit, Component, Inject, NgZone, Input, Output, EventEmitt
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { Node, Relationship } from '../../d3'
 import * as globals from '../../globals';
-import { HttpService } from '../../http-service.service';
+import { HttpService } from '../../http.service';
 @Component({
     selector: 'searchdialog',
     templateUrl: './searchDialog.html',

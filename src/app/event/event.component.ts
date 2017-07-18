@@ -3,6 +3,9 @@ import { LocationComponent } from '../location/location.component';
 import { MediaComponent, VideoComponent, ImageComponent } from '../profile-view/profile-view.component';
 import { MediaViewerComponent } from '../media-viewer/media-viewer.component';
 import * as globals from '../globals';
+import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { EventDialog } from '../tree/dialogs/eventDialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event',
@@ -11,13 +14,23 @@ import * as globals from '../globals';
 })
 export class EventComponent {
   @Input('event') event: EventComponent;
+  @Input('dialog') dialog: MdDialog;
   id: number;
   name: string;
   description: string;
   owner: number;
   time: string[];
-  media: { type: string, path: string }[] = [];
+  media: { type: string, path: string, postid: number }[] = [];
+
+  openEvent() {
+    console.log("Opening: " + this.event.id)
+    this.dialog.open(EventDialog, {
+      data: this.event.id
+    })
+  }
+
   getType() { return "Event"; }
+
   getAsObject() {
     return {
       id: this.id,
@@ -30,19 +43,19 @@ export class EventComponent {
     }
   }
 
-  addMedia(media: { type: string, path: string }) {
-    console.log("Adding media");
+  addMedia(media: { type: string, path: string, postid: number }) {
     this.media.push(media);
-    console.log("Added media");
-    console.log(this.media);
   }
+
   initialize(data) {
+    this.id = data.id;
     this.name = data.name;
     this.description = data.description;
     this.owner = data.owner;
     this.time = data.time;
     this.media = data.media;
   };
+
 }
 
 
@@ -51,7 +64,7 @@ export class EventComponent {
   template: `
   <div class="event" *ngIf="event !== undefined">
   <h1>Work Event</h1>
-  <app-event [event]="event"></app-event>
+  <app-event [event]="event" [dialog]="dialog"></app-event>
   Position: {{event.position}} Company: {{event.company}}
   {{event.location.city}}, {{event.location.province}}, {{event.location.country}}
   </div>
@@ -60,6 +73,7 @@ export class EventComponent {
 })
 export class WorkEventComponent extends EventComponent implements OnInit {
   @Input('event') event: WorkEventComponent;
+  @Input('dialog') dialog: MdDialog;
   company: string;
   position: string;
   location: LocationComponent;
@@ -88,7 +102,7 @@ export class WorkEventComponent extends EventComponent implements OnInit {
   template: `
   <div class="event" *ngIf="event !== undefined">
   <h1>Located Event</h1>  
-  <app-event [event]="event"></app-event>
+  <app-event [event]="event" [dialog]="dialog"></app-event>
   {{event.location.city}}, {{event.location.province}}, {{event.location.country}}
   </div>
   `,
@@ -96,6 +110,7 @@ export class WorkEventComponent extends EventComponent implements OnInit {
 })
 export class LocatedEventComponent extends EventComponent implements OnInit {
   @Input('event') event: LocatedEventComponent;
+  @Input('dialog') dialog: MdDialog;
   location: LocationComponent;
   getType() { return "LocatedEvent"; }
 
@@ -123,7 +138,7 @@ export class LocatedEventComponent extends EventComponent implements OnInit {
   template: `
   <div class="event" *ngIf="event !== undefined">
   <h1>Move Event</h1>    
-  <app-event [event]="event"></app-event>
+  <app-event [event]="event" [dialog]="dialog"></app-event>
   {{event.location.city}}, {{event.location.province}}, {{event.location.country}}
   </div>
   `,
@@ -131,6 +146,7 @@ export class LocatedEventComponent extends EventComponent implements OnInit {
 })
 export class MoveEventComponent extends EventComponent implements OnInit {
   @Input('event') event: MoveEventComponent;
+  @Input('dialog') dialog: MdDialog;
   location: LocationComponent;
   getType() { return "MoveEvent"; }
   ngOnInit() {

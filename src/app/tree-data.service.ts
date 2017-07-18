@@ -11,7 +11,6 @@ export class TreeDataService {
   }
   getData(baseNodeId: number): any {
     return this.http.get(globals.familyEndpoint + "/" + baseNodeId)
-      // return this.http.get("assets/stark.json")
       .toPromise()
       .then(res => {
         TreeDataService.jsonNodes = res.json().people;

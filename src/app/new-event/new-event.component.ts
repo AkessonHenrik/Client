@@ -2,7 +2,7 @@ import { Component, Output, Input, EventEmitter, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { LocationComponent } from '../location/location.component';
 import { EventComponent, LocatedEventComponent, WorkEventComponent, MoveEventComponent } from '../event/event.component';
-import { HttpService } from '../http-service.service';
+import { HttpService } from '../http.service';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-new-event',
@@ -29,7 +29,7 @@ export class NewEventComponent implements OnInit {
   endYear: number;
 
   files: File[] = [];
-  media: { type: string, path: string }[] = [];
+  media: { type: string, path: string, postid: number }[] = [];
   // Located Event & Move Event
   location;
 
@@ -115,8 +115,9 @@ export class NewEventComponent implements OnInit {
 
   uploadMedia(): Promise<string> {
     return Promise.all(this.files.map(file => {
+      console.log(file.name)
       return this.httpService.upload(file).then(response => {
-        this.media.push({ type: "image", path: response.toString() })
+        this.media.push({ type: response.type, path: response.path, postid: response.postid })
       })
     })
     ).then(_ => {

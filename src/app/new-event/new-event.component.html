@@ -12,7 +12,7 @@
 
 <label for="file-upload" class="custom-file-upload">
     <i class="fa fa-cloud-upload"></i>Event media</label>
-<input type="file" id="file-upload" name="file" (change)="fileChange($event)" accept=".jpg,.png,.gif" multiple/>
+<input type="file" id="file-upload" name="file" (change)="fileChange($event)" accept=".jpg,.png,.gif,.mp4,.mp3,.ogg,.wav" multiple/>
 <div id="files">
   <div *ngFor="let file of files">
     <p>{{file.name}} <i class="material-icons" style="cursor: pointer; position: relative; top: 7px;" (click)="removeFile(file)">clear</i></p>

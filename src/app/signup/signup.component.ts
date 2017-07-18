@@ -3,7 +3,13 @@ import { MdSnackBar } from '@angular/material';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import * as globals from '../globals';
-import { HttpService } from '../http-service.service';
+import { HttpService } from '../http.service';
+enum PasswordValidity {
+  Correct = 1,
+  NoMatch,
+  TooShort,
+  NoPassword
+}
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -13,7 +19,7 @@ export class SignupComponent implements OnInit {
   email: string;
   password: string;
   repeatPassword: string;
-  choice: string;
+  choice: number;
   profileSearchFirstname: string;
   profileSearchLastname: string;
   activeTab: number = 0;
@@ -22,24 +28,35 @@ export class SignupComponent implements OnInit {
   searched: boolean = false;
   constructor(private router: Router, private httpService: HttpService) { }
   next() {
-    console.log(this.choice);
+    console.log(this.email);
     if (this.verifyEmailFormat(this.email)) {
-      if (this.verifyPasswords(this.password, this.repeatPassword)) {
-        if (this.choice) {
-          if (this.choice === 'new') {
-            this.activeTab = 1;
-          } else if (this.choice === 'existing') {
-            this.activeTab = 2;
+      let passwordValidation = this.verifyPasswords(this.password, this.repeatPassword);
+      switch (passwordValidation) {
+        case PasswordValidity.Correct: {
+          if (!this.choice || this.choice <= 0) {
+            this.errorMessage = "Choose a profile option below";
+          } else {
+            this.activeTab = this.choice;
           }
-        } else {
-          this.errorMessage = "Choose a profile option below";
+          break;
         }
-      } else {
-        this.errorMessage = "Your password must be at least 8 characters long"
+        case PasswordValidity.NoPassword: {
+          this.errorMessage = "Please provide a password"
+          break;
+        }
+        case PasswordValidity.NoMatch: {
+          this.errorMessage = "Passwords don't match"
+          break;
+        }
+        case PasswordValidity.TooShort: {
+          this.errorMessage = "Your password must be at least 8 characters long"
+          break;
+        }
       }
     } else {
       this.errorMessage = "Invalid email format";
     }
+
   }
 
   createAccountAndProfile(profileData) {
@@ -62,14 +79,19 @@ export class SignupComponent implements OnInit {
     let re = /\S+@\S+\.\S+/;
     return re.test(email);
   }
-  verifyPasswords(password1: string, password2: string) {
-    return !(!password1 || !password2 || password1 != password2 || password1.length < 8);
+  verifyPasswords(password1: string, password2: string): PasswordValidity {
+    // return !(!password1 || !password2 || password1 != password2 || password1.length < 8);
+    if (!password1 || !password2) {
+      return PasswordValidity.NoPassword;
+    } else if (password1 !== password2) {
+      return PasswordValidity.NoMatch;
+    } else if (password1.length < 8) {
+      return PasswordValidity.TooShort;
+    } else {
+      return PasswordValidity.Correct;
+    }
   }
   ngOnInit() {
-    // this.activeTab = 2;
-    // this.profileSearchFirstname = "Henrik";
-    // this.profileSearchLastname = "Akesson";
-    // this.search();
   }
   getAccountInfo() {
     return { email: this.email, password: this.password };
@@ -92,6 +114,7 @@ export class SignupComponent implements OnInit {
       password: this.password,
     }).toPromise().then(response => {
       console.log(response);
+      this.router.navigateByUrl('login')
     });
   }
 

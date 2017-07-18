@@ -22,7 +22,7 @@ import { HomeComponent } from './home/home.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ProfileComponent } from './profile/profile.component'
 import { TreeDataService } from './tree-data.service';
-import { ProfileViewComponent, VideoComponent, MediaComponent, ImageComponent, ExternalVideoComponent } from './profile-view/profile-view.component';
+import { ProfileViewComponent, VideoComponent, MediaComponent, AudioComponent, ImageComponent, ExternalVideoComponent } from './profile-view/profile-view.component';
 import { EventComponent, WorkEventComponent, LocatedEventComponent, MoveEventComponent } from './event/event.component';
 import { LocationComponent } from './location/location.component';
 import { MediaViewerComponent } from './media-viewer/media-viewer.component';
@@ -31,10 +31,11 @@ import { MdNativeDateModule } from '@angular/material';
 import { NewProfileComponent } from './new-profile/new-profile.component';
 import { OwnedProfilesComponent } from './owned-profiles/owned-profiles.component';
 import { NewEventComponent } from './new-event/new-event.component';
-import { HttpService } from './http-service.service';
+import { HttpService } from './http.service';
 import { OwnerService } from './owner.service';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { NewEventDialogComponent } from './new-event-dialog/new-event-dialog.component';
+import { EditProfileDialogComponent } from './edit-profile-dialog/edit-profile-dialog.component';
 const appRoutes: Routes = [
   { path: 'tree/:id', component: TreeComponent },
   { path: 'newTree', component: TreeComponent },
@@ -43,7 +44,7 @@ const appRoutes: Routes = [
   { path: 'login', component: AuthComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'mediaViewer', component: MediaViewerComponent },
-  { path: '', component: NewEventComponent },
+  { path: '', component: WelcomeComponent },
   { path: 'profilePage/:id', component: ProfilePageComponent }
 ];
 
@@ -78,12 +79,14 @@ const appRoutes: Routes = [
     SignupComponent,
     NewProfileComponent,
     EventDialog,
+    AudioComponent,
     OwnedProfilesComponent,
     MoveEventComponent,
     LocatedEventComponent,
     NewEventComponent,
     ProfilePageComponent,
-    NewEventDialogComponent
+    NewEventDialogComponent,
+    EditProfileDialogComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -100,6 +103,6 @@ const appRoutes: Routes = [
   ],
   providers: [D3Service, TreeDataService, HttpService, OwnerService],
   bootstrap: [AppComponent, SidenavComponent],
-  entryComponents: [ChoiceDialog, NewPersonDialog, NewRelationshipDialog, NewParentDialog, ProfileDialog, SearchDialog, NewEventDialogComponent, EventDialog]
+  entryComponents: [ChoiceDialog, NewPersonDialog, NewRelationshipDialog, NewParentDialog, ProfileDialog, SearchDialog, NewEventDialogComponent, EventDialog, EditProfileDialogComponent]
 })
 export class AppModule { }

@@ -5,7 +5,7 @@ import * as globals from '../../globals';
 import { NewEventComponent } from '../../new-event/new-event.component'
 import { LocatedEventComponent, EventComponent } from '../../event/event.component';
 import { LocationComponent } from '../../location/location.component';
-import { HttpService } from '../../http-service.service';
+import { HttpService } from '../../http.service';
 @Component({
   selector: 'relationshipdialog',
   templateUrl: './relationshipdialog.html',
@@ -36,7 +36,7 @@ export class NewRelationshipDialog implements OnInit {
 
 
   description: string;
-  media: { type: string, path: string }[] = [];
+  media: { type: string, path: string, postid: number }[] = [];
   constructor( @Inject(MD_DIALOG_DATA) private data: Node[], public dialogRef: MdDialogRef<NewRelationshipDialog>, private httpService: HttpService) {
     this.relationshipTypes = globals.relationshipTypes;
   }
@@ -78,7 +78,7 @@ export class NewRelationshipDialog implements OnInit {
   uploadMedia(): Promise<string> {
     return Promise.all(this.files.map(file => {
       return this.httpService.upload(file).then(response => {
-        this.media.push({ type: "image", path: response.toString() })
+        this.media.push({ type: response.type, path: response.path, postid: response.postid })
       })
     })
     ).then(_ => {
@@ -110,7 +110,6 @@ export class NewRelationshipDialog implements OnInit {
     return returnRel;
   }
   public ngOnInit() {
-    console.log(this.addDetails);
     //set custom data from parent component
     this.nodes = this.data;
     this.location = this.location = {

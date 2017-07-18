@@ -66,6 +66,16 @@
     transition: .2s;
 }
 
+#error {
+    position: absolute;
+    z-index: 1;
+    font-size: 30px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
 .savingContent {
     z-index: 10;
     position: absolute;

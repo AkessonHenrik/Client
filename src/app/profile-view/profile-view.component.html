@@ -7,9 +7,9 @@
     </div>
     <div *ngFor="let event of events">
         <hr>
-        <app-work-event *ngIf="event.getType() === 'WorkEvent'" [event]="event"></app-work-event>
-        <app-move-event *ngIf="event.getType() === 'MoveEvent'" [event]="event"></app-move-event>
-        <app-located-event *ngIf="event.getType() === 'LocatedEvent'" [event]="event"></app-located-event>
-        <app-event *ngIf="event.getType() === 'Event'" [event]="event"></app-event>
+        <app-work-event *ngIf="event.getType() === 'WorkEvent'" [event]="event" [dialog]="dialog"></app-work-event>
+        <app-move-event *ngIf="event.getType() === 'MoveEvent'" [event]="event" [dialog]="dialog"></app-move-event>
+        <app-located-event *ngIf="event.getType() === 'LocatedEvent'" [event]="event" [dialog]="dialog"></app-located-event>
+        <app-event *ngIf="event.getType() === 'Event'" [event]="event" [dialog]="dialog"></app-event>
     </div>
 </div>

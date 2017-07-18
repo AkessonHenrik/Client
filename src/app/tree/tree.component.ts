@@ -3,7 +3,6 @@ import APP_CONFIG from '../app.config';
 import { Node, Link, Relationship } from '../d3';
 import { ParentComponent, NodeParentComponent, LinkParentComponent } from '../parent/parent.component';
 import { Http } from '@angular/http';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { MdInputModule } from '@angular/material';
 import { SimpleChanges } from '@angular/core';
@@ -14,7 +13,7 @@ import { NewRelationshipDialog } from './dialogs/relationshipDialog';
 import { ActivatedRoute } from '@angular/router';
 import { SearchDialog } from './dialogs/searchDialog';
 import * as globals from '../globals';
-import { HttpService } from '../http-service.service';
+import { HttpService } from '../http.service';
 
 @Component({
   selector: 'app-tree',
@@ -22,6 +21,7 @@ import { HttpService } from '../http-service.service';
   styleUrls: ['./tree.component.css']
 })
 export class TreeComponent implements OnInit {
+  error: string = "";
   nodes: Node[] = [];
   lastModifications: { type: string, id: number }[] = [];
   newNodes: Node[] = [];
@@ -50,6 +50,12 @@ export class TreeComponent implements OnInit {
       if (this.id) {
         let data = this.dataService.getData(this.id).then(data => {
           this.createData(data.nodes, data.links, data.parents);
+        }).catch(error => {
+          if (error.status === 404) {
+            this.error = "User not found, try another user or create a new one"
+          } else {
+            this.error = "Something went wrong, please try again later"
+          }
         })
       }
     })
@@ -88,8 +94,8 @@ export class TreeComponent implements OnInit {
       })
     }
 
-    // this.calculateCoordinates();
     this.calculateCoordinates();
+    // this.calculateCoordinates();
   }
   outputNodeEvent(node: Node) {
   }
@@ -318,27 +324,34 @@ export class TreeComponent implements OnInit {
   saveContent() {
     this.savingContent = true;
     this.saveNodes().then(response => {
-      this.saveRelationships().then(response => {
-        this.saveParents().then(response => {
-          this.savingContent = false;
-          this.newContent = false;
-          this.newNodes = []
-          this.newRelationships = []
-          this.newParents = []
-          this.lastModifications = []
+      if (response === "error") {
+        console.log("savenodes didn't work")
+      } else {
+        this.saveRelationships().then(response => {
+          this.saveParents().then(response => {
+            this.savingContent = false;
+            this.newContent = false;
+            this.newNodes = []
+            this.newRelationships = []
+            this.newParents = []
+            this.lastModifications = []
+          })
         })
-      })
+      }
     })
   }
 
   saveNodes(): Promise<string> {
-    return Promise.all(this.newNodes.map(node => this.saveNode(node, this.http))).then(_ => {
-      return Promise.resolve("Finished");
+    return Promise.all(this.newNodes.map(node => this.saveNode(node, this.http))).then(result => {
+      if (result.indexOf("stop") >= 0) {
+        return Promise.resolve("error")
+      }
+      return Promise.resolve("Ok");
     })
   }
   saveNode(newNode: Node, http: Http): Promise<string> {
-    console.log("savenode: " + newNode.firstname);
-    return http.post(globals.profileEndpoint, {
+    console.log(newNode)
+    return this.httpService.createProfile({
       "firstName": newNode.firstname,
       "lastName": newNode.lastname,
       "gender": newNode.gender,
@@ -347,20 +360,21 @@ export class TreeComponent implements OnInit {
       "deathDay": newNode.deathDay,
       "born": newNode.born,
       "died": newNode.died
-    }).toPromise().then(response => {
-      newNode.id = response.json().peopleentityid
+    }).then(response => {
+      if (response === -1) {
+        this.error = "Server error";
+        this.savingContent = false;
+        return "stop";
+      }
+      newNode.id = response
       return this.saveGhost(newNode, http);
     })
   }
 
   saveGhost(newNode: Node, http: Http): Promise<string> {
-    console.log("saveghost: " + newNode.firstname);
-    return http.post(globals.ghostEndpoint, {
+    return this.httpService.createGhost({
       ownerId: globals.getUserId(),
       profileId: newNode.id
-    }).toPromise().then(response => {
-      // Handle error?
-      return Promise.resolve("Finished");
     })
   }
 
@@ -381,7 +395,7 @@ export class TreeComponent implements OnInit {
     })
   }
   saveParent(newParent: ParentComponent, http: Http): Promise<string> {
-    return http.post(globals.parentsEndpoint, {
+    return this.httpService.post(globals.parentsEndpoint, {
       // Parent info
       parentType: globals.parentTypes[newParent.getType()],
       parent: {
@@ -392,7 +406,7 @@ export class TreeComponent implements OnInit {
       time: {
         begin: newParent.begin
       }
-    }).toPromise().then(response => {
+    }).then(response => {
       newParent.id = response.json().id
       return Promise.resolve("Done");
     })
@@ -401,14 +415,16 @@ export class TreeComponent implements OnInit {
   search() {
     let dialogRef = this.dialog.open(SearchDialog);
     dialogRef.afterClosed().subscribe(result => {
-      if (this.nodes.filter(node => node.id === result.id).length > 0) {
-        console.log("gotit")
-      } else {
-        console.log(result);
-        this.nodes.push(result);
-        console.log("NEWNODES");
-        console.log(this.newNodes);
-        this.calculateCoordinates();
+      if (result) {
+        if (this.nodes.filter(node => node.id === result.id).length > 0) {
+          console.log("gotit")
+        } else {
+          console.log(result);
+          this.nodes.push(result);
+          console.log("NEWNODES");
+          console.log(this.newNodes);
+          this.calculateCoordinates();
+        }
       }
     });
   }

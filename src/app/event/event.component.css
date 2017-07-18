@@ -3,3 +3,10 @@
     margin: 30px!important;
     border: 1px solid lightgray;
 }
+.title {
+    cursor: pointer;
+    width: fit-content;
+}
+.title:hover {
+        text-decoration: underline;
+}

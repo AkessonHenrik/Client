@@ -4,7 +4,7 @@ import { MdSnackBar } from '@angular/material';
 import { MdSnackBarConfig } from '@angular/material';
 import { ViewEncapsulation } from '@angular/core';
 import * as globals from '../globals';
-import { HttpService } from '../http-service.service';
+import { HttpService } from '../http.service';
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',

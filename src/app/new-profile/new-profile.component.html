@@ -12,7 +12,7 @@
 </md-radio-group>
 <label for="file-upload" class="custom-file-upload">
     <i class="fa fa-cloud-upload"></i>Choose profile picture</label>
-<input type="file" id="file-upload" name="file" (change)="fileChange($event)" accept=".jpg,.png,.gif" multiple/>
+<input type="file" id="file-upload" name="file" (change)="fileChange($event)" accept=".jpg,.png,.gif"/>
 <h2>Birth</h2>
 <md-input-container class="container">
   <input mdInput class="accountInput" [(ngModel)]="born.location.city" placeholder="Birth city">

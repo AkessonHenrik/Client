@@ -7,9 +7,9 @@ export class HttpService {
 
   constructor(private http: Http) { }
 
-  upload(file: File): Promise<string> {
+  upload(file: File): Promise<any> {
     let formData: FormData = new FormData();
-    formData.append('picture', file, file.name);
+    formData.append('file', file, file.name);
     let headers = new Headers();
     headers.append('Accept', 'application/json');
     let options = new RequestOptions({ headers: headers });
@@ -17,6 +17,22 @@ export class HttpService {
       .toPromise().then(response => {
         return response.json();
       })
+  }
+
+  updateProfile(newProfileInfo, profileId): Promise<any> {
+    return this.http.patch(globals.profileEndpoint + "/" + profileId, newProfileInfo).toPromise().then(response => {
+      console.log(response);
+    })
+  }
+  getComments(postid: number): Promise<any> {
+    console.log("C'mon get " + postid)
+    return this.http.get(globals.commentEndpoint + "/" + postid).toPromise().then(response => {
+      return Promise.resolve(response.json())
+    })
+  }
+
+  postComment(comment): Promise<any> {
+    return this.http.post(globals.commentEndpoint, comment).toPromise();
   }
 
   addEvent(event): Promise<any> {
@@ -33,6 +49,8 @@ export class HttpService {
       let body = response.json();
       let id: number = body.peopleentityid;
       return id;
+    }).catch(error => {
+      return Promise.resolve(-1);
     })
   }
 
@@ -43,6 +61,10 @@ export class HttpService {
     }).toPromise().then(response => {
       return Promise.resolve(response.json());
     })
+  }
+
+  createGhost(ghostData): Promise<any> {
+    return this.http.post(globals.ghostEndpoint, ghostData).toPromise()
   }
 
   post(url, data) {
@@ -74,4 +96,7 @@ export class HttpService {
       return Promise.resolve(404)
     })
   }
+
+
+
 }

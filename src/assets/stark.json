@@ -127,6 +127,9 @@
             "id": 3,
             "profile1": 9,
             "profile2": 10,
+            "time": "2010-05-10",
+            "begintime": "2010-06-10",
+            "endtime": null,
             "relationshipType": "Partner"
         },
         {
@@ -144,77 +147,77 @@
             "timedentityid": 1,
             "parentsid": 2,
             "childid": 13,
-            "parentType": "relationship",
+            "parentType": 0,
             "biological": true
         },
         {
             "timedentityid": 2,
             "parentsid": 1,
             "childid": 3,
-            "parentType": "relationship",
+            "parentType": 0,
             "biological": true
         },
         {
             "timedentityid": 3,
             "parentsid": 1,
             "childid": 4,
-            "parentType": "relationship",
+            "parentType": 0,
             "biological": true
         },
         {
             "timedentityid": 4,
             "parentsid": 1,
             "childid": 5,
-            "parentType": "relationship",
+            "parentType": 0,
             "biological": true
         },
         {
             "timedentityid": 5,
             "parentsid": 1,
             "childid": 6,
-            "parentType": "relationship",
+            "parentType": 0,
             "biological": true
         },
         {
             "timedentityid": 6,
             "parentsid": 1,
             "childid": 7,
-            "parentType": "single",
+            "parentType": 1,
             "biological": false
         },
         {
             "timedentityid": 7,
             "parentsid": 3,
             "childid": 7,
-            "parentType": "relationship",
+            "parentType": 0,
             "biological": true
         },
         {
             "timedentityid": 9,
             "parentsid": 11,
             "childid": 10,
-            "parentType": "single",
+            "parentType": 1,
             "biological": true
         },
         {
             "timedentityid": 10,
             "parentsid": 11,
             "childid": 12,
-            "parentType": "single",
+            "parentType": 1,
             "biological": true
         },
         {
             "timedentityid": 11,
             "parentsid": 4,
             "childid": 1,
-            "parentType": "relationship",
+            "parentType": 0,
             "biological": true
         },
         {
             "timedentityid": 12,
             "parentsid": 4,
             "childid": 9,
-            "parentType": "relationship",
+            "parentType": 0,
             "biological": true
         }
     ]

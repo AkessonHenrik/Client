@@ -1,6 +1,7 @@
 MUST IMPLEMENT:
-- Migrate TreeComponent http calls to http-service
-- Rename http-service.service to http.service
+- Separate video-component etc from profile-view
+- ProfileView use httpservice
+- Comments
 - Deleting & Editing people, events, relationships (especially times)
 - Rights
 - Visibility
@@ -10,7 +11,6 @@ MUST IMPLEMENT:
 - Better responses (404, "access denied", ...)
 - JWT
 - Shell script
-- Comments
 - CSS
 
 OPTIONAL:

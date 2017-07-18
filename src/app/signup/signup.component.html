@@ -14,8 +14,8 @@
         <input mdInput class="accountInput" [(ngModel)]="repeatPassword" placeholder="Repeat password" type="password">
       </md-input-container>
       <md-radio-group [(ngModel)]="choice" style="margin-top: 20px!important">
-        <md-radio-button class="choice" value="new">I want to create a new profile</md-radio-button>
-        <md-radio-button class="choice" value="existing">I want to claim an existing profile</md-radio-button>
+        <md-radio-button class="choice" value="1">I want to create a new profile</md-radio-button>
+        <md-radio-button class="choice" value="2">I want to claim an existing profile</md-radio-button>
       </md-radio-group>
       <button md-raised-button (click)="next()">Next</button>
     </md-tab>

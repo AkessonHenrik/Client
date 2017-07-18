@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from './http-service.service';
+import { HttpService } from './http.service';
 import * as globals from './globals';
 @Injectable()
 export class OwnerService {

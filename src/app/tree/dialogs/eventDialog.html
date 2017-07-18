@@ -4,4 +4,9 @@
     <app-move-event *ngIf="event.getType() === 'MoveEvent'" [event]="event"></app-move-event>
     <app-located-event *ngIf="event.getType() === 'LocatedEvent'" [event]="event"></app-located-event>
     <app-event *ngIf="event.getType() === 'Event'" [event]="event"></app-event>
+    <div id="comments">
+        <h2>Comments: </h2>
+        <div class="comment" *ngFor="let comment of comments">{{comment.commenter}}: {{comment.content}} {{comment.date}}</div>
+    </div>
+    <input type="text" style="color: black; width: 100%;" [(ngModel)]="comment" (keyup.enter)="submitComment()">
 </div>

@@ -1,0 +1,13 @@
+<div class="form">
+  <md-input-container class="container" style="margin-top: 50px!important">
+    <input mdInput class="accountInput" [(ngModel)]="newFirstname" placeholder="Enter new first name">
+  </md-input-container>
+  <md-input-container class="container" style="margin-top: 50px!important">
+    <input mdInput class="accountInput" [(ngModel)]="newLastname" placeholder="Enter new last name">
+  </md-input-container>
+  <label for="file-upload" class="custom-file-upload">
+    <i class="fa fa-cloud-upload"></i>Choose profile picture</label>
+  <input type="file" id="file-upload" name="file" (change)="fileChange($event)" accept=".jpg,.png,.gif" />
+  <p *ngIf="newProfilePicture !== null">{{newProfilePicture.name}} <i class="material-icons" style="cursor: pointer; position: relative; top: 7px;" (click)="removeFile()">clear</i></p>
+  <button style="display: block; margin-top: 50px;" md-raised-button (click)="submit()">Submit</button>
+</div>

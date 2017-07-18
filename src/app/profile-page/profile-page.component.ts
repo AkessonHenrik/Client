@@ -3,6 +3,8 @@ import { ProfileViewComponent } from '../profile-view/profile-view.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { NewEventDialogComponent } from '../new-event-dialog/new-event-dialog.component';
+import { EditProfileDialogComponent } from '../edit-profile-dialog/edit-profile-dialog.component';
+import { HttpService } from '../http.service';
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -10,7 +12,7 @@ import { NewEventDialogComponent } from '../new-event-dialog/new-event-dialog.co
 })
 export class ProfilePageComponent implements OnInit {
   rerender: boolean = true;
-  constructor(private route: ActivatedRoute, public dialog: MdDialog, private router: Router) { }
+  constructor(private httpService: HttpService, private route: ActivatedRoute, public dialog: MdDialog, private router: Router) { }
   profileId: number;
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -24,11 +26,19 @@ export class ProfilePageComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(_ => {
-      this.rerender = false;
-      this.rerender = true;
+      window.location.reload();
     });
   }
   redirectToTree() {
     this.router.navigateByUrl("tree/" + this.profileId);
+  }
+
+  edit() {
+    let dialogRef = this.dialog.open(EditProfileDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      this.httpService.updateProfile(result, this.profileId).then(_ => {
+        // window.location.reload();
+      })
+    });
   }
 }
