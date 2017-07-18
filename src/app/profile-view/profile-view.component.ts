@@ -7,6 +7,7 @@ import { LocatedEventComponent, EventComponent, WorkEventComponent, MoveEventCom
 import { Node } from '../d3/models/node'
 import * as globals from '../globals';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { HttpService } from '../http.service';
 
 @Component({
   selector: 'app-profile-view',
@@ -25,8 +26,7 @@ export class ProfileViewComponent implements OnInit {
   profileReady: boolean = false;
   ngOnInit() {
     if (this.id > 0) {
-      this.http.get("http://localhost:9000/profile/" + this.id)
-        .toPromise()
+      this.httpService.getProfile(this.id)
         .then(res => {
           let body = res.json();
           console.log(body);
@@ -122,7 +122,7 @@ export class ProfileViewComponent implements OnInit {
         })
     }
   }
-  constructor(private http: Http, public dialog: MdDialog) { }
+  constructor(private httpService: HttpService, public dialog: MdDialog) { }
 }
 
 

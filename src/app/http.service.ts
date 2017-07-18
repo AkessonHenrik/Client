@@ -93,6 +93,9 @@ export class HttpService {
     })
   }
 
+  getProfile(id: number): Promise<any> {
+    return this.http.get(globals.profileEndpoint + "/" + id).toPromise();
+  }
 
   getEvent(id: number): Promise<any> {
     return this.http.get(globals.eventEndpoint + "/" + id).toPromise().then(response => {
