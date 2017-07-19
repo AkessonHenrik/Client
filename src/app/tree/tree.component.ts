@@ -56,28 +56,44 @@ export class TreeComponent implements OnInit {
   setDates() {
     this.dates = [];
     this.nodes.forEach(node => {
-      if (this.dates.indexOf(node.bornString) < 0)
+      if (this.dates.indexOf(node.bornString) < 0) {
+        console.log("Line 60, adding: " + node.bornString)
         this.dates.push(node.bornString);
-      if (this.dates.indexOf(node.diedString) < 0)
+      }
+      if (this.dates.indexOf(node.diedString) < 0) {
+        console.log("Line 64, adding: " + node.bornString)
         this.dates.push(node.diedString);
-      if (this.dates.indexOf(node.diedString) < 0)
+      }
+      if (this.dates.indexOf(node.diedString) < 0) {
+        console.log("Line 68, adding: " + node.diedString)
         this.dates.push(node.diedString);
+      }
     })
     this.links.forEach(link => {
       if (link.beginTime) {
-        if (this.dates.indexOf(link.beginTime) < 0)
+        if (this.dates.indexOf(link.beginTime) < 0) {
+          console.log("Line 75, adding: " + link.beginTime)
           this.dates.push(link.beginTime);
+        }
         if (link.endTime !== null) {
-          if (this.dates.indexOf(link.endTime) < 0)
+          if (this.dates.indexOf(link.endTime) < 0) {
+            console.log("Line 80, adding: " + link.beginTime)
             this.dates.push(link.endTime);
+          }
         }
       } else if (this.dates.indexOf(link.time) < 0) {
+        console.log("Line 85, adding: " + link.time)
         this.dates.push(link.time);
       }
     })
     this.parents.forEach(parent => {
-      if (this.dates.indexOf(parent.begin) < 0)
-        this.dates.push(parent.begin);
+      if (this.dates.indexOf(parent.begin) < 0) {
+        console.log("PARNENTOI  BEGINUUU" + parent.begin)
+        if (parent.begin) {
+          console.log("Line 91, adding: " + parent.begin)
+          this.dates.push(parent.begin);
+        }
+      }
     })
     this.dates.sort();
     this.currentDateIndex = 0;
@@ -137,13 +153,14 @@ export class TreeComponent implements OnInit {
       return link.beginTime <= this.dates[this.currentDateIndex];
     })
     this.visibleParents = this.parents.filter(parent => {
+      console.log("Parnet begin; " + parent.begin)
       return parent.begin <= this.dates[this.currentDateIndex];
     })
   }
   createData(
     jsonNodes: [{ id: number, firstname: string, lastname: string, image: string, gender: number, born: string, died: string }],
     jsonRelationships: [{ id: number, profile1: number, profile2: number, type: number, begintime: any, endtime: any, time: string }],
-    jsonParents: [{ timedentityid: number, parentsid: number, childid: number, parentType: number }]) {
+    jsonParents: [{ timedentityid: number, parentsid: number, childid: number, parentType: number, begin: string, end: string }]) {
 
     // Interpret and create NodeComponents
 
@@ -179,9 +196,9 @@ export class TreeComponent implements OnInit {
         if (this.parents.filter(parent => parent.id === jsonParent.timedentityid).length == 0) {
           if (this.nodes.filter(node => node.id === jsonParent.parentsid).length == 0) { // parent is a relationship
             let link = this.links.filter(link => link.id === jsonParent.parentsid)[0];
-            this.parents.push(new LinkParentComponent(jsonParent.timedentityid, this.nodes.filter(node => node.id === jsonParent.childid)[0], link, "01-01-01"));
+            this.parents.push(new LinkParentComponent(jsonParent.timedentityid, this.nodes.filter(node => node.id === jsonParent.childid)[0], link, jsonParent.begin));
           } else { // parent is a node
-            this.parents.push(new NodeParentComponent(jsonParent.timedentityid, this.nodes.filter(node => node.id === jsonParent.childid)[0], this.nodes.filter(node => node.id === jsonParent.parentsid)[0], "01-01-01"));
+            this.parents.push(new NodeParentComponent(jsonParent.timedentityid, this.nodes.filter(node => node.id === jsonParent.childid)[0], this.nodes.filter(node => node.id === jsonParent.parentsid)[0], jsonParent.begin));
           }
         }
       })
