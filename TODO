@@ -1,4 +1,6 @@
 MUST IMPLEMENT:
+- RighsFiler
+- iono like show current or show all in tree ?
 - Deleting & Editing events, relationships (especially times)
 - Rights
 - Visibility

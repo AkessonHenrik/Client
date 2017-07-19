@@ -24,6 +24,8 @@ export class Node {
   firstname: string;
   lastname: string;
   gender: string;
+  bornString: string;
+  diedString: string;
 
   // Initials font size
   // fontSize: number = 30;

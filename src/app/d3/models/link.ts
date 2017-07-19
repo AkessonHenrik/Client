@@ -22,6 +22,8 @@ export class Relationship extends Link {
   relationshipType: string;
   event: EventComponent | LocatedEventComponent;
   icon: string;
+  beginTime: string;
+  endTime: string;
   constructor(id: number, source, target, type: number, event?: EventComponent) {
     super(id, source, target);
     this.relationshipType = globals.relationshipTypes[type];

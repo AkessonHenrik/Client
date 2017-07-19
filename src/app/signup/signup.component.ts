@@ -60,6 +60,7 @@ export class SignupComponent implements OnInit {
   }
 
   createAccountAndProfile(profileData) {
+    console.log(profileData);
     this.httpService.createProfile(profileData).then(id => {
       this.httpService.createAccount({
         profileId: id,

@@ -21,27 +21,67 @@ import { HttpService } from '../http.service';
   styleUrls: ['./tree.component.css']
 })
 export class TreeComponent implements OnInit {
+  id: number;
   error: string = "";
+
   nodes: Node[] = [];
+  links: Relationship[] = [];
+  parents: ParentComponent[] = [];
+
+  visibleNodes: Node[] = [];
+  visibleRelationships: Relationship[] = []
+  visibleParents: ParentComponent[] = []
+
   lastModifications: { type: string, id: number }[] = [];
+
   newNodes: Node[] = [];
   newEvents = [];
-  id: number;
-  links: Relationship[] = [];
   newRelationships: Relationship[] = [];
   newParents: ParentComponent[] = [];
-  parents: ParentComponent[] = [];
   ready: boolean = false;
   height: number = Math.min(window.screen.height, 870);
   width: number = window.screen.width;
   newContent: boolean = false;
   logger: boolean = false;
   savingContent: boolean = false;
+  currentDateIndex: number;
+
   constructor(private http: Http, private zone: NgZone, public dialog: MdDialog, private dataService: TreeDataService, private route: ActivatedRoute, private httpService: HttpService) { }
   onRightClickEvent(e: MouseEvent, node: Node) {
     let data = this.dataService.getData(node.id).then(data => {
       this.createData(data.nodes, data.links, data.parents);
     })
+  }
+  dates: string[] = [];
+  setDates() {
+    this.dates = [];
+    this.nodes.forEach(node => {
+      if (this.dates.indexOf(node.bornString) < 0)
+        this.dates.push(node.bornString);
+      if (this.dates.indexOf(node.diedString) < 0)
+        this.dates.push(node.diedString);
+      if (this.dates.indexOf(node.diedString) < 0)
+        this.dates.push(node.diedString);
+    })
+    this.links.forEach(link => {
+      if (link.beginTime) {
+        if (this.dates.indexOf(link.beginTime) < 0)
+          this.dates.push(link.beginTime);
+        if (link.endTime !== null) {
+          if (this.dates.indexOf(link.endTime) < 0)
+            this.dates.push(link.endTime);
+        }
+      } else if (this.dates.indexOf(link.time) < 0) {
+        this.dates.push(link.time);
+      }
+    })
+    this.parents.forEach(parent => {
+      if (this.dates.indexOf(parent.begin) < 0)
+        this.dates.push(parent.begin);
+    })
+    this.dates.sort();
+    this.currentDateIndex = 0;
+    this.dates.forEach(date => console.log(date))
   }
 
   ngOnInit() {
@@ -50,6 +90,7 @@ export class TreeComponent implements OnInit {
       if (this.id) {
         let data = this.dataService.getData(this.id).then(data => {
           this.createData(data.nodes, data.links, data.parents);
+          this.resetData();
         }).catch(error => {
           if (error.status === 404) {
             this.error = "User not found, try another user or create a new one"
@@ -60,8 +101,47 @@ export class TreeComponent implements OnInit {
       }
     })
   }
+  timeActivated: boolean = false;
+  @Output()
+  change
+  onTimeChange($event) {
+    if ($event.checked) {
+      this.timeActivated = true;
+      this.filterData();
+    } else {
+      this.timeActivated = false;
+      this.resetData();
+    }
+  }
+  resetData() {
+    this.visibleNodes = this.nodes;
+    this.visibleRelationships = this.links;
+    this.visibleParents = this.parents;
+  }
+  filterData($event?) {
+    console.log("filtering data")
+    if ($event) {
+      this.currentDateIndex = $event.value;
+    } else {
+      this.currentDateIndex = 0;
+    }
+    console.log("index: " + this.currentDateIndex)
+    console.log("\n")
+    this.visibleNodes = this.nodes.filter(node => {
+      return node.bornString <= this.dates[this.currentDateIndex];;
+    })
+    this.visibleRelationships = this.links.filter(link => {
+      if (link.time) {
+        return link.time <= this.dates[this.currentDateIndex];
+      }
+      return link.beginTime <= this.dates[this.currentDateIndex];
+    })
+    this.visibleParents = this.parents.filter(parent => {
+      return parent.begin <= this.dates[this.currentDateIndex];
+    })
+  }
   createData(
-    jsonNodes: [{ id: number, firstname: string, lastname: string, image: string, gender: number }],
+    jsonNodes: [{ id: number, firstname: string, lastname: string, image: string, gender: number, born: string, died: string }],
     jsonRelationships: [{ id: number, profile1: number, profile2: number, type: number, begintime: any, endtime: any, time: string }],
     jsonParents: [{ timedentityid: number, parentsid: number, childid: number, parentType: number }]) {
 
@@ -70,14 +150,27 @@ export class TreeComponent implements OnInit {
     if (jsonNodes) {
       jsonNodes.forEach(jsonNode => {
         if (this.nodes.filter(node => node.id === jsonNode.id).length == 0) {
-          this.nodes.push(new Node(jsonNode.id, jsonNode.image, jsonNode.firstname, jsonNode.lastname, jsonNode.gender, null, null, null, null));
+          let n: Node = new Node(jsonNode.id, jsonNode.image, jsonNode.firstname, jsonNode.lastname, jsonNode.gender, null, null, null, null);
+          n.bornString = jsonNode.born;
+          n.diedString = jsonNode.died;
+          this.nodes.push(n);
         }
       })
     }
     if (jsonRelationships) {
       jsonRelationships.forEach(jsonRelationship => {
         if (this.links.filter(link => link.id === jsonRelationship.id).length == 0) {
-          this.links.push(new Relationship(jsonRelationship.id, this.nodes.filter(node => node.id === jsonRelationship.profile1)[0], this.nodes.filter(node => node.id === jsonRelationship.profile2)[0], jsonRelationship.type));
+          let r: Relationship = new Relationship(jsonRelationship.id, this.nodes.filter(node => node.id === jsonRelationship.profile1)[0], this.nodes.filter(node => node.id === jsonRelationship.profile2)[0], jsonRelationship.type);
+          if (jsonRelationship.begintime !== null) {
+            r.beginTime = jsonRelationship.begintime;
+            r.endTime = jsonRelationship.endtime;
+          } else {
+            r.time = jsonRelationship.time;
+          }
+          console.log("Rel times: ");
+          console.log(r.beginTime + ", " + r.endTime)
+          console.log(r.time);
+          this.links.push(r);
         }
       })
     }
@@ -93,7 +186,7 @@ export class TreeComponent implements OnInit {
         }
       })
     }
-
+    this.setDates();
     this.calculateCoordinates();
     // this.calculateCoordinates();
   }
@@ -283,6 +376,7 @@ export class TreeComponent implements OnInit {
         this.newNodes.push(node);
         this.lastModifications.push({ type: "node", id: node.id });
         this.calculateCoordinates();
+        this.setDates();
       }
     });
   }
@@ -300,6 +394,7 @@ export class TreeComponent implements OnInit {
         this.lastModifications.push({ type: "relationship", id: relationship.id });
         console.log(this.links);
         this.calculateCoordinates();
+        this.setDates();
       }
     });
   }
@@ -318,6 +413,7 @@ export class TreeComponent implements OnInit {
         this.newParents.push(parent);
         this.lastModifications.push({ type: "parent", id: parent.id });
         this.calculateCoordinates();
+        this.setDates();
       }
     });
   }
@@ -354,7 +450,7 @@ export class TreeComponent implements OnInit {
     return this.httpService.createProfile({
       "firstname": newNode.firstname,
       "lastname": newNode.lastname,
-      "gender": newNode.gender,
+      "gender": globals.genders.indexOf(newNode.gender),
       "profilePicture": newNode.image,
       "birthDay": newNode.birthDay,
       "deathDay": newNode.deathDay,

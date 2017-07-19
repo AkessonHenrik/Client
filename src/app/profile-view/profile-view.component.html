@@ -5,11 +5,13 @@
         <h2 *ngIf="born !== null && born !== undefined">Born: {{born.time[0]}} in {{born.location.city}}, {{born.location.province}}, {{born.location.country}}</h2>
         <h2 *ngIf="died !== null">Died: {{died.time[0]}} in {{died.location.city}}, {{died.location.province}}, {{died.location.country}}</h2>
     </div>
-    <div *ngFor="let event of events">
-        <hr>
-        <app-work-event *ngIf="event.getType() === 'WorkEvent'" [event]="event" [dialog]="dialog"></app-work-event>
-        <app-move-event *ngIf="event.getType() === 'MoveEvent'" [event]="event" [dialog]="dialog"></app-move-event>
-        <app-located-event *ngIf="event.getType() === 'LocatedEvent'" [event]="event" [dialog]="dialog"></app-located-event>
-        <app-event *ngIf="event.getType() === 'Event'" [event]="event" [dialog]="dialog"></app-event>
+    <div class="events">
+        <div *ngFor="let event of events">
+            <hr>
+            <app-work-event *ngIf="event.getType() === 'WorkEvent'" [event]="event" [dialog]="dialog"></app-work-event>
+            <app-move-event *ngIf="event.getType() === 'MoveEvent'" [event]="event" [dialog]="dialog"></app-move-event>
+            <app-located-event *ngIf="event.getType() === 'LocatedEvent'" [event]="event" [dialog]="dialog"></app-located-event>
+            <app-event *ngIf="event.getType() === 'Event'" [event]="event" [dialog]="dialog"></app-event>
+        </div>
     </div>
 </div>

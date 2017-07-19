@@ -10,7 +10,7 @@ import { HttpService } from '../http.service';
 })
 export class NewProfileComponent implements OnInit {
   @Output() onSubmit: EventEmitter<any> = new EventEmitter<any>();
-  @Input() initialProfile;
+  @Input() initialProfile; // For profile editing
   firstname: string;
   lastname: string;
   born: { name: string, description: string, location: { city: string, province: string, country: string }, media: string[] } = { name: "born", description: "", location: { city: "", province: "", country: "" }, media: [] };
@@ -87,6 +87,9 @@ export class NewProfileComponent implements OnInit {
         this.onSubmit.emit(returnObject);
       })
     } else {
+      console.log("Gender! " + this.gender)
+      console.log(this.genders[this.gender])
+      let g = this.genders[this.gender]
       this.born.description = this.firstname + " is born"
       let returnObject = {
         firstname: this.firstname,

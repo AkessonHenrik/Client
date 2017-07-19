@@ -12,6 +12,8 @@ export class NewPersonDialog {
   createPerson(profileData) {
     // Apply a random id (negative to assure no conflicts with received profiles which already have an id assigned by the database)
     const n: Node = new Node(-1 * Math.ceil(Math.random() * 100), profileData.profilePicture, profileData.firstname, profileData.lastname, profileData.gender, profileData.birthDay, profileData.deathDay, profileData.born, profileData.died);
+    n.bornString = profileData.birthDay;
+    n.diedString = profileData.deathDay;
     this.dialogRef.close(n);
   }
 }
