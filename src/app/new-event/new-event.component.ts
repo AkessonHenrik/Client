@@ -4,6 +4,7 @@ import { LocationComponent } from '../location/location.component';
 import { EventComponent, LocatedEventComponent, WorkEventComponent, MoveEventComponent } from '../event/event.component';
 import { HttpService } from '../http.service';
 import { Router } from '@angular/router';
+import { VisibilityComponent } from '../visibility/visibility.component';
 @Component({
   selector: 'app-new-event',
   templateUrl: './new-event.component.html',
@@ -96,7 +97,7 @@ export class NewEventComponent implements OnInit {
         }
       }
     }
-    this.onSubmit.emit();
+    // this.onSubmit.emit();
   }
 
   postEvent(event: EventComponent): Promise<string> {
@@ -106,10 +107,10 @@ export class NewEventComponent implements OnInit {
         event.addMedia(media);
       })
     }).then(_ => {
-      return this.httpService.addEvent(event.getAsObject());
+      return this.httpService.addEvent(this.addVisibilityToEvent(event.getAsObject()));
     }).then(response => {
       event = null;
-      return Promise.resolve("Hey");
+      return Promise.resolve("Event posted");
     })
   }
 
@@ -142,5 +143,14 @@ export class NewEventComponent implements OnInit {
   removeFile(file: File) {
     var index = this.files.indexOf(file);
     this.files.splice(index, 1);
+  }
+  addVisibilityToEvent(eventAsObject) {
+    eventAsObject.visibility = this.visibility;
+    return eventAsObject;
+  }
+  visibility = { visibility: "public" }
+  addVisibility($event) {
+    console.log($event);
+    this.visibility = $event;
   }
 }

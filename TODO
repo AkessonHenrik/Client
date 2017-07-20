@@ -1,16 +1,29 @@
 MUST IMPLEMENT:
-- RighsFiler
-- iono like show current or show all in tree ?
-- Deleting & Editing events, relationships (especially times)
+
+CLIENT:
 - Rights
-- Visibility
+- JWT
+- Deleting & Editing events, relationships (especially times)
 - Welcome page
+- Visbility for events & relationships
 - proper icons and parent types
+- Reload image after add
+- Default born & died description
+- Create group in and out of new entity forms
+
+SERVER:
+- Rights
+- Visibility on way out
+- Rightsfilter
+- Deleting & Editing events, relationships (especially times)
 - Media, Relationship, Gender types
 - Better responses (404, "access denied", ...)
-- JWT
+
+
+OTHER:
 - Shell script
 - CSS
+- COMMENTS
 
 OPTIONAL:
 - Modify visibility

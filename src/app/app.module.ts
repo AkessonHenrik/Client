@@ -37,6 +37,7 @@ import { OwnerService } from './owner.service';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { NewEventDialogComponent } from './new-event-dialog/new-event-dialog.component';
 import { EditProfileDialogComponent } from './edit-profile-dialog/edit-profile-dialog.component';
+import { VisibilityComponent } from './visibility/visibility.component';
 const appRoutes: Routes = [
   { path: 'tree/:id', component: TreeComponent },
   { path: 'newTree', component: TreeComponent },
@@ -45,7 +46,7 @@ const appRoutes: Routes = [
   { path: 'login', component: AuthComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'mediaViewer', component: MediaViewerComponent },
-  { path: '', component: WelcomeComponent },
+  { path: '', component: VisibilityComponent },
   { path: 'profilePage/:id', component: ProfilePageComponent }
 ];
 
@@ -87,7 +88,8 @@ const appRoutes: Routes = [
     NewEventComponent,
     ProfilePageComponent,
     NewEventDialogComponent,
-    EditProfileDialogComponent
+    EditProfileDialogComponent,
+    VisibilityComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

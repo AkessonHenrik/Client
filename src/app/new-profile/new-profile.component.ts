@@ -77,12 +77,12 @@ export class NewProfileComponent implements OnInit {
           lastname: this.lastname,
           gender: this.gender,
           profilePicture: this.pictureUrl,
-          birthDay: this.birthDayDay + "-" + this.birthDayMonth + "-" + this.birthDayYear,
+          birthDay: this.birthDayYear + "-" + this.birthDayMonth + "-" + this.birthDayDay,
           born: this.born
         }
         if (this.deathDayDay) {
           returnObject["died"] = this.died;
-          returnObject["deathDay"] = this.deathDayDay + "-" + this.deathDayMonth + "-" + this.deathDayYear;
+          returnObject["deathDay"] = this.deathDayYear + "-" + this.deathDayMonth + "-" + this.deathDayDay;
         }
         this.onSubmit.emit(returnObject);
       })
@@ -95,12 +95,12 @@ export class NewProfileComponent implements OnInit {
         firstname: this.firstname,
         lastname: this.lastname,
         gender: this.gender,
-        birthDay: this.birthDayDay + "-" + this.birthDayMonth + "-" + this.birthDayYear,
+        birthDay: this.birthDayYear + "-" + this.birthDayMonth + "-" + this.birthDayDay,
         born: this.born
       }
       if (this.deathDayDay) {
         returnObject["died"] = this.died;
-        returnObject["deathDay"] = this.deathDayDay + "-" + this.deathDayMonth + "-" + this.deathDayYear;
+        returnObject["deathDay"] = this.deathDayYear + "-" + this.deathDayMonth + "-" + this.deathDayDay;
       }
       this.onSubmit.emit(returnObject);
     }

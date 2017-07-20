@@ -26,7 +26,7 @@ export class NewParentDialog implements OnInit {
             if (this.parentType !== "biological" && !this.validDate()) {
                 this.error = "Please specify a valid begin date"
             } else {
-                let begin = (this.beginDay ? this.beginDay + "-" + this.beginMonth + "-" + this.beginYear : null);
+                let begin = (this.beginDay ? this.beginYear + "-" + this.beginMonth + "-" + this.beginDay : null);
                 let newParent: ParentComponent;
                 if (this.parent.type === 'link') {
                     newParent = new LinkParentComponent(Math.ceil(Math.random() * 100), this.nodes.filter(node => node.id === this.child)[0], this.links.filter(link => link.id === this.parent.id)[0], begin);

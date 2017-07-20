@@ -106,5 +106,9 @@ export class HttpService {
   }
 
 
-
+  getGroups(profileId: number): Promise<any> {
+    return this.http.get(globals.ownedGroupsEndpoint + "/" + profileId).catch(error => {
+      return Promise.resolve(error);
+    }).toPromise();
+  }
 }

@@ -22,8 +22,8 @@ Save
 </button>
     <md-spinner *ngIf="savingContent" class="savingContent"></md-spinner>
 </div>
-<md-checkbox style="position: absolute; top: 80%" (change)="onTimeChange($event)">Activate time</md-checkbox>
+<md-checkbox style="position: absolute; top: 80%" (change)="onTimeChange($event)">Activate timeline control</md-checkbox>
 <div *ngIf="timeActivated">
     <div style="position: absolute; top: 90%">{{dates[currentDateIndex]}}</div>
-    <md-slider [min]="0" [max]="dates.length - 2" [step]="1" [value]="currentDateIndex" [(ngModel)]="currentDateIndex" (input)="filterData($event)"></md-slider>
+    <md-slider [min]="0" [max]="dates.length - 1" [step]="1" [value]="currentDateIndex" [(ngModel)]="currentDateIndex" (input)="filterData($event)"></md-slider>
 </div>

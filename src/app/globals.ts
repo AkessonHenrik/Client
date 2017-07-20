@@ -26,3 +26,6 @@ export const relationshipTypes: string[] = ["Spouse", "Partner", "Sibling", "Cou
 export const fileEndpoint = server + "/assets/";
 export const eventEndpoint = server + "/event";
 export const commentEndpoint = server + "/comment";
+export const groupEndpoint = server + "/group";
+export const ownedEndpoint = server + "/owned";
+export const ownedGroupsEndpoint = ownedEndpoint + "/groups";

@@ -42,9 +42,9 @@ export class NewRelationshipDialog implements OnInit {
   }
   createRelationshipWithDetails() {
     let returnRel = this.createRelationship();
-    let time = [this.beginDay + "-" + this.beginMonth + "-" + this.beginYear];
+    let time = [this.beginYear + "-" + this.beginMonth + "-" + this.beginDay];
     if (this.interval) {
-      time.push(this.endDay + "-" + this.endMonth + "-" + this.endYear);
+      time.push(this.endYear + "-" + this.endMonth + "-" + this.endDay);
     }
     if (this.isLocated === true) {
       returnRel.event = new LocatedEventComponent();
@@ -92,9 +92,9 @@ export class NewRelationshipDialog implements OnInit {
     let fromNode: Node = this.nodes.filter(node => node.firstname === this.from)[0]
     let toNode: Node = this.nodes.filter(node => node.firstname === this.to)[0]
     let returnRel = new Relationship(-3, fromNode, toNode, globals.relationshipTypes.indexOf(this.relationshipType));
-    let end = (this.endDay ? this.endDay + "-" + this.endMonth + "-" + this.endYear : null);
+    let end = (this.endDay ? this.endYear + "-" + this.endMonth + "-" + this.endDay : null);
     returnRel.time = {
-      begin: this.beginDay + "-" + this.beginMonth + "-" + this.beginYear
+      begin: this.beginYear + "-" + this.beginMonth + "-" + this.beginDay
     }
     if (end) {
       returnRel.time.end = end;
