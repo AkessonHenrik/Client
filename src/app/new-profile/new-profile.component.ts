@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Http, RequestOptions, Headers } from '@angular/http';
 import * as globals from '../globals';
 import { HttpService } from '../http.service';
+import { VisibilityComponent } from '../visibility/visibility.component';
 @Component({
   selector: 'app-new-profile',
   templateUrl: './new-profile.component.html',
@@ -84,7 +85,7 @@ export class NewProfileComponent implements OnInit {
           returnObject["died"] = this.died;
           returnObject["deathDay"] = this.deathDayYear + "-" + this.deathDayMonth + "-" + this.deathDayDay;
         }
-        this.onSubmit.emit(returnObject);
+        this.onSubmit.emit(this.addVisibilityToEvent(returnObject));
       })
     } else {
       console.log("Gender! " + this.gender)
@@ -102,7 +103,18 @@ export class NewProfileComponent implements OnInit {
         returnObject["died"] = this.died;
         returnObject["deathDay"] = this.deathDayYear + "-" + this.deathDayMonth + "-" + this.deathDayDay;
       }
-      this.onSubmit.emit(returnObject);
+      this.onSubmit.emit(this.addVisibilityToEvent(returnObject));
     }
+
+  }
+  addVisibilityToEvent(profileAsObject) {
+    profileAsObject.visibility = this.visibility;
+    console.log(profileAsObject);
+    return profileAsObject;
+  }
+  visibility = { visibility: "public" }
+  addVisibility($event) {
+    console.log($event);
+    this.visibility = $event;
   }
 }

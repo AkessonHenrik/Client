@@ -1,27 +1,34 @@
 <div class="dialogChoice">
-    <h1 class="dialogTitle" md-dialog-title>New Relationship</h1>
-    <md-select class="choice" placeholder="Parent type" [(ngModel)]="parentType">
-        <md-option *ngFor="let parentType of parentTypes" [value]="parentType">{{ parentType }}</md-option>
-    </md-select>
-    <md-select class="choice" placeholder="Parent" [(ngModel)]="parent">
-        <md-option *ngFor="let node of nodes" [value]="{type: 'node', id: node.id}">{{ node.firstname }}</md-option>
-        <md-option *ngFor="let link of links" [value]="{type: 'link', id: link.id}">{{ link.source.firstname }} - {{link.target.firstname}}</md-option>
-    </md-select>
-    <md-select class="choice" placeholder="Child" [(ngModel)]="child">
-        <md-option *ngFor="let node of nodes" [value]="node.id">{{ node.firstname }}</md-option>
-    </md-select>
-    <div *ngIf="parentType != 'biological'">
-    <h2>Began:</h2>    
-    <md-input-container class="date">
-        <input class="date" mdInput [(ngModel)]="beginDay" placeholder="Day">
-    </md-input-container>
-    <md-input-container class="date">
-        <input class="date" mdInput [(ngModel)]="beginMonth" placeholder="Month">
-    </md-input-container>
-    <md-input-container class="date">
-        <input class="date" mdInput [(ngModel)]="beginYear" placeholder="Year">
-    </md-input-container>
-    </div>
-    {{error}}
-    <button class="addButton" (click)="createNewParent()" md-raised-button>Add</button>
+    <md-tab-group>
+        <md-tab label="Parent information">
+            <h1 class="dialogTitle" md-dialog-title>New Relationship</h1>
+            <md-select class="choice" placeholder="Parent type" [(ngModel)]="parentType">
+                <md-option *ngFor="let parentType of parentTypes" [value]="parentType">{{ parentType }}</md-option>
+            </md-select>
+            <md-select class="choice" placeholder="Parent" [(ngModel)]="parent">
+                <md-option *ngFor="let node of nodes" [value]="{type: 'node', id: node.id}">{{ node.firstname }}</md-option>
+                <md-option *ngFor="let link of links" [value]="{type: 'link', id: link.id}">{{ link.source.firstname }} - {{link.target.firstname}}</md-option>
+            </md-select>
+            <md-select class="choice" placeholder="Child" [(ngModel)]="child">
+                <md-option *ngFor="let node of nodes" [value]="node.id">{{ node.firstname }}</md-option>
+            </md-select>
+            <div *ngIf="parentType != 'biological'">
+                <h2>Began:</h2>
+                <md-input-container class="date">
+                    <input class="date" mdInput [(ngModel)]="beginDay" placeholder="Day">
+                </md-input-container>
+                <md-input-container class="date">
+                    <input class="date" mdInput [(ngModel)]="beginMonth" placeholder="Month">
+                </md-input-container>
+                <md-input-container class="date">
+                    <input class="date" mdInput [(ngModel)]="beginYear" placeholder="Year">
+                </md-input-container>
+            </div>
+            {{error}}
+            <p style="margin: 20px; font-size: 20px">Visibility: {{visibility.visibility}}</p>
+            <button class="addButton" (click)="createNewParent()" md-raised-button>Add</button></md-tab>
+        <md-tab label="Visibility">
+            <app-visibility (onSubmit)="addVisibility($event)"></app-visibility>
+        </md-tab>
+    </md-tab-group>
 </div>

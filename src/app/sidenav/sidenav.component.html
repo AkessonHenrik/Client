@@ -2,7 +2,7 @@
     <md-sidenav-container #sidenav style="height:100%;width:100%;">
         <md-toolbar>
             <button *ngIf="loggedIn()" md-button (click)="start.toggle();"><md-icon style="color: white;">menu</md-icon></button>
-            <div class="link" (click)="console.log('hey')">
+            <div class="link">
                 <p>Treemily</p>
             </div>
             <div *ngIf="!loggedIn()" class="link">

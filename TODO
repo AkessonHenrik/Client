@@ -1,31 +1,23 @@
 MUST IMPLEMENT:
 
 CLIENT:
-- Rights
-- JWT
 - Deleting & Editing events, relationships (especially times)
 - Welcome page
-- Visbility for events & relationships
-- proper icons and parent types
 - Reload image after add
 - Default born & died description
-- Create group in and out of new entity forms
+- Create group
 
 SERVER:
-- Rights
-- Visibility on way out
-- Rightsfilter
 - Deleting & Editing events, relationships (especially times)
-- Media, Relationship, Gender types
+- Relationship, Gender types
 - Better responses (404, "access denied", ...)
 
 
 OTHER:
-- Shell script
 - CSS
 - COMMENTS
 
 OPTIONAL:
+- JWT
 - Modify visibility
-- Docker?
 - Mozilla

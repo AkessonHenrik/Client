@@ -70,5 +70,9 @@
             </div>
             <button style="display: block; margin-top: 50px!important;" md-raised-button (click)="createRelationshipWithDetails()">Submit</button>
         </md-tab>
+
+        <md-tab label="Relationship visibility">
+            <app-visibility (onSubmit)="addVisibility($event)"></app-visibility>
+        </md-tab>
     </md-tab-group>
 </div>

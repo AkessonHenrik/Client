@@ -18,7 +18,6 @@ export class EventDialog implements OnInit {
     comments: { commenter: string, content: string, date: string }[] = [];
     comment: string;
     ngOnInit() {
-        console.log("Hey dialog got " + this.data)
         this.httpService.getEvent(this.data).then(response => {
             if (response === 404) {
                 this.error = "No event is associated to this relationship"

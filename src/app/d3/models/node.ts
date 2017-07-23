@@ -27,6 +27,8 @@ export class Node {
   bornString: string;
   diedString: string;
 
+  visibility;
+
   // Initials font size
   // fontSize: number = 30;
 

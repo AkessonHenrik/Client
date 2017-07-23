@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { HttpService } from '../http.service';
+import * as globals from '../globals';
 @Component({
   selector: 'app-visibility',
   templateUrl: './visibility.component.html',
@@ -31,9 +32,12 @@ export class VisibilityComponent implements OnInit {
 
   ngOnInit() {
     this.visibilityType = "limited"
-    this.httpService.getGroups(2).then(response => {
-      this.groups = response.json();
-    })
+    if (globals.getUserId() !== null) {
+      console.log(globals.getUserId())
+      this.httpService.getGroups(globals.getUserId()).then(response => {
+        this.groups = response.json();
+      })
+    }
   }
   getPeople(id: number) {
     let result = "";

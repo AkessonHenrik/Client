@@ -6,15 +6,17 @@ export function loggedIn() {
     return localStorage["treemily_id"] !== undefined
 }
 export function getUserId() {
-    return +localStorage["treemily_id"];
+    if (localStorage["treemily_id"])
+        return +localStorage["treemily_id"];
+    else
+        return null;
 }
 
 export function getGender(gender: number): string {
     return genders[gender];
 }
 
-export const parentTypes: string[] = ["adoptive", "biological", "guardian"]
-
+export const parentTypes: string[] = ["biological", "adoptive", "guardian"]
 export const server = 'http://localhost:9000'
 export const profileEndpoint = server + "/profile"
 export const familyEndpoint = server + "/family"
@@ -22,7 +24,8 @@ export const relationshipsEndpoint = server + "/relationships"
 export const signupEndpoint = server + "/signup"
 export const ghostEndpoint = server + "/ghost"
 export const parentsEndpoint = server + "/parents"
-export const relationshipTypes: string[] = ["Spouse", "Partner", "Sibling", "Cousin", "Friend", "Other/Unknown"]
+export const relationshipTypes: string[] = ["spouse", "partner", "sibling", "cousin", "friend", "other/unknown"]
+export const relationshipIcons: string[] = ["/assets/wedding.svg", "/assets/heart.svg", "", "", "/assets/friend.svg", "/assets/other.png"]
 export const fileEndpoint = server + "/assets/";
 export const eventEndpoint = server + "/event";
 export const commentEndpoint = server + "/comment";

@@ -6,6 +6,8 @@ import { NewEventComponent } from '../../new-event/new-event.component'
 import { LocatedEventComponent, EventComponent } from '../../event/event.component';
 import { LocationComponent } from '../../location/location.component';
 import { HttpService } from '../../http.service';
+import { VisibilityComponent } from '../../visibility/visibility.component';
+
 @Component({
   selector: 'relationshipdialog',
   templateUrl: './relationshipdialog.html',
@@ -107,6 +109,7 @@ export class NewRelationshipDialog implements OnInit {
       media: this.media,
       owner: returnRel.id,
     })
+    returnRel.visibility = this.visibility;
     return returnRel;
   }
   public ngOnInit() {
@@ -130,5 +133,15 @@ export class NewRelationshipDialog implements OnInit {
         console.log(fileList[i].name);
       }
     }
+  }
+  addVisibilityToEvent(profileAsObject) {
+    profileAsObject.visibility = this.visibility;
+    console.log(profileAsObject);
+    return profileAsObject;
+  }
+  visibility = { visibility: "public" }
+  addVisibility($event) {
+    console.log($event);
+    this.visibility = $event;
   }
 }

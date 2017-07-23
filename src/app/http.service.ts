@@ -19,29 +19,32 @@ export class HttpService {
       })
   }
 
+  get(endpoint): any {
+    return this.http.get(endpoint, this.getHeaders());
+  }
+
   updateProfile(newProfileInfo, profileId): Promise<any> {
-    return this.http.patch(globals.profileEndpoint + "/" + profileId, newProfileInfo).toPromise().then(response => {
+    return this.http.patch(globals.profileEndpoint + "/" + profileId, newProfileInfo, this.getHeaders()).toPromise().then(response => {
       console.log(response);
     })
   }
 
   delete(timedentityid: number): Promise<any> {
-    return this.http.delete(globals.profileEndpoint + "/" + timedentityid).toPromise();
+    return this.http.delete(globals.profileEndpoint + "/" + timedentityid, this.getHeaders()).toPromise();
   }
 
   getComments(postid: number): Promise<any> {
-    console.log("C'mon get " + postid)
-    return this.http.get(globals.commentEndpoint + "/" + postid).toPromise().then(response => {
+    return this.http.get(globals.commentEndpoint + "/" + postid, this.getHeaders()).toPromise().then(response => {
       return Promise.resolve(response.json())
     })
   }
 
   postComment(comment): Promise<any> {
-    return this.http.post(globals.commentEndpoint, comment).toPromise();
+    return this.http.post(globals.commentEndpoint, comment, this.getHeaders()).toPromise();
   }
 
   addEvent(event): Promise<any> {
-    return this.http.post(globals.eventEndpoint, event).toPromise().then(response => {
+    return this.http.post(globals.eventEndpoint, event, this.getHeaders()).toPromise().then(response => {
       return Promise.resolve(response.json())
     })
   }
@@ -49,11 +52,10 @@ export class HttpService {
   createAccount(accountData) {
     return this.http.post(globals.signupEndpoint, accountData)
   }
-  createProfile(profileData): Promise<number> {
-    return this.http.post(globals.profileEndpoint, profileData).toPromise().then(response => {
+  createProfile(profileData): Promise<any> {
+    return this.http.post(globals.profileEndpoint, profileData, this.getHeaders()).toPromise().then(response => {
       let body = response.json();
-      let id: number = body.peopleentityid;
-      return id;
+      return body;
     }).catch(error => {
       return Promise.resolve(-1);
     })
@@ -63,17 +65,17 @@ export class HttpService {
     return this.http.post(globals.server + "/search", {
       firstname: firstname,
       lastname: lastname
-    }).toPromise().then(response => {
+    }, this.getHeaders()).toPromise().then(response => {
       return Promise.resolve(response.json());
     })
   }
 
   createGhost(ghostData): Promise<any> {
-    return this.http.post(globals.ghostEndpoint, ghostData).toPromise()
+    return this.http.post(globals.ghostEndpoint, ghostData, this.getHeaders()).toPromise()
   }
 
   post(url, data) {
-    return this.http.post(url, data).toPromise().then(response => { return Promise.resolve(response) });
+    return this.http.post(url, data, this.getHeaders()).toPromise().then(response => { return Promise.resolve(response) });
   }
 
 
@@ -81,10 +83,11 @@ export class HttpService {
     return this.http.post(globals.relationshipsEndpoint, {
       profile1: newRelationship.source.id,
       profile2: newRelationship.target.id,
-      type: newRelationship.getRelationshipTypeAsNumber(),
-      time: newRelationship.getTime()
-    }).toPromise().then(response => {
-      newRelationship.id = response.json().id
+      type: newRelationship.relationshipType,
+      time: newRelationship.getTime(),
+      visibility: newRelationship.visibility
+    }, this.getHeaders()).toPromise().then(response => {
+      newRelationship.id = response.json().peopleentityid
       if (newRelationship.event) {
         newRelationship.event.id = newRelationship.id;
         newRelationship.event.owner = newRelationship.id;
@@ -94,11 +97,11 @@ export class HttpService {
   }
 
   getProfile(id: number): Promise<any> {
-    return this.http.get(globals.profileEndpoint + "/" + id).toPromise();
+    return this.http.get(globals.profileEndpoint + "/" + id, this.getHeaders()).toPromise();
   }
 
   getEvent(id: number): Promise<any> {
-    return this.http.get(globals.eventEndpoint + "/" + id).toPromise().then(response => {
+    return this.http.get(globals.eventEndpoint + "/" + id, this.getHeaders()).toPromise().then(response => {
       return Promise.resolve(response);
     }).catch(error => {
       return Promise.resolve(404)
@@ -107,8 +110,15 @@ export class HttpService {
 
 
   getGroups(profileId: number): Promise<any> {
-    return this.http.get(globals.ownedGroupsEndpoint + "/" + profileId).catch(error => {
+    return this.http.get(globals.ownedGroupsEndpoint + "/" + profileId, this.getHeaders()).catch(error => {
       return Promise.resolve(error);
     }).toPromise();
+  }
+  getHeaders(): any {
+    if (globals.getUserId() == null)
+      return {};
+    let headers = new Headers();
+    headers.set("requester", globals.getUserId().toString())
+    return { headers: headers };
   }
 }

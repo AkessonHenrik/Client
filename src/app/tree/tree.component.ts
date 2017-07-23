@@ -189,9 +189,9 @@ export class TreeComponent implements OnInit {
         if (this.parents.filter(parent => parent.id === jsonParent.timedentityid).length == 0) {
           if (this.nodes.filter(node => node.id === jsonParent.parentsid).length == 0) { // parent is a relationship
             let link = this.links.filter(link => link.id === jsonParent.parentsid)[0];
-            this.parents.push(new LinkParentComponent(jsonParent.timedentityid, this.nodes.filter(node => node.id === jsonParent.childid)[0], link, jsonParent.begin));
+            this.parents.push(new LinkParentComponent(jsonParent.timedentityid, this.nodes.filter(node => node.id === jsonParent.childid)[0], link, jsonParent.begin, jsonParent.parentType));
           } else { // parent is a node
-            this.parents.push(new NodeParentComponent(jsonParent.timedentityid, this.nodes.filter(node => node.id === jsonParent.childid)[0], this.nodes.filter(node => node.id === jsonParent.parentsid)[0], jsonParent.begin));
+            this.parents.push(new NodeParentComponent(jsonParent.timedentityid, this.nodes.filter(node => node.id === jsonParent.childid)[0], this.nodes.filter(node => node.id === jsonParent.parentsid)[0], jsonParent.begin, jsonParent.parentType));
           }
         }
       })
@@ -463,6 +463,7 @@ export class TreeComponent implements OnInit {
       "birthDay": newNode.birthDay,
       "deathDay": newNode.deathDay,
       "born": newNode.born,
+      "visibility": newNode.visibility,
       "died": newNode.died
     }).then(response => {
       if (response === -1) {
@@ -470,7 +471,10 @@ export class TreeComponent implements OnInit {
         this.savingContent = false;
         return "stop";
       }
-      newNode.id = response
+      console.log("HELLaAS")
+      console.log(response);
+      newNode.id = response.id;
+      newNode.image = response.image;
       return this.saveGhost(newNode, http);
     })
   }
@@ -499,16 +503,13 @@ export class TreeComponent implements OnInit {
   }
   saveParent(newParent: ParentComponent, http: Http): Promise<string> {
     return this.httpService.post(globals.parentsEndpoint, {
-      // Parent info
-      parentType: globals.parentTypes[newParent.getType()],
-      parent: {
-        type: (newParent instanceof LinkParentComponent ? "relationship" : "single"),
-        id: newParent.parent.id
-      },
+      parentType: globals.parentTypes[newParent.type],
+      parent: newParent.parent.id,
       child: newParent.child.id,
       time: {
         begin: newParent.begin
-      }
+      },
+      visibility: newParent.visibility
     }).then(response => {
       newParent.id = response.json().id
       return Promise.resolve("Done");
