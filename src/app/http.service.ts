@@ -121,4 +121,11 @@ export class HttpService {
     headers.set("requester", globals.getUserId().toString())
     return { headers: headers };
   }
+
+
+  isOwned(ownerId, entityId): Promise<boolean> {
+    return this.http.post(globals.ownedEndpoint, { ownerid: ownerId, timedentityid: entityId }).toPromise().then(response => {
+      return response.json();
+    })
+  }
 }

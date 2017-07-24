@@ -14,7 +14,6 @@ export class SearchDialog implements OnInit {
 
     profiles = [];
 
-    nodes: Node[];
     constructor(public dialogRef: MdDialogRef<SearchDialog>, private httpService: HttpService) {
     }
     public ngOnInit() {

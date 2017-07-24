@@ -11,10 +11,11 @@ export class LinkVisualComponent {
   @Input('linkVisual') link: Relationship;
   constructor(private dialog: MdDialog) { }
   showMore(id: number) {
-    console.log("showmore: " + id)
     let dialogRef = this.dialog.open(EventDialog, {
-      data: id
+      data: {
+        id: id,
+        relationship: true
+      }
     });
-
   }
 }

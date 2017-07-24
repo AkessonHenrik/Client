@@ -61,9 +61,9 @@ export class SignupComponent implements OnInit {
 
   createAccountAndProfile(profileData) {
     console.log(profileData);
-    this.httpService.createProfile(profileData).then(id => {
+    this.httpService.createProfile(profileData).then(response => {
       this.httpService.createAccount({
-        profileId: id,
+        profileId: response.id,
         email: this.email,
         password: this.password
       }).toPromise().then(response => {

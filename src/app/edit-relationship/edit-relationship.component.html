@@ -1,0 +1,71 @@
+<div class="dialogChoice">
+  <md-tab-group [(selectedIndex)]="activeTab">
+    <md-tab label="Relationship information">
+      <h1 class="dialogTitle" md-dialog-title>Edit Relationship</h1>
+      <md-select class="choice" placeholder="Relationship type" [(ngModel)]="relationshipType">
+        <md-option *ngFor="let relationshipType of relationshipTypes" [value]="relationshipType">{{ relationshipType }}</md-option>
+      </md-select>
+      <md-slide-toggle [(ngModel)]="interval">Time interval</md-slide-toggle>
+      <h2 *ngIf="interval">Begin Date</h2>
+      <h2 *ngIf="!interval">Date</h2>
+      <md-input-container class="date">
+        <input class="date" mdInput [(ngModel)]="beginDay" placeholder="Day">
+      </md-input-container>
+      <md-input-container class="date">
+        <input class="date" mdInput [(ngModel)]="beginMonth" placeholder="Month">
+      </md-input-container>
+      <md-input-container class="date">
+        <input class="date" mdInput [(ngModel)]="beginYear" placeholder="Year">
+      </md-input-container>
+      <div *ngIf="interval" style="display: block">
+        <h2>End Date</h2>
+        <md-input-container class="date">
+          <input class="date" mdInput [(ngModel)]="endDay" placeholder="Day">
+        </md-input-container>
+        <md-input-container class="date">
+          <input class="date" mdInput [(ngModel)]="endMonth" placeholder="Month">
+        </md-input-container>
+        <md-input-container class="date">
+          <input class="date" mdInput [(ngModel)]="endYear" placeholder="Year">
+        </md-input-container>
+      </div>
+      <md-checkbox style="display: block" [(ngModel)]="addDetails">Add details</md-checkbox>
+      <button *ngIf="!addDetails" class="addButton" (click)="editRelationshipWithoutDetails()" md-raised-button>Add</button>
+      <button *ngIf="addDetails" class="addButton" (click)="next()" md-raised-button>Next</button>
+    </md-tab>
+
+    <md-tab label="Relationship event" disabled="addDetails === false">
+      <md-input-container class="container">
+        <input mdInput class="accountInput" [(ngModel)]="description" placeholder="Description">
+      </md-input-container>
+      <label for="file-upload" class="custom-file-upload">
+                <i class="fa fa-cloud-upload"></i>Event media
+            </label>
+      <input type="file" id="file-upload" name="file" (change)="fileChange($event)" accept=".jpg,.png,.gif" multiple/>
+      <div id="files">
+        <div *ngFor="let file of files">
+          <p>{{file.name}} <i class="material-icons" style="cursor: pointer; position: relative; top: 7px;" (click)="removeFile(file)">clear</i></p>
+        </div>
+      </div>
+      <md-slide-toggle [(ngModel)]="isLocated">Located</md-slide-toggle>
+
+      <div *ngIf="isLocated">
+        <h2>Location</h2>
+        <md-input-container class="container">
+          <input mdInput class="accountInput" [(ngModel)]="location.city" placeholder="City">
+        </md-input-container>
+        <md-input-container class="container">
+          <input mdInput class="accountInput" [(ngModel)]="location.province" placeholder="Province">
+        </md-input-container>
+        <md-input-container class="container">
+          <input mdInput class="accountInput" [(ngModel)]="location.country" placeholder="Country">
+        </md-input-container>
+      </div>
+      <button style="display: block; margin-top: 50px!important;" md-raised-button (click)="editRelationshipWithDetails()">Submit</button>
+    </md-tab>
+
+    <md-tab label="Relationship visibility">
+      <app-visibility (onSubmit)="addVisibility($event)"></app-visibility>
+    </md-tab>
+  </md-tab-group>
+</div>

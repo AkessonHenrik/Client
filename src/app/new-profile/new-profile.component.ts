@@ -72,7 +72,8 @@ export class NewProfileComponent implements OnInit {
       this.httpService.upload(this.file).then(response => {
         this.pictureUrl = globals.fileEndpoint + response.path;
       }).then(_ => {
-        this.born.description = this.firstname + " is born"
+        if (this.born.description.length == 0)
+          this.born.description = this.firstname + " is born"
         let returnObject = {
           firstname: this.firstname,
           lastname: this.lastname,
@@ -91,7 +92,8 @@ export class NewProfileComponent implements OnInit {
       console.log("Gender! " + this.gender)
       console.log(this.genders[this.gender])
       let g = this.genders[this.gender]
-      this.born.description = this.firstname + " is born"
+      if (this.born.description.length == 0)
+        this.born.description = this.firstname + " is born"
       let returnObject = {
         firstname: this.firstname,
         lastname: this.lastname,
@@ -101,6 +103,9 @@ export class NewProfileComponent implements OnInit {
       }
       if (this.deathDayDay) {
         returnObject["died"] = this.died;
+        if(returnObject["died"].description.length === 0) {
+          returnObject["died"].description = this.firstname + " died"
+        }
         returnObject["deathDay"] = this.deathDayYear + "-" + this.deathDayMonth + "-" + this.deathDayDay;
       }
       this.onSubmit.emit(this.addVisibilityToEvent(returnObject));

@@ -1,9 +1,10 @@
 <div id="error">{{error}}</div>
+<button md-raised-button *ngIf="isOwned" (click)="edit()">Edit</button>
 <div *ngIf="event !== undefined">
-    <app-work-event *ngIf="event.getType() === 'WorkEvent'" [event]="event"></app-work-event>
-    <app-move-event *ngIf="event.getType() === 'MoveEvent'" [event]="event"></app-move-event>
-    <app-located-event *ngIf="event.getType() === 'LocatedEvent'" [event]="event"></app-located-event>
-    <app-event *ngIf="event.getType() === 'Event'" [event]="event"></app-event>
+    <app-work-event *ngIf="event.getType() === 'WorkEvent'" [event]="event" [disabled]="true"></app-work-event>
+    <app-move-event *ngIf="event.getType() === 'MoveEvent'" [event]="event" [disabled]="true"></app-move-event>
+    <app-located-event *ngIf="event.getType() === 'LocatedEvent'" [event]="event" [disabled]="true"></app-located-event>
+    <app-event *ngIf="event.getType() === 'Event'" [event]="event" [disabled]="true"></app-event>
     <div id="comments">
         <h2>Comments: </h2>
         <div class="comment" *ngFor="let comment of comments">{{comment.commenter}}: {{comment.content}} {{comment.date}}</div>

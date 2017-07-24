@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 export class EventComponent {
   @Input('event') event: EventComponent;
   @Input('dialog') dialog: MdDialog;
+  @Input('disabled') disabled: boolean = false;
   id: number;
   name: string;
   description: string;
@@ -24,7 +25,7 @@ export class EventComponent {
   openEvent() {
     console.log("Opening: " + this.event.id)
     this.dialog.open(EventDialog, {
-      data: this.event.id
+      data: { id: this.event.id, relationship: false }
     })
   }
 
@@ -63,7 +64,7 @@ export class EventComponent {
   template: `
   <div class="event" *ngIf="event !== undefined">
   <h1>Work Event</h1>
-  <app-event [event]="event" [dialog]="dialog"></app-event>
+  <app-event [event]="event" [dialog]="dialog" [disabled]="disabled"></app-event>
   Position: {{event.position}} Company: {{event.company}}
   {{event.location.city}}, {{event.location.province}}, {{event.location.country}}
   </div>
@@ -101,7 +102,7 @@ export class WorkEventComponent extends EventComponent implements OnInit {
   template: `
   <div class="event" *ngIf="event !== undefined">
   <h1>Located Event</h1>  
-  <app-event [event]="event" [dialog]="dialog"></app-event>
+  <app-event [event]="event" [dialog]="dialog" [disabled]="disabled"></app-event>
   {{event.location.city}}, {{event.location.province}}, {{event.location.country}}
   </div>
   `,
@@ -137,7 +138,7 @@ export class LocatedEventComponent extends EventComponent implements OnInit {
   template: `
   <div class="event" *ngIf="event !== undefined">
   <h1>Move Event</h1>    
-  <app-event [event]="event" [dialog]="dialog"></app-event>
+  <app-event [event]="event" [dialog]="dialog" [disabled]="disabled"></app-event>
   {{event.location.city}}, {{event.location.province}}, {{event.location.country}}
   </div>
   `,

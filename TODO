@@ -1,23 +1,16 @@
 MUST IMPLEMENT:
-
-CLIENT:
-- Deleting & Editing events, relationships (especially times)
-- Welcome page
-- Reload image after add
-- Default born & died description
-- Create group
-
-SERVER:
-- Deleting & Editing events, relationships (especially times)
-- Relationship, Gender types
-- Better responses (404, "access denied", ...)
-
-
-OTHER:
-- CSS
-- COMMENTS
+    CLIENT:
+        - Deleting & Editing events, relationships (especially times)
+        - Welcome page
+        - Create group
+        - ViewChild
+    SERVER:
+        - Better responses (404, "access denied", ...)
+    OTHER:
+        - CSS
+        - COMMENTS
 
 OPTIONAL:
-- JWT
-- Modify visibility
-- Mozilla
+    - JWT
+    - Modify visibility
+    - Mozilla

@@ -38,6 +38,8 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { NewEventDialogComponent } from './new-event-dialog/new-event-dialog.component';
 import { EditProfileDialogComponent } from './edit-profile-dialog/edit-profile-dialog.component';
 import { VisibilityComponent } from './visibility/visibility.component';
+import { EditEventComponent } from './edit-event/edit-event.component';
+import { EditRelationshipComponent } from './edit-relationship/edit-relationship.component';
 const appRoutes: Routes = [
   { path: 'tree/:id', component: TreeComponent },
   { path: 'newTree', component: TreeComponent },
@@ -89,7 +91,9 @@ const appRoutes: Routes = [
     ProfilePageComponent,
     NewEventDialogComponent,
     EditProfileDialogComponent,
-    VisibilityComponent
+    VisibilityComponent,
+    EditEventComponent,
+    EditRelationshipComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -106,6 +110,6 @@ const appRoutes: Routes = [
   ],
   providers: [D3Service, TreeDataService, HttpService, OwnerService],
   bootstrap: [AppComponent, SidenavComponent],
-  entryComponents: [ChoiceDialog, NewPersonDialog, NewRelationshipDialog, NewParentDialog, ProfileDialog, SearchDialog, NewEventDialogComponent, EventDialog, EditProfileDialogComponent]
+  entryComponents: [ChoiceDialog, NewPersonDialog, NewRelationshipDialog, NewParentDialog, ProfileDialog, SearchDialog, NewEventDialogComponent, EventDialog, EditProfileDialogComponent, EditRelationshipComponent, EditEventComponent]
 })
 export class AppModule { }

@@ -141,13 +141,17 @@ export class TreeComponent implements OnInit {
       this.visibleParents = this.parents;
     }
     this.visibleNodes = this.nodes.filter(node => {
-      return node.bornString <= this.dates[this.currentDateIndex];;
+      let visible: boolean = node.bornString <= this.dates[this.currentDateIndex];
+      if (node.diedString) {
+        visible = visible && node.diedString >= this.dates[this.currentDateIndex]
+      }
+      return visible;
     })
     this.visibleRelationships = this.links.filter(link => {
       if (link.time) {
         return link.time <= this.dates[this.currentDateIndex];
       }
-      return link.beginTime <= this.dates[this.currentDateIndex];
+      return link.beginTime <= this.dates[this.currentDateIndex] && link.endTime > this.dates[this.currentDateIndex];
     })
     this.visibleParents = this.parents.filter(parent => {
       return parent.begin <= this.dates[this.currentDateIndex];
@@ -520,12 +524,12 @@ export class TreeComponent implements OnInit {
     let dialogRef = this.dialog.open(SearchDialog);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        if (this.nodes.filter(node => node.id === result.id).length > 0) {
-        } else {
+        if (this.nodes.filter(node => node.id === result.id).length === 0) {
           console.log(result);
           result.bornString = result.born;
           this.nodes.push(result);
           this.setDates();
+          this.filterData();
           this.calculateCoordinates();
         }
       }
