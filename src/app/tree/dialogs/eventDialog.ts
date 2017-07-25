@@ -6,6 +6,7 @@ import { LocationComponent } from '../../location/location.component';
 import * as globals from '../../globals';
 import { EditEventComponent } from '../../edit-event/edit-event.component';
 import { EditRelationshipComponent } from '../../edit-relationship/edit-relationship.component';
+import { NewRelationshipDialog } from './relationshipDialog'
 @Component({
     selector: 'event-dialog',
     templateUrl: './eventDialog.html',
@@ -49,7 +50,7 @@ export class EventDialog implements OnInit {
                 event["media"].forEach(media => {
                     console.log("media:");
                     console.log(media);
-                    this.event.media.push({ type: media.type, path: globals.fileEndpoint + media.path, postid: media.postid })
+                    this.event.media.push({ type: media.type, path: media.path, postid: media.postid })
                 })
                 console.log("=================")
                 console.log(this.event);
@@ -112,9 +113,17 @@ export class EventDialog implements OnInit {
 
     edit() {
         if (this.data.relationship === true) {
-            this.dialog.open(EditRelationshipComponent);
+            let dialogRef = this.dialog.open(NewRelationshipDialog, {
+                data: { nodes: [], edit: true, event: this.event }
+            });
+            dialogRef.afterClosed().subscribe(relationship => {
+                this.httpService.updateRelationship(relationship).then(_ => {
+                    this.dialogRef.close();
+                })
+            });
         } else {
             this.dialog.open(EditEventComponent);
+
         }
     }
 }

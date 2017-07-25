@@ -1,31 +1,26 @@
 <div style="position:absolute;top:0;left:0;right:0;bottom:0;">
-    <md-sidenav-container #sidenav style="height:100%;width:100%;">
+    <md-sidenav-container style="height:100%;width:100%;">
         <md-toolbar>
             <button *ngIf="loggedIn()" md-button (click)="start.toggle();"><md-icon style="color: white;">menu</md-icon></button>
             <div class="link">
-                <p>Treemily</p>
+                <p mdTooltip="Homepage" [mdTooltipPosition]="'below'">Treemily</p>
             </div>
-            <div *ngIf="!loggedIn()" class="link">
+            <div *ngIf="!loggedIn()" class="link signup">
                 <p (click)="signup()">Sign up</p>
             </div>
-            <div *ngIf="!loggedIn()" class="link">
+            <div *ngIf="!loggedIn()" class="link signin">
                 <p (click)="login()">Sign in</p>
             </div>
-            <div (click)="toggleSearch()" class="search link">
-                <i class="material-icons md-36">search</i>
-                <input #box class="searchbox" (focusout)="focusOutFunction()" *ngIf="searchingToggled" mdInput (keyup.enter)="launchSearch(box.value)"
-                    type="search" placeholder="Look for someone you know">
-            </div>
-            <i *ngIf="loggedIn()" (click)="logout()" class="material-icons md-36 logout">exit_to_app</i>
+            <i *ngIf="loggedIn()" (click)="logout()" mdTooltip="Sign out" [mdTooltipPosition]="'below'" class="material-icons md-36 logout">exit_to_app</i>
         </md-toolbar>
         <md-sidenav class="sidebar" #start mode="side">
             <ul class="menuOptions">
-                <li (click)="redirectToMyTree()">
-                    My Family Tree
-                </li>
+                <li (click)="redirectToMyTree()">My Family Tree</li>
                 <li (click)="redirectToOwnedProfiles()">Owned profiles</li>
                 <li (click)="redirectToNewTree()">Create a new tree</li>
                 <li (click)="redirectToMyProfile()">My profile</li>
+                <li (click)="redirectToMyClaims()">Received claims</li>
+                <li (click)="redirectToMyNotifications()">Notifications</li>
             </ul>
         </md-sidenav>
         <div class="inner-sidenav-content">

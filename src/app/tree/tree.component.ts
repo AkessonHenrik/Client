@@ -397,7 +397,7 @@ export class TreeComponent implements OnInit {
   }
   newRelationship() {
     let dialogRef = this.dialog.open(NewRelationshipDialog, {
-      data: this.nodes
+      data: { nodes: this.nodes }
     });
     dialogRef.afterClosed().subscribe(relationship => {
       if (relationship !== undefined) {
@@ -475,11 +475,13 @@ export class TreeComponent implements OnInit {
         this.savingContent = false;
         return "stop";
       }
-      console.log("HELLaAS")
-      console.log(response);
       newNode.id = response.id;
       newNode.image = response.image;
-      return this.saveGhost(newNode, http);
+      if (globals.getUserProfileId() === 0) {
+        return this.associateToAccount(newNode);
+      } else {
+        return this.saveGhost(newNode, http);
+      }
     })
   }
 
@@ -487,6 +489,17 @@ export class TreeComponent implements OnInit {
     return this.httpService.createGhost({
       ownerId: globals.getUserId(),
       profileId: newNode.id
+    })
+  }
+
+  associateToAccount(newNode: Node): Promise<string> {
+    return this.httpService.associateToAccount({
+      accountId: globals.getUserId(),
+      profileId: newNode.id
+    }).then(response => {
+      console.log(response);
+      localStorage["treemily_profileid"] = newNode.id;
+      return Promise.resolve("Associated");
     })
   }
 

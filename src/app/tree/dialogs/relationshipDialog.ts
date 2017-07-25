@@ -35,11 +35,11 @@ export class NewRelationshipDialog implements OnInit {
   addDetails: boolean = false;
 
   nodes: Node[];
-
+  edit: boolean;
 
   description: string;
   media: { type: string, path: string, postid: number }[] = [];
-  constructor( @Inject(MD_DIALOG_DATA) private data: Node[], public dialogRef: MdDialogRef<NewRelationshipDialog>, private httpService: HttpService) {
+  constructor( @Inject(MD_DIALOG_DATA) private data: { nodes: Node[], edit: boolean, event: EventComponent }, public dialogRef: MdDialogRef<NewRelationshipDialog>, private httpService: HttpService) {
     this.relationshipTypes = globals.relationshipTypes;
   }
   createRelationshipWithDetails() {
@@ -114,12 +114,20 @@ export class NewRelationshipDialog implements OnInit {
   }
   public ngOnInit() {
     //set custom data from parent component
-    this.nodes = this.data;
-    this.location = this.location = {
+    this.nodes = this.data.nodes;
+    this.location = {
       city: "",
       province: "",
       country: ""
     };
+    if (this.data.event !== undefined && this.data.event !== null) {
+      console.log(this.data.event)
+      let began = this.data.event.time[0].split("-")
+      this.beginDay = +began[2];
+      this.beginMonth = +began[1];
+      this.beginYear = +began[0];
+      this.description = this.data.event.description;
+    }
   }
   next() {
     this.activeTab = 1;
@@ -143,5 +151,23 @@ export class NewRelationshipDialog implements OnInit {
   addVisibility($event) {
     console.log($event);
     this.visibility = $event;
+  }
+
+
+  updateRelationship() {
+    let returnRel = {}
+    let time = [];
+    time.push(this.beginYear + "-" + this.beginMonth + "-" + this.beginDay);
+    if (this.endYear && this.endDay && this.endMonth) {
+      time.push(this.endYear + "-" + this.endMonth + "-" + this.endDay);
+    }
+    returnRel["time"] = time;
+    if (this.relationshipType) {
+      returnRel["type"] = this.relationshipType
+    }
+    returnRel["id"] = this.data.event.id;
+    returnRel["visibility"] = this.visibility;
+    console.log(returnRel);
+    this.dialogRef.close(returnRel);
   }
 }

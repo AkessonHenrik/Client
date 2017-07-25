@@ -22,6 +22,7 @@ export class SignupComponent implements OnInit {
   choice: number;
   profileSearchFirstname: string;
   profileSearchLastname: string;
+  message: string;
   activeTab: number = 0;
   errorMessage: string = "";
   profiles = [];
@@ -65,13 +66,16 @@ export class SignupComponent implements OnInit {
       this.httpService.createAccount({
         profileId: response.id,
         email: this.email,
-        password: this.password
+        password: this.password,
+        claim: false
       }).toPromise().then(response => {
         console.log(response);
-        localStorage["treemily_id"] = response.json().profileid
+        localStorage["treemily_id"] = response.json().id
         localStorage["treemily_email"] = response.json().email
-      }).then(_ => {
-        this.router.navigateByUrl('tree/' + localStorage["treemily_id"]);
+        localStorage["treemily_profileid"] = response.json().profileid
+        return response.json().profileid
+      }).then(profileid => {
+        this.router.navigateByUrl('tree/' + profileid);
       })
     })
   }
@@ -110,12 +114,18 @@ export class SignupComponent implements OnInit {
   }
   claim(id) {
     this.httpService.createAccount({
-      profileId: id,
       email: this.email,
       password: this.password,
+      claim: true,
+      profileId: id,
+      message: this.message
     }).toPromise().then(response => {
       console.log(response);
-      this.router.navigateByUrl('login')
+      // profileId: id,
+      // message: this.message
+    }).then(response => {
+      // console.log(response);
+      // this.router.navigateByUrl('login')
     });
   }
 

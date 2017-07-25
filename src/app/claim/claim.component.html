@@ -1,0 +1,7 @@
+<md-card class="claim" *ngFor="let claim of claims">
+  <md-card-title>{{claim.claimerEmail}}</md-card-title>
+  <md-card-subtitle>Claims: {{claim.claimedProfileFirstname}} {{claim.claimedProfileLastname}}</md-card-subtitle>
+  <md-card-content>{{claim.message}}</md-card-content>
+  <button md-raised-button (click)="approveClaim(claim.id)">Approve</button>
+  <button md-raised-button (click)="refuseClaim(claim.id)">Refuse</button>
+</md-card>

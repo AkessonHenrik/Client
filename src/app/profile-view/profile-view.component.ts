@@ -91,7 +91,7 @@ export class ProfileViewComponent implements OnInit {
     }
     newEvent.media = [];
     event.media.forEach(media => {
-      newEvent.media.push({ type: media.type, path: globals.fileEndpoint + media.path, postid: media.postid })
+      newEvent.media.push({ type: media.type, path: media.path, postid: media.postid })
     })
     return newEvent;
   }

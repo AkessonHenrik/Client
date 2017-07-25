@@ -70,7 +70,7 @@ export class NewProfileComponent implements OnInit {
   submit() {
     if (this.file) {
       this.httpService.upload(this.file).then(response => {
-        this.pictureUrl = globals.fileEndpoint + response.path;
+        this.pictureUrl = response.path;
       }).then(_ => {
         if (this.born.description.length == 0)
           this.born.description = this.firstname + " is born"

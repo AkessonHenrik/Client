@@ -31,7 +31,7 @@ export class VisibilityComponent implements OnInit {
   } = { included: { groups: [], people: [] }, excluded: { groups: [], people: [] } };
 
   ngOnInit() {
-    this.visibilityType = "limited"
+    this.visibilityType = "public"
     if (globals.getUserId() !== null) {
       console.log(globals.getUserId())
       this.httpService.getGroups(globals.getUserId()).then(response => {
@@ -125,9 +125,9 @@ export class VisibilityComponent implements OnInit {
   }
 }
 
-class Group {
+export class Group {
   id: number;
   owner: number;
   name: string;
-  people: string[];
+  people: number[];
 }

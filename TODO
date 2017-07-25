@@ -2,10 +2,8 @@ MUST IMPLEMENT:
     CLIENT:
         - Deleting & Editing events, relationships (especially times)
         - Welcome page
-        - Create group
         - ViewChild
-    SERVER:
-        - Better responses (404, "access denied", ...)
+        - Algorithme de placement
     OTHER:
         - CSS
         - COMMENTS

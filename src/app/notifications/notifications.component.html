@@ -1,0 +1,4 @@
+<md-card class="notification" *ngFor="let notification of notifications">
+  <md-card-title>{{notification.content}}</md-card-title>
+  <button md-raised-button (click)="acknowledgeNotification(notification.id)">Acknowledge</button>
+</md-card>

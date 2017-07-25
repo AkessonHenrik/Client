@@ -128,4 +128,40 @@ export class HttpService {
       return response.json();
     })
   }
+
+  getClaims(userId): Promise<any> {
+    return this.http.get(globals.claimEndpoint + "/" + userId).toPromise();
+  }
+
+  approveClaim(claimId): Promise<any> {
+    return this.http.post(globals.claimEndpoint + "/" + claimId, {}, this.getHeaders()).toPromise();
+  }
+  refuseClaim(claimId): Promise<any> {
+    return this.http.delete(globals.claimEndpoint + "/" + claimId, new RequestOptions(this.getHeaders())).toPromise();
+  }
+
+
+  associateToAccount(content): Promise<any> {
+    return this.http.post(globals.profileEndpoint + "/associate", content).toPromise();
+  }
+
+  getNotifications(): Promise<any> {
+    return this.http.get(globals.notificationEndpoint + "/" + globals.getUserId()).toPromise();
+  }
+
+  deleteNotification(notificationId: number): Promise<any> {
+    return this.http.delete(globals.notificationEndpoint + "/" + notificationId, new RequestOptions(this.getHeaders())).toPromise();
+  }
+
+  deleteGroup(groupId): Promise<any> {
+    return this.http.delete(globals.groupEndpoint + "/" + groupId, new RequestOptions(this.getHeaders())).toPromise();
+  }
+
+  createGroup(group): Promise<any> {
+    return this.http.post(globals.groupEndpoint, group, this.getHeaders()).toPromise();
+  }
+
+  updateRelationship(relationship): Promise<any> {
+    return this.http.patch(globals.relationshipsEndpoint + "/" + relationship.id, relationship, this.getHeaders()).toPromise();
+  }
 }

@@ -40,6 +40,9 @@ import { EditProfileDialogComponent } from './edit-profile-dialog/edit-profile-d
 import { VisibilityComponent } from './visibility/visibility.component';
 import { EditEventComponent } from './edit-event/edit-event.component';
 import { EditRelationshipComponent } from './edit-relationship/edit-relationship.component';
+import { ClaimComponent } from './claim/claim.component';
+import { NotificationsComponent } from './notifications/notifications.component';
+import { GroupComponent } from './group/group.component';
 const appRoutes: Routes = [
   { path: 'tree/:id', component: TreeComponent },
   { path: 'newTree', component: TreeComponent },
@@ -48,8 +51,10 @@ const appRoutes: Routes = [
   { path: 'login', component: AuthComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'mediaViewer', component: MediaViewerComponent },
-  { path: '', component: VisibilityComponent },
-  { path: 'profilePage/:id', component: ProfilePageComponent }
+  { path: '', component: GroupComponent },
+  { path: 'profilePage/:id', component: ProfilePageComponent },
+  { path: 'claims', component: ClaimComponent },
+  { path: 'notifications', component: NotificationsComponent }
 ];
 
 
@@ -93,7 +98,10 @@ const appRoutes: Routes = [
     EditProfileDialogComponent,
     VisibilityComponent,
     EditEventComponent,
-    EditRelationshipComponent
+    EditRelationshipComponent,
+    ClaimComponent,
+    NotificationsComponent,
+    GroupComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

@@ -27,8 +27,9 @@ export class AuthComponent implements OnInit {
       }).toPromise().then(response => {
         console.log(response);
         let body = response.json();
-        localStorage["treemily_id"] = body.profileid;
+        localStorage["treemily_id"] = body.id;
         localStorage["treemily_email"] = body.email;
+        localStorage["treemily_profileid"] = body.profileid
         this.router.navigateByUrl("/tree/" + body.profileid);
       }).catch(error => {
         if (error.status === 404) {
@@ -40,6 +41,10 @@ export class AuthComponent implements OnInit {
         setTimeout(() => {
           this.errorMessage = "";
         }, 3000)
+      }).then(_ => {
+        this.http.get(globals.notificationEndpoint + "/" + globals.getUserId()).toPromise().then(response => {
+          console.log(response.json());
+        })
       })
     }
   }
