@@ -5,6 +5,7 @@ import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { NewEventDialogComponent } from '../new-event-dialog/new-event-dialog.component';
 import { EditProfileDialogComponent } from '../edit-profile-dialog/edit-profile-dialog.component';
 import { HttpService } from '../http.service';
+import { OwnerService } from '../owner.service';
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -12,11 +13,20 @@ import { HttpService } from '../http.service';
 })
 export class ProfilePageComponent implements OnInit {
   rerender: boolean = true;
-  constructor(private httpService: HttpService, private route: ActivatedRoute, public dialog: MdDialog, private router: Router) { }
+  constructor(private ownerService: OwnerService, private httpService: HttpService, private route: ActivatedRoute, public dialog: MdDialog, private router: Router) { }
   profileId: number;
+  canSee: boolean = false;
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.profileId = +params['id'];
+      this.ownerService.isOwned(this.profileId).then(response => {
+        console.log(response);
+        if (response == true) {
+          this.canSee = true;
+        } else {
+          this.canSee = false;
+        }
+      })
     })
   }
   openDialog() {

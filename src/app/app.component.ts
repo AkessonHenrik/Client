@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TreeComponent } from './tree/tree.component';
+import * as globals from './globals';
 
 @Component({
   selector: 'app-root',

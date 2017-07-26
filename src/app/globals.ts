@@ -24,6 +24,8 @@ export function getUserProfileId() {
     }
 }
 
+
+
 export const parentTypes: string[] = ["biological", "adoptive", "guardian"]
 export const server = 'http://localhost:9000'
 export const profileEndpoint = server + "/profile"

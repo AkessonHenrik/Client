@@ -18,6 +18,14 @@ export class SidenavComponent implements OnInit {
   @ViewChild('start') public myNav: MdSidenav;
 
   ngOnInit() {
+    this.goToHomePage();
+  }
+  goToHomePage() {
+    if (globals.loggedIn()) {
+      this.redirectToMyTree();
+    } else {
+      this.login();
+    }
   }
   redirectToMyTree() {
     this.router.navigate(['/tree/', globals.getUserProfileId()]);
@@ -55,8 +63,12 @@ export class SidenavComponent implements OnInit {
   logout() {
     delete localStorage["treemily_id"];
     delete localStorage["treemily_email"];
+    delete localStorage["treemily_profileid"];
     this.myNav.close();
     this.router.navigateByUrl('/login');
+  }
+  getUserEmail() {
+    return localStorage["treemily_email"];
   }
   redirectToMyProfile() {
     this.router.navigateByUrl('/profilePage/' + globals.getUserProfileId());
@@ -68,5 +80,11 @@ export class SidenavComponent implements OnInit {
 
   redirectToMyClaims() {
     this.router.navigateByUrl('/claims')
+  }
+  modifyAccount() {
+    this.router.navigateByUrl('/accountSettings');
+  }
+  redirectToMyGroups() {
+    this.router.navigateByUrl("/groups");
   }
 }

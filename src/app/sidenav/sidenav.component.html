@@ -3,7 +3,7 @@
         <md-toolbar>
             <button *ngIf="loggedIn()" md-button (click)="start.toggle();"><md-icon style="color: white;">menu</md-icon></button>
             <div class="link">
-                <p mdTooltip="Homepage" [mdTooltipPosition]="'below'">Treemily</p>
+                <p (click)="goToHomePage()" mdTooltip="Homepage" [mdTooltipPosition]="'below'">Treemily</p>
             </div>
             <div *ngIf="!loggedIn()" class="link signup">
                 <p (click)="signup()">Sign up</p>
@@ -11,6 +11,7 @@
             <div *ngIf="!loggedIn()" class="link signin">
                 <p (click)="login()">Sign in</p>
             </div>
+            <i *ngIf="loggedIn()" [mdTooltip]="getUserEmail()" [mdTooltipPosition]="'below'" class="material-icons md-36 logout" (click)="modifyAccount()">account_circle</i>
             <i *ngIf="loggedIn()" (click)="logout()" mdTooltip="Sign out" [mdTooltipPosition]="'below'" class="material-icons md-36 logout">exit_to_app</i>
         </md-toolbar>
         <md-sidenav class="sidebar" #start mode="side">
@@ -21,6 +22,7 @@
                 <li (click)="redirectToMyProfile()">My profile</li>
                 <li (click)="redirectToMyClaims()">Received claims</li>
                 <li (click)="redirectToMyNotifications()">Notifications</li>
+                <li (click)="redirectToMyGroups()">My groups</li>
             </ul>
         </md-sidenav>
         <div class="inner-sidenav-content">

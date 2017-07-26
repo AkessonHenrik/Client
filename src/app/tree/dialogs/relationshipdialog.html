@@ -1,5 +1,5 @@
 <div class="dialogChoice">
-    <md-tab-group [(selectedIndex)]="activeTab">
+    <md-tab-group [(selectedIndex)]="activeTab" style="height: 600px!important">
         <md-tab label="Relationship information">
             <h1 class="dialogTitle" md-dialog-title>New Relationship</h1>
             <md-select class="choice" placeholder="Relationship type" [(ngModel)]="relationshipType">
@@ -78,4 +78,5 @@
             <app-visibility (onSubmit)="addVisibility($event)"></app-visibility>
         </md-tab>
     </md-tab-group>
+    <button *ngIf="data.edit" class="addButton" (click)="deleteRelationship()" style="background-color: #C62828" md-raised-button>Delete</button>
 </div>

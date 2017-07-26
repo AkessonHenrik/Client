@@ -20,6 +20,8 @@
 .addButton {
     position: relative;
     left: 50%;
+    display: block;
+    margin: 30px;
     transform: translate(-50%, 0%);
 }
 .choice {

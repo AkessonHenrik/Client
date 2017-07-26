@@ -2,3 +2,8 @@
     stroke-width: 1;
     stroke: black;
 }
+
+.linkIcon {
+    background-color: white;
+    cursor: pointer;
+}

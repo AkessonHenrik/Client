@@ -164,4 +164,12 @@ export class HttpService {
   updateRelationship(relationship): Promise<any> {
     return this.http.patch(globals.relationshipsEndpoint + "/" + relationship.id, relationship, this.getHeaders()).toPromise();
   }
+
+  updateAccount(newAccountInfo): Promise<any> {
+    return this.http.patch(globals.signupEndpoint + "/" + globals.getUserId(), newAccountInfo, this.getHeaders()).toPromise();
+  }
+
+  updateParent(parent): Promise<any> {
+    return this.http.patch(globals.parentsEndpoint + "/" + parent.id, parent, this.getHeaders()).toPromise();
+  }
 }

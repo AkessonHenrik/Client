@@ -7,5 +7,23 @@
         <input mdInput class="accountInput" [(ngModel)]="password" placeholder="Password" type="password">
     </md-input-container>
     <button md-raised-button (click)="login()">Login</button>
-    <div id="error">{{errorMessage}}</div>    
+    <div id="error">{{errorMessage}}</div>
+    <div class="search">
+        <h2>Or</h2>
+        <h2 style="margin-bottom: 30px!important">Search for someone</h2>
+        <md-input-container class="searchInput">
+            <input mdInput class="accountInput" #firstname placeholder="Firstname" type="text">
+        </md-input-container>
+        <md-input-container class="searchInput">
+            <input mdInput class="accountInput" #lastname placeholder="Lastname" type="text">
+        </md-input-container>
+        <button md-raised-button (click)="search(firstname.value, lastname.value)">Search</button>
+        <md-card *ngFor="let result of results" class="profile" (click)="goToTree(result.id)">
+            <img md-card-image class="profilePicture" src={{result.image}}>
+            <md-card-header class="info">
+                <md-card-title class="name">{{result.firstname}}</md-card-title>
+                <md-card-title class="name">{{result.lastname}}</md-card-title>
+            </md-card-header>
+        </md-card>
+    </div>
 </div>

@@ -11,21 +11,21 @@ export abstract class ParentComponent {
   x2;
   y2;
   type: number;
-  constructor(id: number, child: Node, begin: string, type: number) {
-    this.begin = begin;
+  constructor(id: number, child: Node, time: string[], type: number) {
+    this.time = time;
     this.id = id;
     this.child = child;
     this.type = type;
   }
   visibility;
-  begin: string;
+  time: string[];
   abstract update();
   abstract getType(): number;
 }
 export class LinkParentComponent extends ParentComponent {
 
-  constructor(id: number, child: Node, parent: Relationship, begin: string, type: number) {
-    super(id, child, begin, type);
+  constructor(id: number, child: Node, parent: Relationship, time: string[], type: number) {
+    super(id, child, time, type);
     this.parent = parent;
     this.x1 = parent.middle.x;
     this.y1 = parent.middle.y;
@@ -43,8 +43,8 @@ export class LinkParentComponent extends ParentComponent {
   getType(): number { return 1; }
 }
 export class NodeParentComponent extends ParentComponent {
-  constructor(id: number, child: Node, parent: Node, begin: string, type: number) {
-    super(id, child, begin, type);
+  constructor(id: number, child: Node, parent: Node, time: string[], type: number) {
+    super(id, child, time, type);
     this.parent = parent;
     this.x1 = parent.x;
     this.y1 = parent.y;

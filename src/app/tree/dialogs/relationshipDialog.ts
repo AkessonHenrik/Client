@@ -170,4 +170,10 @@ export class NewRelationshipDialog implements OnInit {
     console.log(returnRel);
     this.dialogRef.close(returnRel);
   }
+
+  deleteRelationship() {
+    this.httpService.delete(this.data.event.id).then(response => {
+      this.dialogRef.close();
+    })
+  }
 }

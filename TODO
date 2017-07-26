@@ -1,14 +1,15 @@
 MUST IMPLEMENT:
     CLIENT:
-        - Deleting & Editing events, relationships (especially times)
-        - Welcome page
-        - ViewChild
+        - Deleting & Editing events
         - Algorithme de placement
+    SERVER:
+        - Tests
+
     OTHER:
         - CSS
         - COMMENTS
+        - Full project as zip, README and shell script
 
-OPTIONAL:
-    - JWT
-    - Modify visibility
-    - Mozilla
+    OPTIONAL:
+        - Mozilla
+        - external media        

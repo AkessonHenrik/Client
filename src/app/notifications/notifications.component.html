@@ -1,4 +1,5 @@
 <md-card class="notification" *ngFor="let notification of notifications">
-  <md-card-title>{{notification.content}}</md-card-title>
-  <button md-raised-button (click)="acknowledgeNotification(notification.id)">Acknowledge</button>
+  <md-card-content>{{notification.content}}</md-card-content>
+  <button md-raised-button (click)="accept(notification.id)">Accept</button>
+  <button md-raised-button (click)="refuse(notification)">Refuse</button>
 </md-card>

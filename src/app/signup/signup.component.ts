@@ -4,7 +4,7 @@ import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import * as globals from '../globals';
 import { HttpService } from '../http.service';
-enum PasswordValidity {
+export enum PasswordValidity {
   Correct = 1,
   NoMatch,
   TooShort,

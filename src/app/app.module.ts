@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { D3Service, D3_DIRECTIVES } from './d3';
 import { AppComponent } from './app.component';
-import { SHARED_VISUALS, ProfileDialog } from './visuals/shared';
+import { SHARED_VISUALS, ProfileDialog, InfoDialog } from './visuals/shared';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MaterialModule, MdButtonModule, MdMenuModule } from '@angular/material';
 import { MdIconModule } from '@angular/material';
@@ -43,6 +43,7 @@ import { EditRelationshipComponent } from './edit-relationship/edit-relationship
 import { ClaimComponent } from './claim/claim.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { GroupComponent } from './group/group.component';
+import { AccountComponent } from './account/account.component';
 const appRoutes: Routes = [
   { path: 'tree/:id', component: TreeComponent },
   { path: 'newTree', component: TreeComponent },
@@ -51,10 +52,11 @@ const appRoutes: Routes = [
   { path: 'login', component: AuthComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'mediaViewer', component: MediaViewerComponent },
-  { path: '', component: GroupComponent },
+  { path: 'accountSettings', component: AccountComponent },
   { path: 'profilePage/:id', component: ProfilePageComponent },
   { path: 'claims', component: ClaimComponent },
-  { path: 'notifications', component: NotificationsComponent }
+  { path: 'notifications', component: NotificationsComponent },
+  { path: 'groups', component: GroupComponent }
 ];
 
 
@@ -71,6 +73,7 @@ const appRoutes: Routes = [
     SidenavComponent,
     AuthComponent,
     HomeComponent,
+    InfoDialog,
     WelcomeComponent,
     ProfileComponent,
     ProfileDialog,
@@ -101,7 +104,8 @@ const appRoutes: Routes = [
     EditRelationshipComponent,
     ClaimComponent,
     NotificationsComponent,
-    GroupComponent
+    GroupComponent,
+    AccountComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -118,6 +122,6 @@ const appRoutes: Routes = [
   ],
   providers: [D3Service, TreeDataService, HttpService, OwnerService],
   bootstrap: [AppComponent, SidenavComponent],
-  entryComponents: [ChoiceDialog, NewPersonDialog, NewRelationshipDialog, NewParentDialog, ProfileDialog, SearchDialog, NewEventDialogComponent, EventDialog, EditProfileDialogComponent, EditRelationshipComponent, EditEventComponent]
+  entryComponents: [ChoiceDialog, NewPersonDialog, NewRelationshipDialog, NewParentDialog, ProfileDialog, SearchDialog, NewEventDialogComponent, EventDialog, EditProfileDialogComponent, EditRelationshipComponent, EditEventComponent, InfoDialog]
 })
 export class AppModule { }

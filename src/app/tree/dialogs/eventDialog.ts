@@ -7,13 +7,14 @@ import * as globals from '../../globals';
 import { EditEventComponent } from '../../edit-event/edit-event.component';
 import { EditRelationshipComponent } from '../../edit-relationship/edit-relationship.component';
 import { NewRelationshipDialog } from './relationshipDialog'
+import { NewParentDialog } from './parentDialog'
 @Component({
     selector: 'event-dialog',
     templateUrl: './eventDialog.html',
     styleUrls: ['./persondialog.css']
 })
 export class EventDialog implements OnInit {
-    constructor( @Inject(MD_DIALOG_DATA) private data: { id: number, relationship: boolean }, public dialogRef: MdDialogRef<EventDialog>, private httpService: HttpService, protected dialog: MdDialog) {
+    constructor( @Inject(MD_DIALOG_DATA) private data: { id: number, relationship: boolean, parent: boolean }, public dialogRef: MdDialogRef<EventDialog>, private httpService: HttpService, protected dialog: MdDialog) {
     }
     error: string = "";
     event;
@@ -117,9 +118,24 @@ export class EventDialog implements OnInit {
                 data: { nodes: [], edit: true, event: this.event }
             });
             dialogRef.afterClosed().subscribe(relationship => {
-                this.httpService.updateRelationship(relationship).then(_ => {
-                    this.dialogRef.close();
-                })
+                // If relationship was deleted, nothing is sent back
+                if (relationship) {
+                    this.httpService.updateRelationship(relationship).then(_ => {
+                        this.dialogRef.close();
+                    })
+                }
+            });
+        } else if (this.data.parent === true) {
+            let dialogRef = this.dialog.open(NewParentDialog, {
+                data: { edit: true, event: this.event }
+            });
+            dialogRef.afterClosed().subscribe(parent => {
+                // If relationship was deleted, nothing is sent back
+                if (parent) {
+                    this.httpService.updateParent(parent).then(_ => {
+                        this.dialogRef.close();
+                    })
+                }
             });
         } else {
             this.dialog.open(EditEventComponent);

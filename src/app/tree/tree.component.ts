@@ -45,6 +45,11 @@ export class TreeComponent implements OnInit {
   logger: boolean = false;
   savingContent: boolean = false;
   currentDateIndex: number;
+  timeActivated: boolean = false;
+  dates: string[];
+
+  @Output()
+  change
 
   constructor(private http: Http, private zone: NgZone, public dialog: MdDialog, private dataService: TreeDataService, private route: ActivatedRoute, private httpService: HttpService) { }
   onRightClickEvent(e: MouseEvent, node: Node) {
@@ -52,7 +57,6 @@ export class TreeComponent implements OnInit {
       this.createData(data.nodes, data.links, data.parents);
     })
   }
-  dates: string[];
   setDates() {
     this.dates = [];
     this.nodes.forEach(node => {
@@ -83,9 +87,14 @@ export class TreeComponent implements OnInit {
       }
     })
     this.parents.forEach(parent => {
-      if (this.dates.indexOf(parent.begin) < 0) {
-        if (parent.begin) {
-          this.dates.push(parent.begin);
+      if (parent.time[0]) {
+        if (this.dates.indexOf(parent.time[0]) < 0) {
+          this.dates.push(parent.time[0]);
+        }
+      }
+      if (parent.time[1]) {
+        if (this.dates.indexOf(parent.time[1]) < 0) {
+          this.dates.push(parent.time[1]);
         }
       }
     })
@@ -111,9 +120,6 @@ export class TreeComponent implements OnInit {
       }
     })
   }
-  timeActivated: boolean = false;
-  @Output()
-  change
   onTimeChange($event) {
     if ($event.checked) {
       this.timeActivated = true;
@@ -136,9 +142,11 @@ export class TreeComponent implements OnInit {
       this.currentDateIndex = 0;
     }
     if (!this.timeActivated) {
+      console.log("NO TIME ACTIVATE");
       this.visibleNodes = this.nodes;
       this.visibleRelationships = this.links;
       this.visibleParents = this.parents;
+      return;
     }
     this.visibleNodes = this.nodes.filter(node => {
       let visible: boolean = node.bornString <= this.dates[this.currentDateIndex];
@@ -154,7 +162,7 @@ export class TreeComponent implements OnInit {
       return link.beginTime <= this.dates[this.currentDateIndex] && link.endTime > this.dates[this.currentDateIndex];
     })
     this.visibleParents = this.parents.filter(parent => {
-      return parent.begin <= this.dates[this.currentDateIndex];
+      return parent.time[0] <= this.dates[this.currentDateIndex] && parent.time[1] > this.dates[this.currentDateIndex];
     })
   }
   createData(
@@ -193,9 +201,9 @@ export class TreeComponent implements OnInit {
         if (this.parents.filter(parent => parent.id === jsonParent.timedentityid).length == 0) {
           if (this.nodes.filter(node => node.id === jsonParent.parentsid).length == 0) { // parent is a relationship
             let link = this.links.filter(link => link.id === jsonParent.parentsid)[0];
-            this.parents.push(new LinkParentComponent(jsonParent.timedentityid, this.nodes.filter(node => node.id === jsonParent.childid)[0], link, jsonParent.begin, jsonParent.parentType));
+            this.parents.push(new LinkParentComponent(jsonParent.timedentityid, this.nodes.filter(node => node.id === jsonParent.childid)[0], link, [jsonParent.begin, jsonParent.end], jsonParent.parentType));
           } else { // parent is a node
-            this.parents.push(new NodeParentComponent(jsonParent.timedentityid, this.nodes.filter(node => node.id === jsonParent.childid)[0], this.nodes.filter(node => node.id === jsonParent.parentsid)[0], jsonParent.begin, jsonParent.parentType));
+            this.parents.push(new NodeParentComponent(jsonParent.timedentityid, this.nodes.filter(node => node.id === jsonParent.childid)[0], this.nodes.filter(node => node.id === jsonParent.parentsid)[0], [jsonParent.begin, jsonParent.end], jsonParent.parentType));
           }
         }
       })
@@ -519,20 +527,31 @@ export class TreeComponent implements OnInit {
     })
   }
   saveParent(newParent: ParentComponent, http: Http): Promise<string> {
+    let time;
+    if (newParent.time.length > 0) {
+      time = {
+        begin: newParent.time[0],
+        end: newParent.time[1]
+      }
+    } else {
+      time = {
+        begin: newParent.time[0]
+      }
+    }
     return this.httpService.post(globals.parentsEndpoint, {
       parentType: globals.parentTypes[newParent.type],
       parent: newParent.parent.id,
       child: newParent.child.id,
-      time: {
-        begin: newParent.begin
-      },
+      time: time,
       visibility: newParent.visibility
     }).then(response => {
-      newParent.id = response.json().id
+      newParent.id = response.json().timedentityid
       return Promise.resolve("Done");
     })
   }
-
+  loggedIn(): boolean {
+    return globals.loggedIn();
+  }
   search() {
     let dialogRef = this.dialog.open(SearchDialog);
     dialogRef.afterClosed().subscribe(result => {
@@ -540,7 +559,10 @@ export class TreeComponent implements OnInit {
         if (this.nodes.filter(node => node.id === result.id).length === 0) {
           console.log(result);
           result.bornString = result.born;
-          this.nodes.push(result);
+          let n: Node = new Node(result.id, result.image, result.firstname, result.lastname, result.gender, result.born, result.died, null, null);
+          n.bornString = result.bornString;
+          this.nodes.push(n);
+          console.log(this.nodes);
           this.setDates();
           this.filterData();
           this.calculateCoordinates();
