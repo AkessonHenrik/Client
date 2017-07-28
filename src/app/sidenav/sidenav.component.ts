@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { MdSnackBar } from '@angular/material';
+import { MdSnackBar, MdSidenav } from '@angular/material';
 import { MdSnackBarConfig } from '@angular/material';
 import { ViewEncapsulation } from '@angular/core';
 import * as globals from '../globals';
@@ -15,10 +15,20 @@ export class SidenavComponent implements OnInit {
   constructor(private router: Router, private httpService: HttpService) { }
   searchingToggled: boolean = false;
   searchInput: string = ""
+  @ViewChild('start') public myNav: MdSidenav;
+
   ngOnInit() {
+    // this.goToHomePage();
+  }
+  goToHomePage() {
+    if (globals.loggedIn()) {
+      this.redirectToMyTree();
+    } else {
+      this.login();
+    }
   }
   redirectToMyTree() {
-    this.router.navigate(['/tree/', globals.getUserId()]);
+    this.router.navigate(['/tree/', globals.getUserProfileId()]);
   }
   redirectToNewTree() {
     this.router.navigateByUrl('/newTree')
@@ -53,9 +63,28 @@ export class SidenavComponent implements OnInit {
   logout() {
     delete localStorage["treemily_id"];
     delete localStorage["treemily_email"];
+    delete localStorage["treemily_profileid"];
+    this.myNav.close();
     this.router.navigateByUrl('/login');
   }
+  getUserEmail() {
+    return localStorage["treemily_email"];
+  }
   redirectToMyProfile() {
-    this.router.navigateByUrl('/profilePage/' + globals.getUserId());
+    this.router.navigateByUrl('/profilePage/' + globals.getUserProfileId());
+  }
+
+  redirectToMyNotifications() {
+    this.router.navigateByUrl("/notifications");
+  }
+
+  redirectToMyClaims() {
+    this.router.navigateByUrl('/claims')
+  }
+  modifyAccount() {
+    this.router.navigateByUrl('/accountSettings');
+  }
+  redirectToMyGroups() {
+    this.router.navigateByUrl("/groups");
   }
 }

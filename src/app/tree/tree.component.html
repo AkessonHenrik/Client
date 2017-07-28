@@ -7,9 +7,9 @@
             <g [node]="node" (contextmenu)="onRightClickEvent($event, node)" *ngFor="let node of visibleNodes"></g>
         </g>
     </svg>
-    <button md-fab (click)="openDialog()" class="add" mdTooltip="New component" [mdTooltipPosition]="'left'">
-<i class="material-icons">create</i>
-</button>
+    <button *ngIf="loggedIn()" md-fab (click)="openDialog()" class="add" mdTooltip="New component" [mdTooltipPosition]="'left'">
+        <i class="material-icons">create</i>    
+    </button>
     <button md-fab class="share" (click)="search()" mdTooltip="Search for a profile" [mdTooltipPosition]="'left'">
 <i class="material-icons md-36">search</i>
 </button>
@@ -22,8 +22,8 @@ Save
 </button>
     <md-spinner *ngIf="savingContent" class="savingContent"></md-spinner>
 </div>
-<md-checkbox style="position: absolute; top: 80%" (change)="onTimeChange($event)">Activate time</md-checkbox>
+<md-checkbox style="position: absolute; top: 80%" (change)="onTimeChange($event)">Activate timeline control</md-checkbox>
 <div *ngIf="timeActivated">
     <div style="position: absolute; top: 90%">{{dates[currentDateIndex]}}</div>
-    <md-slider [min]="0" [max]="dates.length - 2" [step]="1" [value]="currentDateIndex" [(ngModel)]="currentDateIndex" (input)="filterData($event)"></md-slider>
+    <md-slider [min]="0" [max]="dates.length - 1" [step]="1" [value]="currentDateIndex" [(ngModel)]="currentDateIndex" (input)="filterData($event)"></md-slider>
 </div>

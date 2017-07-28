@@ -1,68 +1,78 @@
-<md-select class="choice" placeholder="Event type" [(ngModel)]="eventType">
-  <md-option *ngFor="let eventType of eventTypes" [value]="eventType">{{ eventType }}</md-option>
-</md-select>
+<md-tab-group>
+  <md-tab label="Event details">
+    <md-select class="choice" placeholder="Event type" [(ngModel)]="eventType">
+      <md-option *ngFor="let eventType of eventTypes" [value]="eventType">{{ eventType }}</md-option>
+    </md-select>
 
-<md-input-container class="container" style="margin-top: 50px!important">
-  <input mdInput class="accountInput" [(ngModel)]="name" placeholder="Event name">
-</md-input-container>
+    <md-input-container class="container" style="margin-top: 50px!important">
+      <input mdInput class="accountInput" [(ngModel)]="name" placeholder="Event name">
+    </md-input-container>
 
-<md-input-container class="container">
-  <input mdInput class="accountInput" [(ngModel)]="description" placeholder="Event description">
-</md-input-container>
+    <md-input-container class="container">
+      <input mdInput class="accountInput" [(ngModel)]="description" placeholder="Event description">
+    </md-input-container>
 
-<label for="file-upload" class="custom-file-upload">
+    <label for="file-upload" class="custom-file-upload">
     <i class="fa fa-cloud-upload"></i>Event media</label>
-<input type="file" id="file-upload" name="file" (change)="fileChange($event)" accept=".jpg,.png,.gif,.mp4,.mp3,.ogg,.wav" multiple/>
-<div id="files">
-  <div *ngFor="let file of files">
-    <p>{{file.name}} <i class="material-icons" style="cursor: pointer; position: relative; top: 7px;" (click)="removeFile(file)">clear</i></p>
-  </div>
-</div>
-<div *ngIf="eventType === 'Work Event'">
-  <h2>New work information</h2>
-  <md-input-container class="container">
-    <input mdInput class="accountInput" [(ngModel)]="position" placeholder="Position">
-  </md-input-container>
-  <md-input-container class="container">
-    <input mdInput class="accountInput" [(ngModel)]="company" placeholder="Company">
-  </md-input-container>
-</div>
+    <input type="file" id="file-upload" name="file" (change)="fileChange($event)" accept=".jpg,.png,.gif,.mp4,.mp3,.ogg,.wav"
+      multiple/>
+    <div id="files">
+      <div *ngFor="let file of files">
+        <p>{{file.name}} <i class="material-icons" style="cursor: pointer; position: relative; top: 7px;" (click)="removeFile(file)">clear</i></p>
+      </div>
+    </div>
+    <div *ngIf="eventType === 'WorkEvent'">
+      <h2>New work information</h2>
+      <md-input-container class="container">
+        <input mdInput class="accountInput" [(ngModel)]="position" placeholder="Position">
+      </md-input-container>
+      <md-input-container class="container">
+        <input mdInput class="accountInput" [(ngModel)]="company" placeholder="Company">
+      </md-input-container>
+    </div>
 
-<div *ngIf="isLocated()">
-  <h2>Location</h2>
-  <md-input-container class="container">
-    <input mdInput class="accountInput" [(ngModel)]="location.city" placeholder="City">
-  </md-input-container>
-  <md-input-container class="container">
-    <input mdInput class="accountInput" [(ngModel)]="location.province" placeholder="Province">
-  </md-input-container>
-  <md-input-container class="container">
-    <input mdInput class="accountInput" [(ngModel)]="location.country" placeholder="Country">
-  </md-input-container>
-</div>
-<md-slide-toggle [(ngModel)]="interval">Time interval</md-slide-toggle>
+    <div *ngIf="isLocated()">
+      <h2>Location</h2>
+      <md-input-container class="container">
+        <input mdInput class="accountInput" [(ngModel)]="location.city" placeholder="City">
+      </md-input-container>
+      <md-input-container class="container">
+        <input mdInput class="accountInput" [(ngModel)]="location.province" placeholder="Province">
+      </md-input-container>
+      <md-input-container class="container">
+        <input mdInput class="accountInput" [(ngModel)]="location.country" placeholder="Country">
+      </md-input-container>
+    </div>
+    <md-slide-toggle [(ngModel)]="interval">Time interval</md-slide-toggle>
 
-<h2 *ngIf="interval">Begin Date</h2>
-<h2 *ngIf="!interval">Date</h2>
-<md-input-container class="date">
-  <input class="date" mdInput [(ngModel)]="beginDay" placeholder="Day">
-</md-input-container>
-<md-input-container class="date">
-  <input class="date" mdInput [(ngModel)]="beginMonth" placeholder="Month">
-</md-input-container>
-<md-input-container class="date">
-  <input class="date" mdInput [(ngModel)]="beginYear" placeholder="Year">
-</md-input-container>
-<div *ngIf="interval">
-  <h2>End Date (optional)</h2>
-  <md-input-container class="date">
-    <input class="date" mdInput [(ngModel)]="endDay" placeholder="Day">
-  </md-input-container>
-  <md-input-container class="date">
-    <input class="date" mdInput [(ngModel)]="endMonth" placeholder="Month">
-  </md-input-container>
-  <md-input-container class="date">
-    <input class="date" mdInput [(ngModel)]="endYear" placeholder="Year">
-  </md-input-container>
-</div>
-<button style="display: block; margin-top: 50px!important;" md-raised-button (click)="create()">Submit</button>
+    <h2 *ngIf="interval">Begin Date</h2>
+    <h2 *ngIf="!interval">Date</h2>
+    <md-input-container class="date">
+      <input class="date" mdInput [(ngModel)]="beginDay" placeholder="Day">
+    </md-input-container>
+    <md-input-container class="date">
+      <input class="date" mdInput [(ngModel)]="beginMonth" placeholder="Month">
+    </md-input-container>
+    <md-input-container class="date">
+      <input class="date" mdInput [(ngModel)]="beginYear" placeholder="Year">
+    </md-input-container>
+    <div *ngIf="interval">
+      <h2>End Date (optional)</h2>
+      <md-input-container class="date">
+        <input class="date" mdInput [(ngModel)]="endDay" placeholder="Day">
+      </md-input-container>
+      <md-input-container class="date">
+        <input class="date" mdInput [(ngModel)]="endMonth" placeholder="Month">
+      </md-input-container>
+      <md-input-container class="date">
+        <input class="date" mdInput [(ngModel)]="endYear" placeholder="Year">
+      </md-input-container>
+    </div>
+    <h4 style="margin-top: 20px!important">Don't forget to set the visibility in the second tab. Default is public</h4>
+    <button style="display: block; margin-top: 50px!important;" md-raised-button (click)="commit()">Submit</button>
+  </md-tab>
+  <md-tab label="Event visibility">
+    <app-visibility (onSubmit)="addVisibility($event)"></app-visibility>
+  </md-tab>
+</md-tab-group>
+<button *ngIf="initialEvent" class="addButton" (click)="delete()" style="background-color: #C62828" md-raised-button>Delete</button>

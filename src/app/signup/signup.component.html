@@ -29,6 +29,9 @@
       <md-input-container class="container">
         <input mdInput class="accountInput" [(ngModel)]="profileSearchLastname" placeholder="Last name" type="text">
       </md-input-container>
+      <md-input-container class="container">
+        <textarea rows="4" cols="50" mdInput class="accountInput" [(ngModel)]="message" placeholder="Message for the profile owner"></textarea>
+      </md-input-container>
       <button md-raised-button (click)="search()">SEARCH</button>
     </md-tab>
   </md-tab-group>

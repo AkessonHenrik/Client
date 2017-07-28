@@ -14,6 +14,7 @@ export class NewPersonDialog {
     const n: Node = new Node(-1 * Math.ceil(Math.random() * 100), profileData.profilePicture, profileData.firstname, profileData.lastname, profileData.gender, profileData.birthDay, profileData.deathDay, profileData.born, profileData.died);
     n.bornString = profileData.birthDay;
     n.diedString = profileData.deathDay;
+    n.visibility = profileData.visibility;
     this.dialogRef.close(n);
   }
 }

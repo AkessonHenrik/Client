@@ -1,18 +1,12 @@
 MUST IMPLEMENT:
-- RighsFiler
-- iono like show current or show all in tree ?
-- Deleting & Editing events, relationships (especially times)
-- Rights
-- Visibility
-- Welcome page
-- proper icons and parent types
-- Media, Relationship, Gender types
-- Better responses (404, "access denied", ...)
-- JWT
-- Shell script
-- CSS
+    CLIENT:
+        - Algorithme de placement
+        - Notify on tree view or my profile if 0
+        - Redirect after claim
+        - HttpService ligne 30
 
-OPTIONAL:
-- Modify visibility
-- Docker?
-- Mozilla
+    OTHER:
+        - CSS
+        - COMMENTS
+        - Full project as zip, README and shell script
+        - Préciser dans rapport que pas de mozille

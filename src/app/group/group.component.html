@@ -1,0 +1,21 @@
+<md-card *ngFor="let group of groups" class="group">
+  <md-card-title>{{group.name}}</md-card-title>
+  <md-card-content *ngFor="let person of group.people">{{person}}</md-card-content>
+  <button md-raised-button style="background-color: #C62828" (click)="deleteGroup(group.id)">Delete</button>
+</md-card>
+<md-card class="group">
+  <md-input-container style="margin: 20px 20px 20px 0!important; width: 150px;display: block;">
+    <input mdInput placeholder="Group name" [(ngModel)]="name">
+  </md-input-container>
+  <div *ngFor="let person of groupPeople">
+    <p>{{person.firstname}} {{person.lastname}}<i class="material-icons sideIcon" style="cursor: pointer;" (click)="removeIncludedPerson(person)">clear</i></p>
+  </div>
+  <md-input-container style="margin: 20px 20px 20px 0!important; display: block;">
+    <input mdInput #input1 placeholder="Include person" (keyup.enter)="input1.value = searchInclude(input1.value)">
+  </md-input-container>
+  <h3 *ngIf="includeSearchResults.length > 0">Choose:</h3>
+  <div *ngFor="let searchResult of includeSearchResults" style="cursor: pointer" (click)="includePerson(searchResult)">
+    <img style="width: 20px; height: 20px" [src]="searchResult.image"> {{searchResult.firstname}} {{searchResult.lastname}}
+  </div>
+  <button md-raised-button style="margin: 20px!important" (click)="createGroup()">Create group</button>
+</md-card>

@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Http, RequestOptions, Headers } from '@angular/http';
 import * as globals from '../globals';
 import { HttpService } from '../http.service';
+import { VisibilityComponent } from '../visibility/visibility.component';
 @Component({
   selector: 'app-new-profile',
   templateUrl: './new-profile.component.html',
@@ -69,40 +70,56 @@ export class NewProfileComponent implements OnInit {
   submit() {
     if (this.file) {
       this.httpService.upload(this.file).then(response => {
-        this.pictureUrl = globals.fileEndpoint + response.path;
+        this.pictureUrl = response.path;
       }).then(_ => {
-        this.born.description = this.firstname + " is born"
+        if (this.born.description.length == 0)
+          this.born.description = this.firstname + " is born"
         let returnObject = {
           firstname: this.firstname,
           lastname: this.lastname,
           gender: this.gender,
           profilePicture: this.pictureUrl,
-          birthDay: this.birthDayDay + "-" + this.birthDayMonth + "-" + this.birthDayYear,
+          birthDay: this.birthDayYear + "-" + this.birthDayMonth + "-" + this.birthDayDay,
           born: this.born
         }
         if (this.deathDayDay) {
           returnObject["died"] = this.died;
-          returnObject["deathDay"] = this.deathDayDay + "-" + this.deathDayMonth + "-" + this.deathDayYear;
+          returnObject["deathDay"] = this.deathDayYear + "-" + this.deathDayMonth + "-" + this.deathDayDay;
         }
-        this.onSubmit.emit(returnObject);
+        this.onSubmit.emit(this.addVisibilityToEvent(returnObject));
       })
     } else {
       console.log("Gender! " + this.gender)
       console.log(this.genders[this.gender])
       let g = this.genders[this.gender]
-      this.born.description = this.firstname + " is born"
+      if (this.born.description.length == 0)
+        this.born.description = this.firstname + " is born"
       let returnObject = {
         firstname: this.firstname,
         lastname: this.lastname,
         gender: this.gender,
-        birthDay: this.birthDayDay + "-" + this.birthDayMonth + "-" + this.birthDayYear,
+        birthDay: this.birthDayYear + "-" + this.birthDayMonth + "-" + this.birthDayDay,
         born: this.born
       }
       if (this.deathDayDay) {
         returnObject["died"] = this.died;
-        returnObject["deathDay"] = this.deathDayDay + "-" + this.deathDayMonth + "-" + this.deathDayYear;
+        if(returnObject["died"].description.length === 0) {
+          returnObject["died"].description = this.firstname + " died"
+        }
+        returnObject["deathDay"] = this.deathDayYear + "-" + this.deathDayMonth + "-" + this.deathDayDay;
       }
-      this.onSubmit.emit(returnObject);
+      this.onSubmit.emit(this.addVisibilityToEvent(returnObject));
     }
+
+  }
+  addVisibilityToEvent(profileAsObject) {
+    profileAsObject.visibility = this.visibility;
+    console.log(profileAsObject);
+    return profileAsObject;
+  }
+  visibility = { visibility: "public" }
+  addVisibility($event) {
+    console.log($event);
+    this.visibility = $event;
   }
 }

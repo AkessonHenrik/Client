@@ -1,0 +1,15 @@
+<div class="form" style="position: fixed">
+  <div id="error" style="display: block; margin: 50px">
+    {{ errorMessage }}
+  </div>
+  <md-input-container class="container" style="margin-top: 50px!important">
+    <input mdInput class="accountInput" [(ngModel)]="email" placeholder="Enter email address">
+  </md-input-container>
+  <md-input-container class="container">
+    <input mdInput class="accountInput" [(ngModel)]="password" placeholder="Enter password" type="password">
+  </md-input-container>
+  <md-input-container class="container">
+    <input mdInput class="accountInput" [(ngModel)]="repeatPassword" placeholder="Repeat password" type="password">
+  </md-input-container>
+  <button md-raised-button (click)="update()">Update</button>
+</div>

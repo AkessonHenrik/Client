@@ -1,14 +1,14 @@
 <div class="dialogChoice">
-    <md-tab-group [(selectedIndex)]="activeTab">
+    <md-tab-group [(selectedIndex)]="activeTab" style="height: 600px!important">
         <md-tab label="Relationship information">
             <h1 class="dialogTitle" md-dialog-title>New Relationship</h1>
             <md-select class="choice" placeholder="Relationship type" [(ngModel)]="relationshipType">
                 <md-option *ngFor="let relationshipType of relationshipTypes" [value]="relationshipType">{{ relationshipType }}</md-option>
             </md-select>
-            <md-select class="choice" placeholder="From" [(ngModel)]="from">
+            <md-select *ngIf="data.edit !== true" class="choice" placeholder="From" [(ngModel)]="from">
                 <md-option *ngFor="let node of nodes" [value]="node.firstname">{{ node.firstname }}</md-option>
             </md-select>
-            <md-select class="choice" placeholder="To" [(ngModel)]="to">
+            <md-select *ngIf="data.edit !== true" class="choice" placeholder="To" [(ngModel)]="to">
                 <md-option *ngFor="let node of nodes" [value]="node.firstname">{{ node.firstname }}</md-option>
             </md-select>
             <md-slide-toggle [(ngModel)]="interval">Time interval</md-slide-toggle>
@@ -36,39 +36,47 @@
                     <input class="date" mdInput [(ngModel)]="endYear" placeholder="Year">
                 </md-input-container>
             </div>
-            <md-checkbox style="display: block" [(ngModel)]="addDetails">Add details</md-checkbox>
-            <button *ngIf="!addDetails" class="addButton" (click)="createRelationshipWithoutDetails()" md-raised-button>Add</button>
-            <button *ngIf="addDetails" class="addButton" (click)="next()" md-raised-button>Next</button>
-        </md-tab>
+            <md-checkbox style="display: block" *ngIf="data.edit !== true" [(ngModel)]="addDetails">Add details</md-checkbox>
+            <button *ngIf="!addDetails && data.edit !== true" class="addButton" (click)="createRelationshipWithoutDetails()" md-raised-button>Add</button>
+            <button *ngIf="data.edit" class="addButton" (click)="updateRelationship()" md-raised-button>Update</button>
+            <button *ngIf="addDetails && data.edit !== true" class="addButton" (click)="next()" md-raised-button>Next</button>
 
-        <md-tab label="Relationship event" disabled="addDetails === false">
-            <md-input-container class="container">
-                <input mdInput class="accountInput" [(ngModel)]="description" placeholder="Description">
-            </md-input-container>
-            <label for="file-upload" class="custom-file-upload">
+        </md-tab>
+        <div *ngIf="data.edit !== true">
+            <md-tab label="Relationship event" disabled="addDetails === false">
+                <md-input-container class="container">
+                    <input mdInput class="accountInput" [(ngModel)]="description" placeholder="Description">
+                </md-input-container>
+                <label for="file-upload" class="custom-file-upload">
                 <i class="fa fa-cloud-upload"></i>Event media
             </label>
-            <input type="file" id="file-upload" name="file" (change)="fileChange($event)" accept=".jpg,.png,.gif" multiple/>
-            <div id="files">
-                <div *ngFor="let file of files">
-                    <p>{{file.name}} <i class="material-icons" style="cursor: pointer; position: relative; top: 7px;" (click)="removeFile(file)">clear</i></p>
+                <input type="file" id="file-upload" name="file" (change)="fileChange($event)" accept=".jpg,.png,.gif" multiple/>
+                <div id="files">
+                    <div *ngFor="let file of files">
+                        <p>{{file.name}} <i class="material-icons" style="cursor: pointer; position: relative; top: 7px;" (click)="removeFile(file)">clear</i></p>
+                    </div>
                 </div>
-            </div>
-            <md-slide-toggle [(ngModel)]="isLocated">Located</md-slide-toggle>
+                <md-slide-toggle [(ngModel)]="isLocated">Located</md-slide-toggle>
 
-            <div *ngIf="isLocated">
-                <h2>Location</h2>
-                <md-input-container class="container">
-                    <input mdInput class="accountInput" [(ngModel)]="location.city" placeholder="City">
-                </md-input-container>
-                <md-input-container class="container">
-                    <input mdInput class="accountInput" [(ngModel)]="location.province" placeholder="Province">
-                </md-input-container>
-                <md-input-container class="container">
-                    <input mdInput class="accountInput" [(ngModel)]="location.country" placeholder="Country">
-                </md-input-container>
-            </div>
-            <button style="display: block; margin-top: 50px!important;" md-raised-button (click)="createRelationshipWithDetails()">Submit</button>
+                <div *ngIf="isLocated">
+                    <h2>Location</h2>
+                    <md-input-container class="container">
+                        <input mdInput class="accountInput" [(ngModel)]="location.city" placeholder="City">
+                    </md-input-container>
+                    <md-input-container class="container">
+                        <input mdInput class="accountInput" [(ngModel)]="location.province" placeholder="Province">
+                    </md-input-container>
+                    <md-input-container class="container">
+                        <input mdInput class="accountInput" [(ngModel)]="location.country" placeholder="Country">
+                    </md-input-container>
+                </div>
+                <button style="display: block; margin-top: 50px!important;" md-raised-button (click)="createRelationshipWithDetails()">Submit</button>
+            </md-tab>
+        </div>
+
+        <md-tab label="Relationship visibility">
+            <app-visibility (onSubmit)="addVisibility($event)"></app-visibility>
         </md-tab>
     </md-tab-group>
+    <button *ngIf="data.edit" class="addButton" (click)="deleteRelationship()" style="background-color: #C62828" md-raised-button>Delete</button>
 </div>

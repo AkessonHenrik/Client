@@ -1,0 +1,10 @@
+<md-card class="notification" *ngFor="let notification of notifications">
+  <md-card-content>{{notification.content}}</md-card-content>
+  <div *ngIf="notification.entityid">
+    <button md-raised-button (click)="accept(notification.id)">Accept</button>
+    <button md-raised-button style="background-color: #C62828" (click)="refuse(notification)">Refuse</button>
+  </div>
+  <div *ngIf="!notification.entityid">
+    <button md-raised-button (click)="createProfile(notification)">Acknowledge</button>
+  </div>
+</md-card>

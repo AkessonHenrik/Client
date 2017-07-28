@@ -6,6 +6,8 @@ import { NewEventComponent } from '../../new-event/new-event.component'
 import { LocatedEventComponent, EventComponent } from '../../event/event.component';
 import { LocationComponent } from '../../location/location.component';
 import { HttpService } from '../../http.service';
+import { VisibilityComponent } from '../../visibility/visibility.component';
+
 @Component({
   selector: 'relationshipdialog',
   templateUrl: './relationshipdialog.html',
@@ -33,18 +35,18 @@ export class NewRelationshipDialog implements OnInit {
   addDetails: boolean = false;
 
   nodes: Node[];
-
+  edit: boolean;
 
   description: string;
   media: { type: string, path: string, postid: number }[] = [];
-  constructor( @Inject(MD_DIALOG_DATA) private data: Node[], public dialogRef: MdDialogRef<NewRelationshipDialog>, private httpService: HttpService) {
+  constructor( @Inject(MD_DIALOG_DATA) private data: { nodes: Node[], edit: boolean, event: EventComponent }, public dialogRef: MdDialogRef<NewRelationshipDialog>, private httpService: HttpService) {
     this.relationshipTypes = globals.relationshipTypes;
   }
   createRelationshipWithDetails() {
     let returnRel = this.createRelationship();
-    let time = [this.beginDay + "-" + this.beginMonth + "-" + this.beginYear];
+    let time = [this.beginYear + "-" + this.beginMonth + "-" + this.beginDay];
     if (this.interval) {
-      time.push(this.endDay + "-" + this.endMonth + "-" + this.endYear);
+      time.push(this.endYear + "-" + this.endMonth + "-" + this.endDay);
     }
     if (this.isLocated === true) {
       returnRel.event = new LocatedEventComponent();
@@ -92,9 +94,9 @@ export class NewRelationshipDialog implements OnInit {
     let fromNode: Node = this.nodes.filter(node => node.firstname === this.from)[0]
     let toNode: Node = this.nodes.filter(node => node.firstname === this.to)[0]
     let returnRel = new Relationship(-3, fromNode, toNode, globals.relationshipTypes.indexOf(this.relationshipType));
-    let end = (this.endDay ? this.endDay + "-" + this.endMonth + "-" + this.endYear : null);
+    let end = (this.endDay ? this.endYear + "-" + this.endMonth + "-" + this.endDay : null);
     returnRel.time = {
-      begin: this.beginDay + "-" + this.beginMonth + "-" + this.beginYear
+      begin: this.beginYear + "-" + this.beginMonth + "-" + this.beginDay
     }
     if (end) {
       returnRel.time.end = end;
@@ -107,16 +109,25 @@ export class NewRelationshipDialog implements OnInit {
       media: this.media,
       owner: returnRel.id,
     })
+    returnRel.visibility = this.visibility;
     return returnRel;
   }
   public ngOnInit() {
     //set custom data from parent component
-    this.nodes = this.data;
-    this.location = this.location = {
+    this.nodes = this.data.nodes;
+    this.location = {
       city: "",
       province: "",
       country: ""
     };
+    if (this.data.event !== undefined && this.data.event !== null) {
+      console.log(this.data.event)
+      let began = this.data.event.time[0].split("-")
+      this.beginDay = +began[2];
+      this.beginMonth = +began[1];
+      this.beginYear = +began[0];
+      this.description = this.data.event.description;
+    }
   }
   next() {
     this.activeTab = 1;
@@ -130,5 +141,39 @@ export class NewRelationshipDialog implements OnInit {
         console.log(fileList[i].name);
       }
     }
+  }
+  addVisibilityToEvent(profileAsObject) {
+    profileAsObject.visibility = this.visibility;
+    console.log(profileAsObject);
+    return profileAsObject;
+  }
+  visibility = { visibility: "public" }
+  addVisibility($event) {
+    console.log($event);
+    this.visibility = $event;
+  }
+
+
+  updateRelationship() {
+    let returnRel = {}
+    let time = [];
+    time.push(this.beginYear + "-" + this.beginMonth + "-" + this.beginDay);
+    if (this.endYear && this.endDay && this.endMonth) {
+      time.push(this.endYear + "-" + this.endMonth + "-" + this.endDay);
+    }
+    returnRel["time"] = time;
+    if (this.relationshipType) {
+      returnRel["type"] = this.relationshipType
+    }
+    returnRel["id"] = this.data.event.id;
+    returnRel["visibility"] = this.visibility;
+    console.log(returnRel);
+    this.dialogRef.close(returnRel);
+  }
+
+  deleteRelationship() {
+    this.httpService.delete(this.data.event.id).then(response => {
+      this.dialogRef.close();
+    })
   }
 }

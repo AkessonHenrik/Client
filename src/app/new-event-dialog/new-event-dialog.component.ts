@@ -12,10 +12,8 @@ export class NewEventDialogComponent implements OnInit {
   constructor( @Inject(MD_DIALOG_DATA) private data, public dialogRef: MdDialogRef<NewEventDialogComponent>) { }
 
   ngOnInit() {
-    console.log("Owner: ")
-    console.log(this.data.owner)
   }
-  close(event) {
-    this.dialogRef.close();
+  testo($event) {
+    this.dialogRef.close($event);
   }
 }

@@ -1,0 +1,68 @@
+<md-radio-group class="radioGroup" [(ngModel)]="visibilityType">
+  <md-radio-button class="radio" value="public">
+    Public
+    <i mdTooltip="Everyone can see this event" class="sideIcon" [mdTooltipPosition]="'right'" class="material-icons">help_outline</i>
+  </md-radio-button>
+  <md-radio-button class="radio" value="private">
+    Private
+    <i mdTooltip="Only you and tagged people can see this event" [mdTooltipPosition]="'right'" class="material-icons">help_outline</i>
+  </md-radio-button>
+  <md-radio-button class="radio" value="limited">
+    Limited
+    <i mdTooltip="Set who can and cannot see this event yourself" [mdTooltipPosition]="'right'" class="material-icons">help_outline</i>
+  </md-radio-button>
+</md-radio-group>
+
+<div *ngIf="visibilityType === 'limited'">
+  <div class="includedPeople">
+
+    <h2>
+      Included People <i mdTooltip="Will be able to see the event so long as they're not also in the excluded category. If no included people are specified, everyone but the excluded people will be able to see the event"
+        [mdTooltipPosition]="'right'" class="material-icons">help_outline</i>
+    </h2>
+
+    <h3>Include groups:</h3>
+    <md-checkbox style="display: block;" *ngFor="let group of groups" (change)="includeGroup(group)">
+      {{group.name}}
+      <i class="material-icons sideIcon" [mdTooltip]="getPeople(group.id)" [mdTooltipPosition]="'right'">more_horiz</i>
+    </md-checkbox>
+
+    <h3>Include people: </h3>
+    <div *ngFor="let includedPerson of includedPeople">
+      <p>{{includedPerson.name}} <i class="material-icons sideIcon" style="cursor: pointer;" (click)="removeIncludedPerson(includedPerson)">clear</i></p>
+    </div>
+    <md-input-container style="margin: 20px 20px 20px 0!important">
+      <input mdInput #input1 placeholder="Include person" (keyup.enter)="input1.value = searchInclude(input1.value)">
+    </md-input-container>
+    <h3 *ngIf="includeSearchResults.length > 0">Choose:</h3>    
+    <div *ngFor="let searchResult of includeSearchResults" style="cursor: pointer" (click)="includePerson(searchResult)">
+      <img style="width: 20px; height: 20px" [src]="searchResult.image"> {{searchResult.firstname}} {{searchResult.lastname}}
+    </div>
+
+  </div>
+
+  <div class="excludedPeople">
+
+    <h2>
+      Excluded People <i mdTooltip="Will NOT be able to see the event" [mdTooltipPosition]="'right'" class="sideIdon material-icons">help_outline</i>
+    </h2>
+
+    <h3>Exclude groups:</h3>
+    <md-checkbox style="display: block;" *ngFor="let group of groups" (change)="excludeGroup(group)">
+      {{group.name}}
+      <i class="material-icons" [mdTooltip]="getPeople(group.id)" [mdTooltipPosition]="'right'">more_horiz</i>
+    </md-checkbox>
+
+    <h3>Exclude people</h3>
+    <p *ngFor="let excludedPerson of excludedPeople">{{excludedPerson.name}} <i class="material-icons sideIcon" style="cursor: pointer;" (click)="removeExcludedPerson(excludedPerson)">clear</i></p>
+    <md-input-container style="margin: 20px 0 20px 0!important">
+      <input mdInput #input2 placeholder="Exclude person" (keyup.enter)="input2.value = searchExclude(input2.value)">
+    </md-input-container>
+    <h3 *ngIf="excludeSearchResults.length > 0">Choose:</h3>
+    <div *ngFor="let searchResult of excludeSearchResults" style="cursor: pointer" (click)="excludePerson(searchResult)">
+      <img style="width: 20px; height: 20px" [src]="searchResult.image"> {{searchResult.firstname}} {{searchResult.lastname}}
+    </div>
+
+  </div>
+</div>
+<button md-raised-button (click)="submit()">Set visibility</button>

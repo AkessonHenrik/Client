@@ -14,7 +14,7 @@ export class ProfileDialog {
   isVisible: boolean = false;
   constructor( @Inject(MD_DIALOG_DATA) private data: Node, public dialogRef: MdDialogRef<ProfileDialog>, private router: Router, private ownerService: OwnerService) {
     this.node = data;
-    if(this.node.id > 0) {
+    if (this.node.id > 0) {
       this.ownerService.isOwned(this.node.id).then(result => {
         this.isVisible = result
       })

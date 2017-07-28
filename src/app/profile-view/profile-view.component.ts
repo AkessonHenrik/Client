@@ -24,6 +24,7 @@ export class ProfileViewComponent implements OnInit {
   died: any = null;
   events: EventComponent[] = []
   profileReady: boolean = false;
+  noProfile: boolean = false;
   ngOnInit() {
     if (this.id > 0) {
       this.httpService.getProfile(this.id)
@@ -45,19 +46,18 @@ export class ProfileViewComponent implements OnInit {
           this.events.sort(function (event1, event2) {
             return event1.time[0] > event2.time[0] ? -1 : event1.time[0] < event2.time[0] ? 1 : 0;
           })
-          console.log(this.dialog)
           this.profileReady = true;
         })
+    } else {
+      this.noProfile = true;
     }
   }
   constructor(private httpService: HttpService, public dialog: MdDialog) { }
 
 
   parseEvent(event): EventComponent {
-    console.log("Parsinggu: " + event.name)
     let newEvent;
     if (event.type === "WorkEvent") {
-      console.log("WorkEvent")
       newEvent = new WorkEventComponent();
       newEvent.id = event.id;
       newEvent.name = event.name;
@@ -67,7 +67,6 @@ export class ProfileViewComponent implements OnInit {
       newEvent.location = new LocationComponent(event.location.city, event.location.province, event.location.country);
       newEvent.time = event.time;
     } else if (event.type === "LocatedEvent") {
-      console.log("LocatedEvent")
       newEvent = new LocatedEventComponent();
       newEvent.id = event.id;
       newEvent.name = event.name;
@@ -75,7 +74,6 @@ export class ProfileViewComponent implements OnInit {
       newEvent.time = event.time;
       newEvent.location = new LocationComponent(event.location.city, event.location.province, event.location.country);
     } else if (event.type === "MoveEvent") {
-      console.log("MoveEvent")
       newEvent = new MoveEventComponent();
       newEvent.id = event.id;
       newEvent.name = event.name;
@@ -91,7 +89,7 @@ export class ProfileViewComponent implements OnInit {
     }
     newEvent.media = [];
     event.media.forEach(media => {
-      newEvent.media.push({ type: media.type, path: globals.fileEndpoint + media.path, postid: media.postid })
+      newEvent.media.push({ type: media.type, path: media.path, postid: media.postid })
     })
     return newEvent;
   }

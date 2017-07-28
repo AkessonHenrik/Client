@@ -1,12 +1,14 @@
-import { Inject, Component, Input, Output,
-         EventEmitter, ChangeDetectorRef, 
-         HostListener, ChangeDetectionStrategy 
-        } from '@angular/core';
+import {
+  Inject, Component, Input, Output,
+  EventEmitter, ChangeDetectorRef,
+  HostListener, ChangeDetectionStrategy
+} from '@angular/core';
 import { Node } from '../../../d3';
 import { TreeComponent } from '../../../tree/tree.component'
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { ProfileDialog } from './profileDialog'
 import * as globals from '../../../globals';
+import { InfoDialog } from '../index';
 @Component({
   selector: '[node]',
   templateUrl: './node-visual.component.html',
@@ -18,10 +20,15 @@ export class NodeVisualComponent {
   constructor(public dialog: MdDialog) {
     this.globals = globals;
   }
- 
+
   openDialog() {
-    let dialogRef = this.dialog.open(ProfileDialog, {
-      data: this.node
-    });
+    if (globals.loggedIn()) {
+      let dialogRef = this.dialog.open(ProfileDialog, {
+        data: this.node
+      });
+    } else {
+      this.dialog.open(InfoDialog);
+    }
   }
 }
+

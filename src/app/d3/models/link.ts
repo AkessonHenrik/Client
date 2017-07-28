@@ -24,19 +24,11 @@ export class Relationship extends Link {
   icon: string;
   beginTime: string;
   endTime: string;
+  visibility;
   constructor(id: number, source, target, type: number, event?: EventComponent) {
     super(id, source, target);
     this.relationshipType = globals.relationshipTypes[type];
-    switch (this.relationshipType) {
-      case "Spouse": {
-        this.icon = '/assets/wedding.svg';
-        break;
-      }
-      case "Partner": {
-        this.icon = '/assets/heart.svg';
-        break;
-      }
-    }
+    this.icon = globals.relationshipIcons[type];
     this.event = event;
   }
   getRelationshipTypeAsNumber(): number {

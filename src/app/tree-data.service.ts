@@ -2,15 +2,16 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import * as globals from './globals';
+import { HttpService } from './http.service';
 @Injectable()
 export class TreeDataService {
   static jsonNodes: [{ id: number, firstname: string, lastname: string, gender: number, image: string }];
   static jsonRelationships: [{ id: number, profile1: number, profile2: number, type: number, begintime: any, endtime: any, time: string }];
   static jsonParents: [{ id: number, parent: number, child: number, parentType: string, biological: boolean }];
-  constructor(private http: Http) {
+  constructor(private httpService: HttpService) {
   }
   getData(baseNodeId: number): any {
-    return this.http.get(globals.familyEndpoint + "/" + baseNodeId)
+    return this.httpService.get(globals.familyEndpoint + "/" + baseNodeId)
       .toPromise()
       .then(res => {
         TreeDataService.jsonNodes = res.json().people;

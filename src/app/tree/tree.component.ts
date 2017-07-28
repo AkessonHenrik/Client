@@ -45,6 +45,11 @@ export class TreeComponent implements OnInit {
   logger: boolean = false;
   savingContent: boolean = false;
   currentDateIndex: number;
+  timeActivated: boolean = false;
+  dates: string[];
+
+  @Output()
+  change
 
   constructor(private http: Http, private zone: NgZone, public dialog: MdDialog, private dataService: TreeDataService, private route: ActivatedRoute, private httpService: HttpService) { }
   onRightClickEvent(e: MouseEvent, node: Node) {
@@ -52,52 +57,53 @@ export class TreeComponent implements OnInit {
       this.createData(data.nodes, data.links, data.parents);
     })
   }
-  dates: string[] = [];
   setDates() {
     this.dates = [];
     this.nodes.forEach(node => {
-      if (this.dates.indexOf(node.bornString) < 0) {
-        console.log("Line 60, adding: " + node.bornString)
-        this.dates.push(node.bornString);
-      }
-      if (this.dates.indexOf(node.diedString) < 0) {
-        console.log("Line 64, adding: " + node.bornString)
-        this.dates.push(node.diedString);
-      }
-      if (this.dates.indexOf(node.diedString) < 0) {
-        console.log("Line 68, adding: " + node.diedString)
-        this.dates.push(node.diedString);
+      if (node.bornString) {
+        if (this.dates.indexOf(node.bornString) < 0) {
+          console.log("Adding: " + node.bornString)
+          this.dates.push(node.bornString);
+        }
+        if (node.diedString) {
+          if (this.dates.indexOf(node.diedString) < 0) {
+            console.log("Adding: " + node.diedString)
+            this.dates.push(node.diedString);
+          }
+        }
       }
     })
     this.links.forEach(link => {
       if (link.beginTime) {
         if (this.dates.indexOf(link.beginTime) < 0) {
-          console.log("Line 75, adding: " + link.beginTime)
           this.dates.push(link.beginTime);
         }
         if (link.endTime !== null) {
           if (this.dates.indexOf(link.endTime) < 0) {
-            console.log("Line 80, adding: " + link.beginTime)
             this.dates.push(link.endTime);
           }
         }
       } else if (this.dates.indexOf(link.time) < 0) {
-        console.log("Line 85, adding: " + link.time)
         this.dates.push(link.time);
       }
     })
     this.parents.forEach(parent => {
-      if (this.dates.indexOf(parent.begin) < 0) {
-        console.log("PARNENTOI  BEGINUUU" + parent.begin)
-        if (parent.begin) {
-          console.log("Line 91, adding: " + parent.begin)
-          this.dates.push(parent.begin);
+      console.log(parent.time);
+      if (parent.time[0]) {
+        if (this.dates.indexOf(parent.time[0]) < 0) {
+          this.dates.push(parent.time[0]);
+        }
+      }
+      if (parent.time[1]) {
+        if (this.dates.indexOf(parent.time[1]) < 0) {
+          this.dates.push(parent.time[1]);
         }
       }
     })
     this.dates.sort();
+    console.log(this.dates);
     this.currentDateIndex = 0;
-    this.dates.forEach(date => console.log(date))
+    this.dates = this.dates.filter(date => date !== null);
   }
 
   ngOnInit() {
@@ -117,9 +123,6 @@ export class TreeComponent implements OnInit {
       }
     })
   }
-  timeActivated: boolean = false;
-  @Output()
-  change
   onTimeChange($event) {
     if ($event.checked) {
       this.timeActivated = true;
@@ -130,31 +133,42 @@ export class TreeComponent implements OnInit {
     }
   }
   resetData() {
+    this.timeActivated = false;
     this.visibleNodes = this.nodes;
     this.visibleRelationships = this.links;
     this.visibleParents = this.parents;
   }
   filterData($event?) {
-    console.log("filtering data")
     if ($event) {
       this.currentDateIndex = $event.value;
     } else {
       this.currentDateIndex = 0;
     }
-    console.log("index: " + this.currentDateIndex)
-    console.log("\n")
+    if (!this.timeActivated) {
+      console.log("NO TIME ACTIVATE");
+      this.visibleNodes = this.nodes;
+      this.visibleRelationships = this.links;
+      this.visibleParents = this.parents;
+      return;
+    }
     this.visibleNodes = this.nodes.filter(node => {
-      return node.bornString <= this.dates[this.currentDateIndex];;
+      let visible: boolean = node.bornString <= this.dates[this.currentDateIndex];
+      if (node.diedString) {
+        visible = visible && node.diedString >= this.dates[this.currentDateIndex]
+      }
+      return visible;
     })
     this.visibleRelationships = this.links.filter(link => {
       if (link.time) {
         return link.time <= this.dates[this.currentDateIndex];
       }
-      return link.beginTime <= this.dates[this.currentDateIndex];
+      return link.beginTime <= this.dates[this.currentDateIndex] && link.endTime > this.dates[this.currentDateIndex];
     })
     this.visibleParents = this.parents.filter(parent => {
-      console.log("Parnet begin; " + parent.begin)
-      return parent.begin <= this.dates[this.currentDateIndex];
+      if (parent.time[1])
+        return parent.time[0] <= this.dates[this.currentDateIndex] && parent.time[1] > this.dates[this.currentDateIndex];
+      else
+        return parent.time[0] <= this.dates[this.currentDateIndex];
     })
   }
   createData(
@@ -184,9 +198,6 @@ export class TreeComponent implements OnInit {
           } else {
             r.time = jsonRelationship.time;
           }
-          console.log("Rel times: ");
-          console.log(r.beginTime + ", " + r.endTime)
-          console.log(r.time);
           this.links.push(r);
         }
       })
@@ -196,9 +207,9 @@ export class TreeComponent implements OnInit {
         if (this.parents.filter(parent => parent.id === jsonParent.timedentityid).length == 0) {
           if (this.nodes.filter(node => node.id === jsonParent.parentsid).length == 0) { // parent is a relationship
             let link = this.links.filter(link => link.id === jsonParent.parentsid)[0];
-            this.parents.push(new LinkParentComponent(jsonParent.timedentityid, this.nodes.filter(node => node.id === jsonParent.childid)[0], link, jsonParent.begin));
+            this.parents.push(new LinkParentComponent(jsonParent.timedentityid, this.nodes.filter(node => node.id === jsonParent.childid)[0], link, [jsonParent.begin, jsonParent.end], jsonParent.parentType));
           } else { // parent is a node
-            this.parents.push(new NodeParentComponent(jsonParent.timedentityid, this.nodes.filter(node => node.id === jsonParent.childid)[0], this.nodes.filter(node => node.id === jsonParent.parentsid)[0], jsonParent.begin));
+            this.parents.push(new NodeParentComponent(jsonParent.timedentityid, this.nodes.filter(node => node.id === jsonParent.childid)[0], this.nodes.filter(node => node.id === jsonParent.parentsid)[0], [jsonParent.begin, jsonParent.end], jsonParent.parentType));
           }
         }
       })
@@ -249,35 +260,35 @@ export class TreeComponent implements OnInit {
     }
 
     // Reorder links
-    // let curr = 0;
-    // let movedIds = [];
-    // levels.forEach(level => {
-    //   // Replacement Node array
-    //   let newLevel: Node[] = [];
+    let curr = 0;
+    let movedIds = [];
+    levels.forEach(level => {
+      // Replacement Node array
+      let newLevel: Node[] = [];
 
-    //   // Checking this level for relationships
-    //   level.forEach(person => {
-    //     let reassigned: boolean = false;
-    //     this.links.forEach(link => {
-    //       //Is this person in a relationship
-    //       if (link.source === person || link.target === person) {
-    //         let other: Node = (link.source === person ? link.target : link.source);
-    //         if (!movedIds.includes(person.id) && !movedIds.includes(other.id)) {
-    //           newLevel.push(person);
-    //           newLevel.push(other);
-    //           movedIds.push(person.id);
-    //           movedIds.push(other.id);
-    //         }
-    //         reassigned = true;
-    //       }
-    //     })
-    //     if (!reassigned) {
-    //       newLevel.push(person);
-    //     }
-    //   })
-    //   levels[curr] = newLevel;
-    //   curr++;
-    // })
+      //   // Checking this level for relationships
+      level.forEach(person => {
+        let reassigned: boolean = false;
+        this.links.forEach(link => {
+          //Is this person in a relationship
+          if (link.source === person || link.target === person) {
+            let other: Node = (link.source === person ? link.target : link.source);
+            if (!movedIds.includes(person.id) && !movedIds.includes(other.id)) {
+              newLevel.push(person);
+              newLevel.push(other);
+              movedIds.push(person.id);
+              movedIds.push(other.id);
+            }
+            reassigned = true;
+          }
+        })
+        if (!reassigned) {
+          newLevel.push(person);
+        }
+      })
+      levels[curr] = newLevel;
+      curr++;
+    })
 
     this.setCoordinates(levels);
   }
@@ -393,13 +404,14 @@ export class TreeComponent implements OnInit {
         this.newNodes.push(node);
         this.lastModifications.push({ type: "node", id: node.id });
         this.calculateCoordinates();
+        this.resetData();
         this.setDates();
       }
     });
   }
   newRelationship() {
     let dialogRef = this.dialog.open(NewRelationshipDialog, {
-      data: this.nodes
+      data: { nodes: this.nodes }
     });
     dialogRef.afterClosed().subscribe(relationship => {
       if (relationship !== undefined) {
@@ -407,10 +419,9 @@ export class TreeComponent implements OnInit {
         this.links.push(relationship)
         this.newRelationships.push(relationship);
         this.newEvents.push(relationship.event);
-        console.log(this.newEvents);
         this.lastModifications.push({ type: "relationship", id: relationship.id });
-        console.log(this.links);
         this.calculateCoordinates();
+        this.resetData();
         this.setDates();
       }
     });
@@ -424,12 +435,12 @@ export class TreeComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(parent => {
       if (parent) {
-        console.log(parent);
         this.newContent = true;
         this.parents.push(parent);
         this.newParents.push(parent);
         this.lastModifications.push({ type: "parent", id: parent.id });
         this.calculateCoordinates();
+        this.resetData();
         this.setDates();
       }
     });
@@ -438,7 +449,6 @@ export class TreeComponent implements OnInit {
     this.savingContent = true;
     this.saveNodes().then(response => {
       if (response === "error") {
-        console.log("savenodes didn't work")
       } else {
         this.saveRelationships().then(response => {
           this.saveParents().then(response => {
@@ -463,7 +473,6 @@ export class TreeComponent implements OnInit {
     })
   }
   saveNode(newNode: Node, http: Http): Promise<string> {
-    console.log(newNode)
     return this.httpService.createProfile({
       "firstname": newNode.firstname,
       "lastname": newNode.lastname,
@@ -472,6 +481,7 @@ export class TreeComponent implements OnInit {
       "birthDay": newNode.birthDay,
       "deathDay": newNode.deathDay,
       "born": newNode.born,
+      "visibility": newNode.visibility,
       "died": newNode.died
     }).then(response => {
       if (response === -1) {
@@ -479,7 +489,8 @@ export class TreeComponent implements OnInit {
         this.savingContent = false;
         return "stop";
       }
-      newNode.id = response
+      newNode.id = response.id;
+      newNode.image = response.image;
       return this.saveGhost(newNode, http);
     })
   }
@@ -498,7 +509,6 @@ export class TreeComponent implements OnInit {
   }
 
   saveRelationship(newRelationship: Relationship, http: Http): Promise<string> {
-    console.log("saverelationship: " + newRelationship.source.firstname + " - " + newRelationship.target.firstname);
     return this.httpService.createRelationship(newRelationship);
   }
 
@@ -508,34 +518,44 @@ export class TreeComponent implements OnInit {
     })
   }
   saveParent(newParent: ParentComponent, http: Http): Promise<string> {
-    return this.httpService.post(globals.parentsEndpoint, {
-      // Parent info
-      parentType: globals.parentTypes[newParent.getType()],
-      parent: {
-        type: (newParent instanceof LinkParentComponent ? "relationship" : "single"),
-        id: newParent.parent.id
-      },
-      child: newParent.child.id,
-      time: {
-        begin: newParent.begin
+    let time;
+    if (newParent.time.length > 0) {
+      time = {
+        begin: newParent.time[0],
+        end: newParent.time[1]
       }
+    } else {
+      time = {
+        begin: newParent.time[0]
+      }
+    }
+    return this.httpService.post(globals.parentsEndpoint, {
+      parentType: globals.parentTypes[newParent.type],
+      parent: newParent.parent.id,
+      child: newParent.child.id,
+      time: time,
+      visibility: newParent.visibility
     }).then(response => {
-      newParent.id = response.json().id
+      newParent.id = response.json().timedentityid
       return Promise.resolve("Done");
     })
   }
-
+  loggedIn(): boolean {
+    return globals.loggedIn();
+  }
   search() {
     let dialogRef = this.dialog.open(SearchDialog);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        if (this.nodes.filter(node => node.id === result.id).length > 0) {
-          console.log("gotit")
-        } else {
+        if (this.nodes.filter(node => node.id === result.id).length === 0) {
           console.log(result);
-          this.nodes.push(result);
-          console.log("NEWNODES");
-          console.log(this.newNodes);
+          result.bornString = result.born;
+          let n: Node = new Node(result.id, result.image, result.firstname, result.lastname, result.gender, result.born, result.died, null, null);
+          n.bornString = result.bornString;
+          this.nodes.push(n);
+          console.log(this.nodes);
+          this.setDates();
+          this.filterData();
           this.calculateCoordinates();
         }
       }
@@ -549,6 +569,7 @@ export class TreeComponent implements OnInit {
       case "relationship": {
         this.links = this.links.filter(node => node.id !== lastModification.id)
         this.newRelationships = this.newRelationships.filter(node => node.id !== lastModification.id)
+        this.resetData();
         break;
       }
       case "node": {
@@ -565,6 +586,8 @@ export class TreeComponent implements OnInit {
     if (this.lastModifications.length === 0) {
       this.newContent = false;
     }
+    this.setDates();
+    this.resetData();
     this.calculateCoordinates();
   }
 }

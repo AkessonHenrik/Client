@@ -45,3 +45,39 @@ md-tab-group {
     max-width: 300px;
     max-height: 100px;
 }
+
+.searchInput {
+    width: 100px;
+}
+
+.profile {
+  width: 400px;
+  height: 200px;
+  margin: 30px!important;
+  position:relative;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  cursor: pointer;
+  display: block;
+}
+.search {
+    position: relative;
+    top: 50px;
+}
+.profilePicture {
+    position: relative;
+    float: left;
+    width: auto;
+    height: 100%;
+}
+.info {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: none;
+    width: 50%;
+}
+.name {
+    font-size: 20px!important;
+}
