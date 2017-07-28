@@ -1,8 +1,8 @@
-<div class="event" *ngIf="event !== undefined">
+<div *ngIf="event !== undefined" style="text-align: center; padding: 30px!important;">
     <h1 *ngIf="disabled !== true" class="title" (click)="openEvent()">{{event.name}}</h1>
     <h1 *ngIf="disabled" class="disabledTitle">{{event.name}}</h1>
-    <h1 *ngIf="event.time.length > 1">{{event.time[0]}} - {{event.time[1]}}</h1>
-    <h1 *ngIf="event.time.length === 1">{{event.time[0]}}</h1>
-    <p>{{event.description}}</p>
-    <app-media-viewer *ngIf="event.media.length > 0" [media]="event.media"></app-media-viewer>
+    <h3 *ngIf="event.time.length > 1" style="margin-top: 20px!important; margin-bottom: 20px!important">{{event.time[0]}} - {{event.time[1]}}</h3>
+    <h3 *ngIf="event.time.length === 1" style="margin-top: 20px!important; margin-bottom: 20px!important">{{event.time[0]}}</h3>
+    <h2 style="margin-top: 20px!important; margin-bottom: 20px!important">{{event.description}}</h2>
+    <app-media-viewer style="position: relative; left: 50%; transform: translate(-50%, 0%);" *ngIf="event.media.length > 0" [media]="event.media"></app-media-viewer>
 </div>

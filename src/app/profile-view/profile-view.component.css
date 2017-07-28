@@ -1,24 +1,23 @@
 .profilePicture {
-    width: auto;
-    height: 300px;
-    padding: 2px;
+    width: 450px;
+    height: auto;
+    padding-top: 20px!important;
     box-shadow: 1px 1px 1px #212121;
-    /*position: absolute;
-    left: 10px;
-    top: 10px;*/
 }
 
 .name {
-    position: absolute;
-    left: 600px;
     top: 30px;
+    margin-bottom: 20px!important;
 }
 
 .life {
-    position: absolute;
-    left: 400px;
     top: 60px;
 }
 .events {
     margin-top: 150px!important;
+}
+.basicInfo {
+    position: absolute;
+    top: 5%;
+    left: 40%;
 }

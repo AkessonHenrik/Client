@@ -19,14 +19,16 @@ export class ProfilePageComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.profileId = +params['id'];
-      this.ownerService.isOwned(this.profileId).then(response => {
-        console.log(response);
-        if (response == true) {
-          this.canSee = true;
-        } else {
-          this.canSee = false;
-        }
-      })
+      if (this.profileId != 0) {
+        this.ownerService.isOwned(this.profileId).then(response => {
+          console.log(response);
+          if (response == true) {
+            this.canSee = true;
+          } else {
+            this.canSee = false;
+          }
+        })
+      }
     })
   }
   openDialog() {

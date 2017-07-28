@@ -5,9 +5,6 @@
     text-align: center;
     border-bottom: 1px solid black;
 }
-
-
-
 .dialogChoice {
     height: 800px;
     width: 800px;
@@ -54,4 +51,36 @@ md-tab-group {
 .date {
     margin-top: 20px!important;
     width: 50px;
+}
+
+#comments {
+
+}
+.commentContent {
+    padding: 15px!important;
+}
+.name {
+    display: inline-block;
+}
+.commentInput {
+    margin-top: 30px!important;
+    margin-bottom: 30px!important;
+    color: white;
+    width: 80%;
+}
+.profilePic {
+    width: 50px;
+    height: auto;
+    display: inline-block;
+}
+
+.content {
+    min-width: 600px;
+    overflow-y: scroll;
+    max-height: 900px;
+}
+.date {
+    float: right;
+    width: 100px;
+    display: inline-block;
 }

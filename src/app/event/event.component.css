@@ -5,8 +5,12 @@
 }
 .title {
     cursor: pointer;
-    width: fit-content;
+    text-align: center;
 }
 .title:hover {
-        text-decoration: underline;
+    text-decoration: underline;
+}
+
+.eventType {
+    text-align: center;
 }

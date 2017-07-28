@@ -1,9 +1,11 @@
 .media {
     height: 300px;
-    width: 600px;
+    min-width: 75%;
+    max-width: 80%;
     background-color: black;
-    position: relative;
-    float: left;
+    /* position: relative; */
+     float: left; 
+     margin: none;
 }
 
 #previous,
@@ -11,7 +13,7 @@
     background-color: black;
     color: white;
     height: 300px;
-    width: 50px;
+    width: 10%;
     border-radius: 0px;
     margin: 0px;
     z-index: 10;
@@ -35,10 +37,17 @@
     float: left;
 }
 
-#wrapper {
-    width: fit-content;
-    height: 300px;
+.wrapper {
     background-color: gray;
+    position: relative;
+    float: left;
+    clear: both;
+    width: 100%; 
+    height: auto;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    display: block;
     padding: 0px;
     margin: 0px;
+    margin-bottom: 30px!important;
 }

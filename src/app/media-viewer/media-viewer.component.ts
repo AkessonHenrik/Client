@@ -25,7 +25,6 @@ export class MediaViewerComponent implements OnInit {
     console.log(this.comment);
     this.comment = "";
   }
-  // <input type="text" style="color: black; width: 100%;" [(ngModel)]="comment" (keyup.enter)="submitComment()">
 
   decrement() {
     this.i--;

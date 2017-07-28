@@ -21,7 +21,7 @@ export class EventDialog implements OnInit {
     error: string = "";
     event;
 
-    comments: { commenter: string, content: string, date: string }[] = [];
+    comments: { commenter: string, content: string, date: string, profilePicture?: string }[] = [];
     comment: string;
     ngOnInit() {
         this.httpService.getEvent(this.data.id).then(response => {
@@ -51,13 +51,8 @@ export class EventDialog implements OnInit {
                 }
                 this.event.media = [];
                 event["media"].forEach(media => {
-                    console.log("media:");
-                    console.log(media);
                     this.event.media.push({ type: media.type, path: media.path, postid: media.postid })
                 })
-                console.log("=================")
-                console.log(this.event);
-                console.log("=================")
                 return Promise.resolve("Event fetching finished")
             }
         }).then(result => {
@@ -100,7 +95,7 @@ export class EventDialog implements OnInit {
                 console.log(response);
                 if (response.status === 200) {
                     let body = response.json()
-                    this.comments.push({ commenter: body.commenter, content: body.content, date: body.date })
+                    this.comments.push(body)
                     this.reorderComments();
                     this.comment = "";
                 }

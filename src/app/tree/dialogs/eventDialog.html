@@ -1,13 +1,25 @@
-<div id="error">{{error}}</div>
-<button md-raised-button *ngIf="isOwned" (click)="edit()">Edit</button>
-<div *ngIf="event !== undefined">
-    <app-work-event *ngIf="event.getType() === 'WorkEvent'" [event]="event" [disabled]="true"></app-work-event>
-    <app-move-event *ngIf="event.getType() === 'MoveEvent'" [event]="event" [disabled]="true"></app-move-event>
-    <app-located-event *ngIf="event.getType() === 'LocatedEvent'" [event]="event" [disabled]="true"></app-located-event>
-    <app-event *ngIf="event.getType() === 'Event'" [event]="event" [disabled]="true"></app-event>
-    <div id="comments">
-        <h2>Comments: </h2>
-        <div class="comment" *ngFor="let comment of comments">{{comment.commenter}}: {{comment.content}} {{comment.date}}</div>
+<div class="content">
+    <div id="error">{{error}}</div>
+    <button md-raised-button *ngIf="isOwned" (click)="edit()">Edit</button>
+    <div *ngIf="event !== undefined">
+        <div style="text-align: center; margin-top: 50px!important">
+            <app-work-event *ngIf="event.getType() === 'WorkEvent'" [event]="event" [disabled]="true"></app-work-event>
+            <app-move-event *ngIf="event.getType() === 'MoveEvent'" [event]="event" [disabled]="true"></app-move-event>
+            <app-located-event *ngIf="event.getType() === 'LocatedEvent'" [event]="event" [disabled]="true"></app-located-event>
+            <app-event *ngIf="event.getType() === 'Event'" [event]="event" [disabled]="true"></app-event>
+        </div>
+        <div id="comments" style="margin: 50px!important">
+            <h2>Comments: </h2>
+            <div class="comment" *ngFor="let comment of comments">
+                <img class="profilePic" [src]="comment.profilePicture">
+                <h5 class="date">{{comment.date}}</h5>
+                <h3 class="name">{{comment.commenter}}</h3>
+                <h4 class="commentContent">{{comment.content}}</h4>
+                <hr>
+            </div>
+        </div>
+        <md-input-container class="commentInput">
+            <input mdInput type="text" placeholder="Enter comment" [(ngModel)]="comment" (keyup.enter)="submitComment()">
+        </md-input-container>
     </div>
-    <input type="text" style="color: black; width: 100%;" [(ngModel)]="comment" (keyup.enter)="submitComment()">
 </div>

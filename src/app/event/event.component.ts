@@ -63,10 +63,10 @@ export class EventComponent {
   selector: 'app-work-event',
   template: `
   <div class="event" *ngIf="event !== undefined">
-  <h1>Work Event</h1>
+  <h1 class="eventType">Work Event</h1>
   <app-event [event]="event" [dialog]="dialog" [disabled]="disabled"></app-event>
-  Position: {{event.position}} Company: {{event.company}}
-  {{event.location.city}}, {{event.location.province}}, {{event.location.country}}
+  <h2>Position: {{event.position}} Company: {{event.company}}</h2>
+  <h2>{{event.location.city}}, {{event.location.province}}, {{event.location.country}}</h2>
   </div>
   `,
   styles: ['./event.component.css']
@@ -101,9 +101,9 @@ export class WorkEventComponent extends EventComponent implements OnInit {
   selector: 'app-located-event',
   template: `
   <div class="event" *ngIf="event !== undefined">
-  <h1>Located Event</h1>  
+  <h1 class="eventType">Located Event</h1>  
   <app-event [event]="event" [dialog]="dialog" [disabled]="disabled"></app-event>
-  {{event.location.city}}, {{event.location.province}}, {{event.location.country}}
+  <h2>{{event.location.city}}, {{event.location.province}}, {{event.location.country}}</h2>
   </div>
   `,
   styles: ['./event.component.css']
@@ -137,9 +137,9 @@ export class LocatedEventComponent extends EventComponent implements OnInit {
   selector: 'app-move-event',
   template: `
   <div class="event" *ngIf="event !== undefined">
-  <h1>Move Event</h1>    
+  <h1 class="eventType">Move Event</h1>    
   <app-event [event]="event" [dialog]="dialog" [disabled]="disabled"></app-event>
-  {{event.location.city}}, {{event.location.province}}, {{event.location.country}}
+  <h2>{{event.location.city}}, {{event.location.province}}, {{event.location.country}}</h2>
   </div>
   `,
   styles: ['./event.component.css']

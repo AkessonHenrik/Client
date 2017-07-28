@@ -1,12 +1,14 @@
 <div *ngIf="profileReady">
-    <h1 class="name">{{firstname}} {{lastname}}</h1>
     <img class="profilePicture" src="{{profilePicture}}">
-    <div class="life">
-        <h2 *ngIf="born !== null && born !== undefined">Born: {{born.time[0]}} in {{born.location.city}}, {{born.location.province}}, {{born.location.country}}</h2>
-        <h2 *ngIf="died !== null">Died: {{died.time[0]}} in {{died.location.city}}, {{died.location.province}}, {{died.location.country}}</h2>
+    <div class="basicInfo">
+        <h1 class="name">{{firstname}} {{lastname}}</h1>
+        <div class="life">
+            <h2 *ngIf="born !== null && born !== undefined">Born: {{born.time[0]}} in {{born.location.city}}, {{born.location.province}}, {{born.location.country}}</h2>
+            <h2 *ngIf="died !== null">Died: {{died.time[0]}} in {{died.location.city}}, {{died.location.province}}, {{died.location.country}}</h2>
+        </div>
     </div>
     <div class="events">
-        <div *ngFor="let event of events">
+        <div style="text-align: center" *ngFor="let event of events">
             <hr>
             <app-work-event *ngIf="event.getType() === 'WorkEvent'" [event]="event" [dialog]="dialog"></app-work-event>
             <app-move-event *ngIf="event.getType() === 'MoveEvent'" [event]="event" [dialog]="dialog"></app-move-event>

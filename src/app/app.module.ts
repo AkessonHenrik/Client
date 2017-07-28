@@ -38,7 +38,6 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { NewEventDialogComponent } from './new-event-dialog/new-event-dialog.component';
 import { EditProfileDialogComponent } from './edit-profile-dialog/edit-profile-dialog.component';
 import { VisibilityComponent } from './visibility/visibility.component';
-import { EditEventComponent } from './edit-event/edit-event.component';
 import { EditRelationshipComponent } from './edit-relationship/edit-relationship.component';
 import { ClaimComponent } from './claim/claim.component';
 import { NotificationsComponent } from './notifications/notifications.component';
@@ -100,7 +99,6 @@ const appRoutes: Routes = [
     NewEventDialogComponent,
     EditProfileDialogComponent,
     VisibilityComponent,
-    EditEventComponent,
     EditRelationshipComponent,
     ClaimComponent,
     NotificationsComponent,
@@ -122,6 +120,6 @@ const appRoutes: Routes = [
   ],
   providers: [D3Service, TreeDataService, HttpService, OwnerService],
   bootstrap: [AppComponent, SidenavComponent],
-  entryComponents: [ChoiceDialog, NewPersonDialog, NewRelationshipDialog, NewParentDialog, ProfileDialog, SearchDialog, NewEventDialogComponent, EventDialog, EditProfileDialogComponent, EditRelationshipComponent, EditEventComponent, InfoDialog]
+  entryComponents: [ChoiceDialog, NewPersonDialog, NewRelationshipDialog, NewParentDialog, ProfileDialog, SearchDialog, NewEventDialogComponent, EventDialog, EditProfileDialogComponent, EditRelationshipComponent, InfoDialog]
 })
 export class AppModule { }

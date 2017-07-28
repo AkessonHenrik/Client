@@ -1,10 +1,9 @@
-<!-- <button style="z-index: 1; width: 100px; height: 30px;background-color: black; border: none;" (click)="viewComments(media[i])">Comments</button> -->
-<div id="wrapper">
+<div class="wrapper">
     <button id="previous" md-button (click)="decrement()"><i class="material-icons">keyboard_arrow_left</i></button>
     <div class="media">
-        <image-component *ngIf="media[i].type === 0" style="margin-left: 50%; transform: translate(-50%, 0%);" [source]="media[i].path"></image-component>
+        <image-component *ngIf="media[i].type === 0" [source]="media[i].path"></image-component>
         <video-component *ngIf="media[i].type === 1" [source]="media[i].path"></video-component>
-        <external-video-component *ngIf="media[i].type === 3" style="margin-left: 50%; transform: translate(-50%, 0%);" [source]="media[i].path"></external-video-component>
+        <external-video-component *ngIf="media[i].type === 3" [source]="media[i].path"></external-video-component>
         <audio-component *ngIf="media[i].type === 2" [source]="media[i].path"></audio-component>
     </div>
     <button id="next" md-button (click)="increment()"><i class="material-icons">keyboard_arrow_right</i></button>
