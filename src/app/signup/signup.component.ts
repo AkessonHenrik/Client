@@ -120,12 +120,7 @@ export class SignupComponent implements OnInit {
       profileId: id,
       message: this.message
     }).toPromise().then(response => {
-      console.log(response);
-      // profileId: id,
-      // message: this.message
-    }).then(response => {
-      // console.log(response);
-      // this.router.navigateByUrl('login')
+      this.router.navigateByUrl('login')
     });
   }
 

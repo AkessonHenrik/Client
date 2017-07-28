@@ -6,6 +6,7 @@ import { NewEventDialogComponent } from '../new-event-dialog/new-event-dialog.co
 import { EditProfileDialogComponent } from '../edit-profile-dialog/edit-profile-dialog.component';
 import { HttpService } from '../http.service';
 import { OwnerService } from '../owner.service';
+import * as globals from '../globals';
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -16,17 +17,14 @@ export class ProfilePageComponent implements OnInit {
   constructor(private ownerService: OwnerService, private httpService: HttpService, private route: ActivatedRoute, public dialog: MdDialog, private router: Router) { }
   profileId: number;
   canSee: boolean = false;
+  notMainProfile: boolean = true;
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.profileId = +params['id'];
       if (this.profileId != 0) {
         this.ownerService.isOwned(this.profileId).then(response => {
-          console.log(response);
-          if (response == true) {
-            this.canSee = true;
-          } else {
-            this.canSee = false;
-          }
+          this.canSee = response;
+          this.notMainProfile = this.profileId !== globals.getUserProfileId()
         })
       }
     })

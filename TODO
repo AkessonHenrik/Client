@@ -1,9 +1,6 @@
 MUST IMPLEMENT:
     CLIENT:
         - Algorithme de placement
-        - Notify on tree view or my profile if 0
-        - Redirect after claim
-        - HttpService ligne 30
 
     OTHER:
         - CSS
