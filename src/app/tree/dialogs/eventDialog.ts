@@ -8,6 +8,8 @@ import { EditEventComponent } from '../../edit-event/edit-event.component';
 import { EditRelationshipComponent } from '../../edit-relationship/edit-relationship.component';
 import { NewRelationshipDialog } from './relationshipDialog'
 import { NewParentDialog } from './parentDialog'
+import { NewEventComponent } from '../../new-event/new-event.component';
+import { NewEventDialogComponent } from '../../new-event-dialog/new-event-dialog.component';
 @Component({
     selector: 'event-dialog',
     templateUrl: './eventDialog.html',
@@ -113,33 +115,45 @@ export class EventDialog implements OnInit {
     }
 
     edit() {
-        if (this.data.relationship === true) {
+        if (this.data.relationship === true) { // Edit relationship
             let dialogRef = this.dialog.open(NewRelationshipDialog, {
                 data: { nodes: [], edit: true, event: this.event }
             });
-            dialogRef.afterClosed().subscribe(relationship => {
+            dialogRef.afterClosed().subscribe(updatedRelationship => {
                 // If relationship was deleted, nothing is sent back
-                if (relationship) {
-                    this.httpService.updateRelationship(relationship).then(_ => {
+                if (updatedRelationship) {
+                    this.httpService.updateRelationship(updatedRelationship).then(_ => {
                         this.dialogRef.close();
                     })
                 }
             });
-        } else if (this.data.parent === true) {
+        } else if (this.data.parent === true) { // Edit Parent
             let dialogRef = this.dialog.open(NewParentDialog, {
                 data: { edit: true, event: this.event }
             });
-            dialogRef.afterClosed().subscribe(parent => {
+            dialogRef.afterClosed().subscribe(updatedParent => {
                 // If relationship was deleted, nothing is sent back
-                if (parent) {
-                    this.httpService.updateParent(parent).then(_ => {
+                if (updatedParent) {
+                    this.httpService.updateParent(updatedParent).then(_ => {
                         this.dialogRef.close();
                     })
                 }
             });
-        } else {
-            this.dialog.open(EditEventComponent);
-
+        } else { // Edit event
+            console.log("Event way up");
+            console.log(this.event)
+            let dialogRef = this.dialog.open(NewEventDialogComponent, { data: { edit: true, event: this.event } });
+            dialogRef.afterClosed().subscribe(updatedEvent => {
+                if (updatedEvent === 'delete') {
+                    this.httpService.delete(this.event.id);
+                    this.dialogRef.close();
+                } else if (updatedEvent) {
+                    console.log(updatedEvent)
+                    this.httpService.updateEvent(updatedEvent).then(_ => {
+                        this.dialogRef.close();
+                    })
+                }
+            })
         }
     }
 }

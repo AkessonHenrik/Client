@@ -1,11 +1,9 @@
 <svg>
     <line (click)="showMore()" *ngIf="parent.type === 0" style="stroke:rgb(255,255,255); cursor: pointer;" class="link" [attr.x1]="parent.x1"
         [attr.y1]="parent.y1" [attr.x2]="parent.x2" [attr.y2]="parent.y2">
-        <image class="linkIcon" (click)="showMore(parent.id)" [attr.x]="(parent.x2 - parent.x1)/2" [attr.y]="(parent.y2 - parent.y1)/2"
-            [attr.href]="icon" height="16" width="16" />
     </line>
-    <image class="linkIcon" (click)="showMore(parent.id)" [attr.x]="icon.x" [attr.y]="icon.y" [attr.href]="icon.path" height="16"
-        width="16" />
+    <image class="linkIcon" (click)="showMore(parent.id)" [attr.x]="(this.parent.x1 + this.parent.x2) / 2 - 20" [attr.y]="(this.parent.y1 + this.parent.y2) / 2"
+        [attr.href]="icon.path" height="16" width="16" />
     <line *ngIf="parent.type !== 0" stroke-dasharray="5, 5" style="stroke:rgb(255,255,255); cursor: pointer;" class="link" [attr.x1]="parent.x1"
         [attr.y1]="parent.y1" [attr.x2]="parent.x2" [attr.y2]="parent.y2">
     </line>

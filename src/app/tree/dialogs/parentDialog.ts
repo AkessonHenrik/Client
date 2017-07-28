@@ -71,7 +71,7 @@ export class NewParentDialog implements OnInit {
         this.visibility = $event;
     }
     deleteParent() {
-        this.httpService.delete(this.data.event.id).then(response => {
+        this.httpService.deleteParent(this.data.event.id).then(response => {
             this.dialogRef.close();
         })
     }

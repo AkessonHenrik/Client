@@ -21,7 +21,7 @@
         <p>{{file.name}} <i class="material-icons" style="cursor: pointer; position: relative; top: 7px;" (click)="removeFile(file)">clear</i></p>
       </div>
     </div>
-    <div *ngIf="eventType === 'Work Event'">
+    <div *ngIf="eventType === 'WorkEvent'">
       <h2>New work information</h2>
       <md-input-container class="container">
         <input mdInput class="accountInput" [(ngModel)]="position" placeholder="Position">
@@ -69,9 +69,10 @@
       </md-input-container>
     </div>
     <h4 style="margin-top: 20px!important">Don't forget to set the visibility in the second tab. Default is public</h4>
-    <button style="display: block; margin-top: 50px!important;" md-raised-button (click)="create()">Submit</button>
+    <button style="display: block; margin-top: 50px!important;" md-raised-button (click)="commit()">Submit</button>
   </md-tab>
   <md-tab label="Event visibility">
     <app-visibility (onSubmit)="addVisibility($event)"></app-visibility>
   </md-tab>
 </md-tab-group>
+<button *ngIf="initialEvent" class="addButton" (click)="delete()" style="background-color: #C62828" md-raised-button>Delete</button>

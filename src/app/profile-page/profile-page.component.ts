@@ -35,8 +35,17 @@ export class ProfilePageComponent implements OnInit {
         owner: this.profileId
       }
     });
-    dialogRef.afterClosed().subscribe(_ => {
-      window.location.reload();
+    dialogRef.afterClosed().subscribe(newEvent => {
+      console.log(newEvent);
+      return this.uploadMedia(newEvent).then(response => {
+      }).then(_ => {
+        return this.httpService.addEvent(newEvent);
+      }).then(response => {
+        event = null;
+        return Promise.resolve("Event posted");
+      }).then(_ => {
+        window.location.reload();
+      })
     });
   }
 
@@ -65,4 +74,18 @@ export class ProfilePageComponent implements OnInit {
       });
     })
   }
+  uploadMedia(newEvent): Promise<string> {
+    newEvent.media = [];
+    return Promise.all(newEvent.files.map(file => {
+      console.log(file.name)
+      return this.httpService.upload(file).then(response => {
+        newEvent.media.push({ type: response.type, path: response.path, postid: response.postid });
+      })
+    })
+    ).then(_ => {
+      delete newEvent.files;
+      return Promise.resolve("Media upload finished");
+    })
+  }
+
 }

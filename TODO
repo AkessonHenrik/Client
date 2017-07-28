@@ -1,15 +1,12 @@
 MUST IMPLEMENT:
     CLIENT:
-        - Deleting & Editing events
         - Algorithme de placement
-    SERVER:
-        - Tests
+        - Notify on tree view or my profile if 0
+        - Redirect after claim
+        - HttpService ligne 30
 
     OTHER:
         - CSS
         - COMMENTS
         - Full project as zip, README and shell script
-
-    OPTIONAL:
-        - Mozilla
-        - external media        
+        - Préciser dans rapport que pas de mozille

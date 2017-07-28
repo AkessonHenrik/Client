@@ -18,7 +18,7 @@ export class SidenavComponent implements OnInit {
   @ViewChild('start') public myNav: MdSidenav;
 
   ngOnInit() {
-    this.goToHomePage();
+    // this.goToHomePage();
   }
   goToHomePage() {
     if (globals.loggedIn()) {

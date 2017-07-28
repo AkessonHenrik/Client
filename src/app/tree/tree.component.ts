@@ -62,13 +62,14 @@ export class TreeComponent implements OnInit {
     this.nodes.forEach(node => {
       if (node.bornString) {
         if (this.dates.indexOf(node.bornString) < 0) {
+          console.log("Adding: " + node.bornString)
           this.dates.push(node.bornString);
         }
-        if (this.dates.indexOf(node.diedString) < 0) {
-          this.dates.push(node.diedString);
-        }
-        if (this.dates.indexOf(node.diedString) < 0) {
-          this.dates.push(node.diedString);
+        if (node.diedString) {
+          if (this.dates.indexOf(node.diedString) < 0) {
+            console.log("Adding: " + node.diedString)
+            this.dates.push(node.diedString);
+          }
         }
       }
     })
@@ -87,6 +88,7 @@ export class TreeComponent implements OnInit {
       }
     })
     this.parents.forEach(parent => {
+      console.log(parent.time);
       if (parent.time[0]) {
         if (this.dates.indexOf(parent.time[0]) < 0) {
           this.dates.push(parent.time[0]);
@@ -99,6 +101,7 @@ export class TreeComponent implements OnInit {
       }
     })
     this.dates.sort();
+    console.log(this.dates);
     this.currentDateIndex = 0;
     this.dates = this.dates.filter(date => date !== null);
   }
@@ -162,7 +165,10 @@ export class TreeComponent implements OnInit {
       return link.beginTime <= this.dates[this.currentDateIndex] && link.endTime > this.dates[this.currentDateIndex];
     })
     this.visibleParents = this.parents.filter(parent => {
-      return parent.time[0] <= this.dates[this.currentDateIndex] && parent.time[1] > this.dates[this.currentDateIndex];
+      if (parent.time[1])
+        return parent.time[0] <= this.dates[this.currentDateIndex] && parent.time[1] > this.dates[this.currentDateIndex];
+      else
+        return parent.time[0] <= this.dates[this.currentDateIndex];
     })
   }
   createData(
@@ -485,11 +491,7 @@ export class TreeComponent implements OnInit {
       }
       newNode.id = response.id;
       newNode.image = response.image;
-      if (globals.getUserProfileId() === 0) {
-        return this.associateToAccount(newNode);
-      } else {
-        return this.saveGhost(newNode, http);
-      }
+      return this.saveGhost(newNode, http);
     })
   }
 
@@ -497,17 +499,6 @@ export class TreeComponent implements OnInit {
     return this.httpService.createGhost({
       ownerId: globals.getUserId(),
       profileId: newNode.id
-    })
-  }
-
-  associateToAccount(newNode: Node): Promise<string> {
-    return this.httpService.associateToAccount({
-      accountId: globals.getUserId(),
-      profileId: newNode.id
-    }).then(response => {
-      console.log(response);
-      localStorage["treemily_profileid"] = newNode.id;
-      return Promise.resolve("Associated");
     })
   }
 

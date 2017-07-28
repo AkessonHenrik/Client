@@ -172,4 +172,23 @@ export class HttpService {
   updateParent(parent): Promise<any> {
     return this.http.patch(globals.parentsEndpoint + "/" + parent.id, parent, this.getHeaders()).toPromise();
   }
+
+  updateEvent(event): Promise<any> {
+    console.log("In updateevent")
+    console.log(event);
+    if (event.files) {
+      return Promise.all(event.files.map(file => {
+        return this.upload(file).then(response => {
+          event.media.push({ type: response.type, path: response.path, postid: response.postid })
+        })
+      })
+      ).then(_ => {
+        return this.http.patch(globals.eventEndpoint + "/" + event.id, event, this.getHeaders()).toPromise();
+      })
+    }
+  }
+
+  deleteParent(parentId): Promise<any> {
+    return this.http.delete(globals.parentsEndpoint + "/" + parentId, this.getHeaders()).toPromise();
+  }
 }

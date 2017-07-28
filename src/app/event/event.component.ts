@@ -25,7 +25,7 @@ export class EventComponent {
   openEvent() {
     console.log("Opening: " + this.event.id)
     this.dialog.open(EventDialog, {
-      data: { id: this.event.id, relationship: false }
+      data: { id: this.event.id, relationship: false, event: true }
     })
   }
 

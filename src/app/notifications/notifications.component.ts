@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../http.service';
+import { NewPersonDialog } from '../tree/dialogs/personDialog';
+import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import * as globals from '../globals';
 @Component({
   selector: 'app-notifications',
   templateUrl: './notifications.component.html',
@@ -7,7 +10,7 @@ import { HttpService } from '../http.service';
 })
 export class NotificationsComponent implements OnInit {
   notifications;
-  constructor(private httpService: HttpService) { }
+  constructor(public dialog: MdDialog, private httpService: HttpService, ) { }
 
   ngOnInit() {
     this.getNotifications();
@@ -24,10 +27,39 @@ export class NotificationsComponent implements OnInit {
     });
   }
   refuse(notification) {
-
     this.httpService.delete(notification.entityid).then(response => {
-      console.log(response);
       this.getNotifications();
     })
+  }
+
+  createProfile(notification) {
+    if (notification.content.indexOf("You now own") < 0) {
+      let dialogRef = this.dialog.open(NewPersonDialog);
+      dialogRef.afterClosed().subscribe(node => {
+        if (node !== undefined) {
+          this.httpService.createProfile({
+            "firstname": node.firstname,
+            "lastname": node.lastname,
+            "gender": globals.genders.indexOf(node.gender),
+            "profilePicture": node.image,
+            "birthDay": node.birthDay,
+            "deathDay": node.deathDay,
+            "born": node.born,
+            "visibility": node.visibility,
+            "died": node.died
+          }).then(response => {
+            node.id = response.id;
+            node.image = response.image;
+            return this.httpService.associateToAccount({
+              accountId: globals.getUserId(),
+              profileId: node.id
+            }).then(response => {
+              localStorage["treemily_profileid"] = node.id
+            })
+          })
+        }
+      });
+    }
+    this.accept(notification.id);
   }
 }
