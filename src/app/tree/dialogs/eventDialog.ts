@@ -4,7 +4,6 @@ import { WorkEventComponent, MoveEventComponent, EventComponent, LocatedEventCom
 import { HttpService } from '../../http.service';
 import { LocationComponent } from '../../location/location.component';
 import * as globals from '../../globals';
-import { EditEventComponent } from '../../edit-event/edit-event.component';
 import { EditRelationshipComponent } from '../../edit-relationship/edit-relationship.component';
 import { NewRelationshipDialog } from './relationshipDialog'
 import { NewParentDialog } from './parentDialog'
